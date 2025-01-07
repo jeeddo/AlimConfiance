@@ -6,7 +6,11 @@ export default {
     "./src/**/*.{ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        xs: "550px",
+      }
+    },
   },
   plugins: [motionPlugin]
 }
