@@ -8,7 +8,8 @@ import MainForm from "./MainForm";
 import SearchAndTooltip from "./SearchAndTooltip";
 import SingleCard from "./SingleCard";
 import ReactPaginate from 'react-paginate';
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft as chevronLeft, faChevronRight as chevronRight } from "@fortawesome/free-solid-svg-icons";
 
 export default function MainLayout() {
    return  <main className='max-w-6xl mx-auto px-5 flex  justify-center xl:items-center items-start md:gap-12 xl:gap-20 lg:gap-16 transition-all overflow-x-hidden'>
