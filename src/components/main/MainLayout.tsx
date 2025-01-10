@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft as chevronLeft, faChevronRight as chevronRight } from "@fortawesome/free-solid-svg-icons";
 
 export default function MainLayout() {
-   return  <main className='max-w-6xl mx-auto px-5 flex  justify-center xl:items-center items-start md:gap-12 xl:gap-20 lg:gap-16 transition-all overflow-x-hidden'>
+   return  <main className='max-w-6xl mx-auto px-5 flex  justify-center xl:items-center items-start md:gap-12 xl:gap-20 lg:gap-16 transition-all overflow-x-hidden' style={{ minHeight: 'var(--viewport-minus-header-plus-footer)'}}>
     <div className='hidden xl:mt-0 mt-10 md:flex flex-col justify-center items-start gap-12 w-[350px] lg:text-base text-sm'>
         <DiscoverButtons />
         <MainForm breakPoint="lg" />
@@ -22,13 +22,16 @@ export default function MainLayout() {
 
 
 
-    <div className='w-full relative flex flex-col justify-center items-start gap-10 overflow-x-hidden '>
+    <div className='w-full relative flex flex-col justify-center items-start gap-10 '>
       <SearchAndTooltip />
 
     <AdvancedFilterButtons />
 
         <CardList>
         <SingleCard />
+      
+
+       
 
         </CardList>
      

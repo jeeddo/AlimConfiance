@@ -5,3 +5,7 @@
 body{
     @apply bg-neutral-100
 }
+
+:root {
+    --viewport-minus-header-plus-footer: calc(100vh - 20rem);
+}
