@@ -32,8 +32,8 @@ export default function CardDetailsPrintModal({handleClick, restaurantDetails}: 
         <button onClick={() => handleClick(null)} className='sm:text-base text-sm hover:opacity-65 transition duration-300 w-full h-full'> <FontAwesomeIcon icon={closeIcon} />
         </button>
     </header>
-    <main ref={contentRef} className='flex flex-col justify-center items-start gap-3 p-5 border-dashed border-2 border-indigo-200 m-4 rounded'>
-        <div  className='flex justify-around items-center gap-2'>
+    <main ref={contentRef} className='flex flex-col justify-center items-start md:gap-5 gap-4 p-5 border-dashed border-2 border-indigo-200 m-4 rounded'>
+        <div  className={`flex ${isPrintBtnClicked ? 'justify-evenly' : 'justify-around'} items-center gap-2 mb-1`}>
             <img className='w-1/5 shadow' src={Logo2} alt="Logo ministère de l'agriculture et de l'alimentation" />
             <h2>alimconfiance.gouv.fr</h2>
             { !isPrintBtnClicked &&
