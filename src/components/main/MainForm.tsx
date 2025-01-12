@@ -1,15 +1,16 @@
 import { faLocationDot as locationIcon } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 
 export default function MainForm({breakPoint} : {breakPoint: string}) {
 
     const [location, setLocation] = useState([])
     const [inputValue, setInputValue] = useState('')
-    const [autocompleteVisibility, setAutocompleteVisibility] = useState<'hidden' | ''>(() => 'hidden')
+    const [autocompleteVisibility, setAutocompleteVisibility] = useState<'hidden' | ''>('hidden')
     const [isLiClicked, setLiClicked] = useState<boolean>(false)
     const [isLoading, setLoading] = useState(false)
     const divElement = useRef<null | HTMLDivElement>(null)
+    const[selectedValue, setSelectedValue] = useState('Tous les niveaux')
     useEffect(() => {
         fetchLocation()
         !inputValue || isLiClicked ? setAutocompleteVisibility('hidden') : setAutocompleteVisibility('')
@@ -20,6 +21,8 @@ export default function MainForm({breakPoint} : {breakPoint: string}) {
         setInputValue(e.target.value)
         
     }  
+
+
     const handleLiClicked = (e: React.MouseEvent<HTMLLIElement>) => {
              setInputValue((e.currentTarget as HTMLLIElement).textContent ?? '')
             setLiClicked(true)
@@ -37,7 +40,8 @@ export default function MainForm({breakPoint} : {breakPoint: string}) {
         try {
             setLoading(true)
              const api = await fetch(`https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/georef-france-commune/records?limit=15&where=com_name like "${inputValue}" or dep_code like "${inputValue}" or reg_name like "${inputValue}" or dep_name like "${inputValue}"`);
-             
+             if (!api.ok) throw new Error('Failed to fetch data..')
+
              const filtre = (await api.json()).results.map((locationRecord: Record<string, unknown>) => {
               
      
@@ -78,6 +82,10 @@ export default function MainForm({breakPoint} : {breakPoint: string}) {
             if (!divElement.current?.contains((e.target as Node))) setAutocompleteVisibility('hidden')
      }
 
+     const handleSelectValueChange = (e: React.ChangeEvent) => {
+        setSelectedValue((e.target as HTMLSelectElement).value)
+     }
+
 
      
 
@@ -102,7 +110,7 @@ export default function MainForm({breakPoint} : {breakPoint: string}) {
            </div>
            <div className='flex flex-col justify-center items-start gap-2 w-full'>
            <label className={`text-base ${breakPoint}:text-lg font-semibold italic`} htmlFor="niveau-hygiène">Niveau d'hygiène</label>
-           <select className=" w-full px-4 py-1 shadow-md bg-slate-100 focus:ring-2 focus:shadow-lg transition-all duration-500 outline-none rounded" id="niveau-hygiène">
+           <select onChange={handleSelectValueChange}  className=" w-full px-4 py-1 shadow-md bg-slate-100 focus:ring-2 focus:shadow-lg transition-all duration-500 outline-none rounded" id="niveau-hygiène">
                <option>Tous les niveaux</option>
                <option >A corriger de manière urgente</option>
                <option >A améliorer</option>
