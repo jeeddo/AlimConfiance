@@ -13,6 +13,7 @@ import { faChevronLeft as chevronLeft, faChevronRight as chevronRight } from "@f
 import { useEffect, useState } from "react";
 import { Restaurant } from "../../types/restaurant.d";
 import formatRate from "../../utils/formatRate";
+import formatDate from "../../utils/formatDate";
 
 export default function MainLayout() {
 
@@ -33,7 +34,7 @@ export default function MainLayout() {
           address: restaurant.adresse_2_ua,
           postalCode: restaurant.code_postal,
           city: restaurant.libelle_commune,
-          inspectionDate: restaurant.date_inspection,
+          inspectionDate: formatDate(restaurant.date_inspection as string),
           activity: Array.isArray(restaurant.app_libelle_activite_etablissement) ? restaurant.app_libelle_activite_etablissement[0] : '',
           rating: formatRate(restaurant.synthese_eval_sanit as string)
         })))
