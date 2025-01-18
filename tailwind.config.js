@@ -9,6 +9,15 @@ export default {
     extend: {
       screens: {
         xs: "550px",
+      },
+      animation: {
+        'skeleton': 'skeleton 2s ease-in-out infinite'
+      },
+      keyframes: {
+        'skeleton' : {
+          '100%': {transform: 'translateX(100%)'}
+        }
+      
       }
     },
   },

@@ -6,7 +6,7 @@ import DiscoverButtons from "./DiscoverButtons";
 import FilterModalMobileDevices from "./FilterModalMobileDevices";
 import MainForm from "./MainForm";
 import SearchAndTooltip from "./SearchAndTooltip";
-import SingleCard from "./SingleCard";
+import SingleCard from "./RestaurantCard";
 import ReactPaginate from 'react-paginate';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft as chevronLeft, faChevronRight as chevronRight } from "@fortawesome/free-solid-svg-icons";
@@ -14,12 +14,13 @@ import { useEffect, useState } from "react";
 import { Restaurant } from "../../types/restaurant.d";
 import formatRate from "../../utils/formatRate";
 import formatDate from "../../utils/formatDate";
+import RestaurantCardSkeleton from "./RestaurantCardSkeleton";
 
 export default function MainLayout() {
   
   
   
-  const [firstData, setFirstData] = useState<Restaurant[]>([]);
+  const [restaurantData, setRestaurantData] = useState<Restaurant[]>([]);
   const [restaurantDetails, setRestaurantDetails] = useState<Restaurant | null>(null);
   const [printRestaurantDetails, setPrintRestaurantDetails] = useState<Restaurant | null>(null);
   const [isLoading, setLoading] = useState(false)
@@ -31,14 +32,14 @@ export default function MainLayout() {
   const nbMaxData = 10000;  
   const pageCount = Math.floor(nbMaxData / limit); 
 
-  const fetchFirstData = async (page: number): Promise<void> => {
+  const fecthRestaurantData = async (page: number): Promise<void> => {
     try {
       setLoading(true)
       const offset = page * limit; 
       const api = await fetch(`https://dgal.opendatasoft.com/api/explore/v2.1/catalog/datasets/export_alimconfiance/records?limit=${limit}&offset=${offset}&where=app_libelle_activite_etablissement="Restaurants"`);
       if (!api.ok) console.log((await api.json()).message);
       const data = await api.json();
-      setFirstData(data.results.map((restaurant: Record<string, unknown>) => ({
+      setRestaurantData(data.results.map((restaurant: Record<string, unknown>) => ({
         name: restaurant.app_libelle_etablissement,
         address: restaurant.adresse_2_ua,
         postalCode: restaurant.code_postal,
@@ -55,7 +56,7 @@ export default function MainLayout() {
   };
 
   useEffect(() => {
-    fetchFirstData(currentPage);
+    fecthRestaurantData(currentPage);
   }, [currentPage]);
 
   const handleClickRestaurantModalDetails = (restaurant: Restaurant | null) => {
@@ -80,7 +81,9 @@ export default function MainLayout() {
         <AdvancedFilterButtons />
 
         <CardList>
-          {firstData.map((restaurant: Restaurant, i: number) => (<SingleCard key={i} handleClick={handleClickRestaurantModalDetails} restaurant={restaurant} />))}
+        {!isLoading && restaurantData.map((restaurant: Restaurant, i: number) => (<SingleCard key={i} handleClick={handleClickRestaurantModalDetails} restaurant={restaurant} />))}
+
+       {isLoading && restaurantData.map((_, index) => <RestaurantCardSkeleton key={index} />)}
         </CardList>
 
         <ReactPaginate

@@ -1,4 +1,4 @@
-import type { Restaurant } from "../../types/restaurant.d"
+import type { Restaurant } from "../../types/restaurant"
 
 interface SingleCardProps {
     restaurant: Restaurant,
