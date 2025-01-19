@@ -5,7 +5,7 @@ enum Ratings {
     Poor = 'Mauvais'
 }
 
-type RatingColor = 'green-400' | 'yellow-500' | 'orange-400' | 'red-700'
+type RatingColor = 'excellent' | 'good' | 'average' | 'poor'
 
 export interface Rating {
     rate: Ratings,

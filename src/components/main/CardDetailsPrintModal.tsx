@@ -27,23 +27,23 @@ export default function CardDetailsPrintModal({handleClick, restaurantDetails}: 
         }, 0.5);
     }
 
-    return  restaurantDetails && (<div className='z-50 flex flex-col justify-center items-start gap-2 w-full xs:w-3/4 bg-neutral-100 absolute top-0 left-0 rounded-md xs:text-sm text-xs '>
-    <header className='h-10 bg-indigo-200 flex justify-center items-center w-full rounded-t-md'>
+    return  restaurantDetails && (<div className='z-50 flex flex-col justify-center items-start gap-2 w-full xs:w-3/4 bg-bg absolute top-0 left-0 rounded-md xs:text-sm text-xs '>
+    <header className='h-10 bg-indigo flex justify-center items-center w-full rounded-t-md'>
         <button onClick={() => handleClick(null)} className='sm:text-base text-sm hover:opacity-65 transition duration-300 w-full h-full'> <FontAwesomeIcon icon={closeIcon} />
         </button>
     </header>
-    <main ref={contentRef} className='flex flex-col justify-center items-start md:gap-5 gap-4 p-5 border-dashed border-2 border-indigo-200 m-4 rounded'>
+    <main ref={contentRef} className='flex flex-col justify-center items-start md:gap-5 gap-4 p-5 border-dashed border-2 border-indigo m-4 rounded'>
         <div  className={`flex ${isPrintBtnClicked ? 'justify-evenly' : 'justify-around'} items-center gap-2 mb-1`}>
             <img className='w-1/5 shadow' src={Logo2} alt="Logo ministère de l'agriculture et de l'alimentation" />
             <h2>alimconfiance.gouv.fr</h2>
             { !isPrintBtnClicked &&
-                <button onClick={print} className='bg-blue-900 text-white px-3 py-1 rounded active:scale-95 transition duration-500 shadow-lg'>Imprimer<FontAwesomeIcon icon={printerIcon} /></button>
+                <button onClick={print} className='bg-main text-white px-3 py-1 rounded active:scale-95 transition duration-500 shadow-lg'>Imprimer<FontAwesomeIcon icon={printerIcon} /></button>
             }
         </div>
         <div className='flex flex-col justify-center items-start gap-4'>
             <div className='flex flex-col justify-center items-start gap-3'>
-                <h3 className='xs:text-base text-sm text-blue-900 font-semibold'>{restaurantDetails.name}</h3>
-                <p className='bg-blue-900 px-3 py-1 text-white rounded-full shadow-md'>{restaurantDetails.activity}</p>
+                <h3 className='xs:text-base text-sm text-main font-semibold'>{restaurantDetails.name}</h3>
+                <p className='bg-main px-3 py-1 text-white rounded-full shadow-md'>{restaurantDetails.activity}</p>
             </div>
             <div className='flex flex-col justify-center items-start gap-1'>
                 <p>{restaurantDetails.address}</p>
@@ -56,7 +56,7 @@ export default function CardDetailsPrintModal({handleClick, restaurantDetails}: 
             <p className='italic underline'>Validité 1 an</p>
         </div>
         <div className='relative max-w-full mx-auto mt-5'>
-            <p className='text-base sm:text-xl xs:px-12 xs:py-5 px-8 py-3 border border-indigo-200 hover:border-2 hover:scale-105 hover:shadow-md xs:hover:shadow-lg transition-all duration-700 rounded-lg shadow'>{restaurantDetails.rating.rate}</p>
+            <p className='text-base sm:text-xl xs:px-12 xs:py-5 px-8 py-3 border border-indigo hover:border-2 hover:scale-105 hover:shadow-md xs:hover:shadow-lg transition-all duration-700 rounded-lg shadow'>{restaurantDetails.rating.rate}</p>
             <div className={`h-2 w-2 rounded-full absolute bg-${restaurantDetails.rating.color} top-2 right-2`}>
 
             </div>

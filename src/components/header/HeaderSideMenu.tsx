@@ -5,7 +5,7 @@ export default function HeaderSideMenu() {
 
     return (
         <div className='z-50 fixed inset-0 bg-slate-400 bg-opacity-50  hidden flex justify-end'>
-        <div className='relative h-full xs:w-[40%] w-[60%] backdrop-blur-sm bg-slate-200 p-12 xs:p-14'>
+        <div className='relative h-full xs:w-[40%] w-[60%] backdrop-blur-sm bg-primary p-12 xs:p-14'>
             <button className='absolute top-4 right-6 text-xl hover:opacity-55 active:scale-75 transition duration-500' ><FontAwesomeIcon icon={closeIcon}/></button>
             <div  className='flex flex-col items-start justify-center gap-3'>
             <h3 className='font-semibold hover:font-bold inline-block text-lg'>Theme</h3>

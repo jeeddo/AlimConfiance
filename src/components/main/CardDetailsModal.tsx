@@ -11,9 +11,9 @@ interface CardDetailsModalProps {
 
 export default function CardDetailsModal({restaurantDetails, handleClick, setRestaurantDetailsPrinter}: CardDetailsModalProps) {
 
-    return   restaurantDetails !== null && (<div className='absolute bottom-0 w-full bg-neutral-100 rounded-md'>
-    <header className='relative flex justify-between items-center bg-indigo-200 px-4 rounded-t-md' >
-        <h2 className='md:text-lg text-base text-blue-900 font-semibold'>Restaurants</h2>
+    return   restaurantDetails !== null && (<div className='absolute bottom-0 w-full bg-bg rounded-md'>
+    <header className='relative flex justify-between items-center bg-indigo px-4 rounded-t-md' >
+        <h2 className='md:text-lg text-base text-main font-semibold'>Restaurants</h2>
         <img className='w-1/3' src={RestaurantImg} alt="Restaurant" />
         <button onClick={() => handleClick(null)} className=' xs:text-base text-sm absolute top-2 left-1/2 -translate-x-1/2 hover:opacity-65 transition duration-300' ><FontAwesomeIcon icon={closeIcon}/></button>
   
@@ -35,10 +35,10 @@ export default function CardDetailsModal({restaurantDetails, handleClick, setRes
         </div>
         <div className='flex flex-col justify-center items-center gap-5'>
             <div className='relative'>
-                <p className='px-3 py-4 xs:p-5 shadow border border-indigo-200 xl:text-xl md:text-lg xs:text-base hover:border-2 hover:scale-105 transition-all duration-700 rounded-lg'>{restaurantDetails?.rating.rate}</p>
+                <p className='px-3 py-4 xs:p-5 shadow border border-indigo xl:text-xl md:text-lg xs:text-base hover:border-2 hover:scale-105 transition-all duration-700 rounded-lg'>{restaurantDetails?.rating.rate}</p>
                 <div className={`h-2 w-2 bg-${restaurantDetails.rating.color} rounded-full absolute xs:top-2 xs:right-2 right-[5px] top-[5px]`}></div>
             </div>
-            <button onClick={() => {setRestaurantDetailsPrinter(restaurantDetails); handleClick(null)}} className=' bg-blue-900 text-white px-1 xs:px-3 py-2 rounded-lg sm:rounded-md shadow-lg hover:shadow-xl active:scale-95 hover:bg-blue-600 hover:text-slate-200 transition-all duration-700 '>Imprimer cette affichette</button>
+            <button onClick={() => {setRestaurantDetailsPrinter(restaurantDetails); handleClick(null)}} className=' bg-main text-white px-1 xs:px-3 py-2 rounded-lg sm:rounded-md shadow-lg hover:shadow-xl active:scale-95 hover:bg-blue-600 hover:text-primary transition-all duration-700 '>Imprimer cette affichette</button>
         </div>
         </main>
     </div>)

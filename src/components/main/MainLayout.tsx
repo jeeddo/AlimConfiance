@@ -95,8 +95,8 @@ export default function MainLayout() {
           previousLabel={<span className='hover:opacity-50 transition duration-200 sm:text-base text-sm'><FontAwesomeIcon icon={chevronLeft} /></span>}
           renderOnZeroPageCount={null}
           className='flex justify-center items-center sm:gap-3 gap-1 w-full'
-          pageClassName="sm:text-base text-sm bg-slate-200 px-3 py-2 rounded-lg hover:bg-slate-300 cursor-pointer relative before:content-[''] before:absolute before:w-3 before:rounded-lg before:h-[1px] before:bg-slate-400 before:bottom-[7px] before:left-1/2 before:-translate-x-1/2 before:scale-0 hover:before:scale-100 transition-all duration-700"
-          activeClassName='bg-slate-300 border border-blue-900'
+          pageClassName="sm:text-base text-sm bg-primary px-3 py-2 rounded-lg hover:bg-secondary cursor-pointer relative before:content-[''] before:absolute before:w-3 before:rounded-lg before:h-[1px] before:bg-slate-400 before:bottom-[7px] before:left-1/2 before:-translate-x-1/2 before:scale-0 hover:before:scale-100 transition-all duration-700"
+          activeClassName='bg-secondary border border-main'
         />
 
         <CardDetailsModal setRestaurantDetailsPrinter={handleClickPrintRestaurantDetails} handleClick={handleClickRestaurantModalDetails} restaurantDetails={restaurantDetails} />
