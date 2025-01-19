@@ -3,7 +3,7 @@ import { faXmark as closeIcon, faPrint as printerIcon } from "@fortawesome/free-
 import Logo2 from '../../assets/images/Logo2.png'
 import { Restaurant } from "../../types/restaurant.d"
 import { useReactToPrint } from "react-to-print";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface CardDetailsPrintModalProps {
     handleClick: (restaurant: Restaurant | null) => void,
@@ -11,7 +11,22 @@ interface CardDetailsPrintModalProps {
 }
 export default function CardDetailsPrintModal({handleClick, restaurantDetails}: CardDetailsPrintModalProps) {
     const [isPrintBtnClicked, setPrintBtnClicked] = useState(false)
+    const [isModalOpen, setIsModalOpen] = useState(false)
     const contentRef = useRef<HTMLDivElement | null>(null);
+    const printMdoal = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        if (restaurantDetails) setIsModalOpen(true)
+        else setIsModalOpen(false)
+    }, [restaurantDetails])
+    
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (isModalOpen && !printMdoal.current?.contains(e.target as Node)) handleClick(null)
+        }
+        document.addEventListener('click', handleClickOutside)
+        return () => document.removeEventListener('click', handleClickOutside)
+    }, [isModalOpen])
     const reactToPrint = useReactToPrint({
         contentRef,
         onAfterPrint: () => {
@@ -27,7 +42,7 @@ export default function CardDetailsPrintModal({handleClick, restaurantDetails}: 
         }, 0.5);
     }
 
-    return  restaurantDetails && (<div className='z-50 flex flex-col justify-center items-start gap-2 w-full xs:w-3/4 bg-bg absolute top-0 left-0 rounded-md xs:text-sm text-xs '>
+    return  isModalOpen && restaurantDetails && (<div ref={printMdoal} className='z-50 flex flex-col justify-center items-start gap-2 w-full xs:w-3/4 bg-bg absolute top-0 left-0 rounded-md xs:text-sm text-xs '>
     <header className='h-10 bg-indigo flex justify-center items-center w-full rounded-t-md'>
         <button onClick={() => handleClick(null)} className='sm:text-base text-sm hover:opacity-65 transition duration-300 w-full h-full'> <FontAwesomeIcon icon={closeIcon} />
         </button>
@@ -37,7 +52,7 @@ export default function CardDetailsPrintModal({handleClick, restaurantDetails}: 
             <img className='w-1/5 shadow' src={Logo2} alt="Logo ministère de l'agriculture et de l'alimentation" />
             <h2>alimconfiance.gouv.fr</h2>
             { !isPrintBtnClicked &&
-                <button onClick={print} className='bg-main text-white px-3 py-1 rounded active:scale-95 transition duration-500 shadow-lg'>Imprimer<FontAwesomeIcon icon={printerIcon} /></button>
+                <button onClick={print} className='bg-main flex justify-center items-center gap-2 text-white px-3 py-1 rounded active:scale-95 transition duration-500 hover:bg-indigo hover:text-main hover:shadow-indigo shadow-lg'>Imprimer<FontAwesomeIcon icon={printerIcon} /></button>
             }
         </div>
         <div className='flex flex-col justify-center items-start gap-4'>
