@@ -3,11 +3,21 @@
 @tailwind utilities;
 
 body{
-    @apply bg-neutral-100
+    @apply bg-bg
 }
 
 :root {
     --viewport-minus-header-plus-footer: calc(100vh - 20rem);
+    --color-main: theme(colors.blue.900);
+    --color-primary: theme(colors.slate.200);
+    --color-secondary: theme(colors.slate.300);
+    --color-bg : theme(colors.neutral.100);
+    --color-indigo: theme(colors.indigo.200);
+    --color-excellent: theme(colors.green.400);
+    --color-good: theme(colors.yellow.500);
+    --color-average: theme(colors.orange.400);
+    --color-poor: theme(colors.red.700);
+
 }
 
 

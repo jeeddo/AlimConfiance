@@ -10,6 +10,19 @@ export default {
       screens: {
         xs: "550px",
       },
+      colors: {
+        'main' : 'var(--color-main)',
+        'primary' : 'var(--color-primary)',
+        'secondary' : 'var(--color-secondary)',
+        'excellent' : 'var(--color-excellent)',
+        'good': 'var(--color-good)',
+        'average' : 'var(--color-average)',
+        'poor' : 'var(--color-poor)',
+        'bg' : 'var(--color-bg)',
+        'indigo': {
+          DEFAULT : 'var(--color-indigo)'
+        }
+      },
       animation: {
         'skeleton': 'skeleton 2s ease-in-out infinite'
       },
