@@ -1,12 +1,12 @@
 import AdvancedFilterButtons from "./AdvancedFilterButtons";
-import CardDetailsModal from "./CardDetailsModal";
-import CardDetailsPrintModal from "./CardDetailsPrintModal";
-import CardList from "./CardList";
+import RestaurantDetailsModal from "./RestaurantDetailsModal";
+import RestaurantDetailsPrintModal from "./RestaurantDetailsPrintModal";
+import RestaurantList from "./RestaurantList";
 import DiscoverButtons from "./DiscoverButtons";
 import FilterModalMobileDevices from "./FilterModalMobileDevices";
 import MainForm from "./MainForm";
 import SearchAndTooltip from "./SearchAndTooltip";
-import SingleCard from "./RestaurantCard";
+import RestaurantCard from "./RestaurantCard";
 import ReactPaginate from 'react-paginate';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft as chevronLeft, faChevronRight as chevronRight } from "@fortawesome/free-solid-svg-icons";
@@ -80,11 +80,11 @@ export default function MainLayout() {
         <SearchAndTooltip />
         <AdvancedFilterButtons />
 
-        <CardList>
-        {!isLoading && restaurantData.map((restaurant: Restaurant, i: number) => (<SingleCard key={i} handleClick={handleClickRestaurantModalDetails} restaurant={restaurant} />))}
+        <RestaurantList>
+        {!isLoading && restaurantData.map((restaurant: Restaurant, i: number) => (<RestaurantCard key={i} handleClick={handleClickRestaurantModalDetails} restaurant={restaurant} />))}
 
        {isLoading && restaurantData.map((_, index) => <RestaurantCardSkeleton key={index} />)}
-        </CardList>
+        </RestaurantList>
 
         <ReactPaginate
           breakLabel="..."
@@ -99,8 +99,8 @@ export default function MainLayout() {
           activeClassName='bg-secondary border border-main'
         />
 
-        <CardDetailsModal setRestaurantDetailsPrinter={handleClickPrintRestaurantDetails} handleClick={handleClickRestaurantModalDetails} restaurantDetails={restaurantDetails} />
-        <CardDetailsPrintModal restaurantDetails={printRestaurantDetails} handleClick={handleClickPrintRestaurantDetails} />
+        <RestaurantDetailsModal setRestaurantDetailsPrinter={handleClickPrintRestaurantDetails} handleClick={handleClickRestaurantModalDetails} restaurantDetails={restaurantDetails} />
+        <RestaurantDetailsPrintModal restaurantDetails={printRestaurantDetails} handleClick={handleClickPrintRestaurantDetails} />
       </div>
 
       <FilterModalMobileDevices />

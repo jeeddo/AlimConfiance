@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faXmark as closeIcon, faPrint as printerIcon } from "@fortawesome/free-solid-svg-icons"
 import Logo2 from '../../assets/images/Logo2.png'
-import { Restaurant } from "../../types/restaurant.d"
+import { Restaurant } from "../../types/restaurant"
 import { useReactToPrint } from "react-to-print";
 import { useEffect, useRef, useState } from "react";
 
