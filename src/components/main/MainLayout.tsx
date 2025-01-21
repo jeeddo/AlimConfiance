@@ -11,7 +11,7 @@ import ReactPaginate from 'react-paginate';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft as chevronLeft, faChevronRight as chevronRight } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState, useMemo } from "react";
-import { Restaurant } from "../../types/restaurant.d";
+import type { Restaurant } from "../../types/restaurant.d";
 import formatRate from "../../utils/formatRate";
 import formatDate from "../../utils/formatDate";
 import RestaurantCardSkeleton from "./RestaurantCardSkeleton";
@@ -30,6 +30,7 @@ export default function MainLayout() {
   const [currentPage, setCurrentPage] = useState(0); 
   const [filteredRestaurantCount, setFilteredRestaurantCount] = useState(0);
   const [isFilteredRestaurantLoading, setIsFilteredRestaurantLoading] = useState(false)
+  const [isSearchRestaurantBtnClicked, setIsSearchRestaurantBtnClicked] = useState(false)
   const offsetFilteredData = useMemo(() => currentPage * limit, [currentPage])
   const nbMaxData = 10000;  
   const pageCount = useMemo( () => !isFilterActivated ? Math.floor(nbMaxData / limit) : Math.ceil((filteredRestaurantCount ?? 0) / limit), [isFilterActivated, filteredRestaurantCount])
@@ -89,10 +90,12 @@ export default function MainLayout() {
     setIsFilteredRestaurantLoading(isLoading)
   }
 
+  const setBtnState = (state: boolean) => setIsSearchRestaurantBtnClicked(state) 
+
   return  <main className='max-w-6xl mx-auto px-5 flex justify-center xl:items-center items-start md:gap-12 xl:gap-20 lg:gap-16 transition-all overflow-x-hidden' style={{ minHeight: 'var(--viewport-minus-header-plus-footer)' }}>
       <div className='hidden xl:mt-0 mt-10 md:flex flex-col justify-center items-start gap-12 w-[350px] lg:text-base text-sm'>
-        <DiscoverButtons />
-        <MainForm breakPoint="lg" limit={limit} setFilteredData={setFilteredRestaurant} setNbOfRestaurant={setTotalCount} offset={offsetFilteredData} setIsFilterActivated={setIsFilteredModeActivated} setIsFilteredRestaurantLoading={setFilteredRestaurantLoading} />
+        <DiscoverButtons setBtnSate={setBtnState} />
+        <MainForm isSearchBtnClicked={isSearchRestaurantBtnClicked} breakPoint="lg" limit={limit} setFilteredData={setFilteredRestaurant} setNbOfRestaurant={setTotalCount} offset={offsetFilteredData} setIsFilterActivated={setIsFilteredModeActivated} setIsFilteredRestaurantLoading={setFilteredRestaurantLoading} setRestaurantDetails={setRestaurantDetails} />
       </div>
 
       <div className='w-full relative flex flex-col justify-center items-start gap-10'>
