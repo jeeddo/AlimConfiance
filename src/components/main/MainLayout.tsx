@@ -10,7 +10,7 @@ import RestaurantCard from "./RestaurantCard";
 import ReactPaginate from 'react-paginate';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft as chevronLeft, faChevronRight as chevronRight } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Restaurant } from "../../types/restaurant.d";
 import formatRate from "../../utils/formatRate";
 import formatDate from "../../utils/formatDate";
@@ -24,18 +24,20 @@ export default function MainLayout() {
   const [restaurantDetails, setRestaurantDetails] = useState<Restaurant | null>(null);
   const [printRestaurantDetails, setPrintRestaurantDetails] = useState<Restaurant | null>(null);
   const [isLoading, setLoading] = useState(false)
-
-
+  const [filteredRestaurantData, setFilteredRestaurantData] = useState<Restaurant[]>([])
+  const [isFilterActivated, setIsFilterActivated] = useState(false)
   const limit = 6;  
   const [currentPage, setCurrentPage] = useState(0); 
-
+  const [filteredRestaurantCount, setFilteredRestaurantCount] = useState(0);
+  const [isFilteredRestaurantLoading, setIsFilteredRestaurantLoading] = useState(false)
+  const offsetFilteredData = useMemo(() => currentPage * limit, [currentPage])
   const nbMaxData = 10000;  
-  const pageCount = Math.floor(nbMaxData / limit); 
+  const pageCount = useMemo( () => !isFilterActivated ? Math.floor(nbMaxData / limit) : Math.ceil((filteredRestaurantCount ?? 0) / limit), [isFilterActivated, filteredRestaurantCount])
 
   const fecthRestaurantData = async (page: number): Promise<void> => {
     try {
       setLoading(true)
-      const offset = page * limit; 
+      const offset = page * limit;
       const api = await fetch(`https://dgal.opendatasoft.com/api/explore/v2.1/catalog/datasets/export_alimconfiance/records?limit=${limit}&offset=${offset}&where=app_libelle_activite_etablissement="Restaurants"`);
       if (!api.ok) console.log((await api.json()).message);
       const data = await api.json();
@@ -56,7 +58,7 @@ export default function MainLayout() {
   };
 
   useEffect(() => {
-    fecthRestaurantData(currentPage);
+    if (!isFilterActivated) fecthRestaurantData(currentPage);
   }, [currentPage]);
 
   const handleClickRestaurantModalDetails = (restaurant: Restaurant | null) => {
@@ -70,10 +72,27 @@ export default function MainLayout() {
     setCurrentPage(selectedPage.selected);  
   };
 
+  const setTotalCount = (count : number) => {
+    setFilteredRestaurantCount(count);
+    console.log(filteredRestaurantCount)
+  }
+
+  const setFilteredRestaurant = (filteredRestaurant: Restaurant[]) => {
+    setFilteredRestaurantData(filteredRestaurant)
+  }
+
+  const setIsFilteredModeActivated = (isActivated: boolean) => {
+    setIsFilterActivated(isActivated)
+  }
+
+  const setFilteredRestaurantLoading = (isLoading: boolean) => {
+    setIsFilteredRestaurantLoading(isLoading)
+  }
+
   return  <main className='max-w-6xl mx-auto px-5 flex justify-center xl:items-center items-start md:gap-12 xl:gap-20 lg:gap-16 transition-all overflow-x-hidden' style={{ minHeight: 'var(--viewport-minus-header-plus-footer)' }}>
       <div className='hidden xl:mt-0 mt-10 md:flex flex-col justify-center items-start gap-12 w-[350px] lg:text-base text-sm'>
         <DiscoverButtons />
-        <MainForm breakPoint="lg" />
+        <MainForm breakPoint="lg" limit={limit} setFilteredData={setFilteredRestaurant} setNbOfRestaurant={setTotalCount} offset={offsetFilteredData} setIsFilterActivated={setIsFilteredModeActivated} setIsFilteredRestaurantLoading={setFilteredRestaurantLoading} />
       </div>
 
       <div className='w-full relative flex flex-col justify-center items-start gap-10'>
@@ -81,9 +100,10 @@ export default function MainLayout() {
         <AdvancedFilterButtons />
 
         <RestaurantList>
-        {!isLoading && restaurantData.map((restaurant: Restaurant, i: number) => (<RestaurantCard key={i} handleClick={handleClickRestaurantModalDetails} restaurant={restaurant} />))}
-
-       {isLoading && restaurantData.map((_, index) => <RestaurantCardSkeleton key={index} />)}
+        {!isLoading && !isFilterActivated && restaurantData.map((restaurant: Restaurant, i: number) => (<RestaurantCard key={i} handleClick={handleClickRestaurantModalDetails} restaurant={restaurant} />))}
+        {!isFilteredRestaurantLoading && isFilterActivated && filteredRestaurantData.map((restaurant: Restaurant, i: number) => (<RestaurantCard key={i} handleClick={handleClickRestaurantModalDetails} restaurant={restaurant} />))}
+        {!isFilteredRestaurantLoading && isFilterActivated && filteredRestaurantData.length === 0 && <p className="text-lg text-main">No results found</p>}
+       {(isLoading || isFilteredRestaurantLoading) && restaurantData.map((_, index) => <RestaurantCardSkeleton key={index} />)}
         </RestaurantList>
 
         <ReactPaginate
