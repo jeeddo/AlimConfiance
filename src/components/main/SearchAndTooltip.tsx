@@ -1,9 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faSearch as searchIcon, faQuestion as questionMarkIcon } from "@fortawesome/free-solid-svg-icons"
 
-export default function SearchAndTooltip() {
+interface SearchAndTooltipProps {
+   setisFilterMobileActivated : (isClicked: boolean) => void
+}
+export default function SearchAndTooltip({setisFilterMobileActivated}: SearchAndTooltipProps) {
    return  <div className='md:hidden sm:text-base text-sm flex w-full justify-around items-center mt-1'>
-    <button className='text-white bg-main px-7 py-2 rounded-lg shadow-md shadow-main hover:shadow-lg hover:shadow-blue-600 hover:bg-blue-600 hover:text-primary hover:rounded-xl hover:-translate-y-1 transition-all duration-700'>Filtrer</button>
+    <button onClick={() => setisFilterMobileActivated(true)} className='text-white bg-main px-7 py-2 rounded-lg shadow-md shadow-main hover:shadow-lg hover:shadow-blue-600 hover:bg-blue-600 hover:text-primary hover:rounded-xl hover:-translate-y-1 transition-all duration-700'>Filtrer</button>
     <div className='relative'>
     <input readOnly className='sm:w-[300px] sm:placeholder:visible placeholder:invisible w-10 px-4 py-1 shadow-md bg-slate-100 focus:ring-2 focus:shadow-lg transition-all duration-500 outline-none rounded-xl sm:rounded' type="text" autoComplete='off' placeholder='Search a restaurant' />
     <FontAwesomeIcon className='absolute top-1/2 -translate-y-1/2 right-3 cursor-pointer' icon={searchIcon} />

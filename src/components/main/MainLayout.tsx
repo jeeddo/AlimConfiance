@@ -31,6 +31,7 @@ export default function MainLayout() {
   const [filteredRestaurantCount, setFilteredRestaurantCount] = useState(0);
   const [isFilteredRestaurantLoading, setIsFilteredRestaurantLoading] = useState(false)
   const [isSearchRestaurantBtnClicked, setIsSearchRestaurantBtnClicked] = useState(false)
+  const [isFilterMobileActivated, setisFilterMobileActivated] = useState(false)
   const offsetFilteredData = useMemo(() => currentPage * limit, [currentPage])
   const nbMaxData = 10000;  
   const pageCount = useMemo( () => !isFilterActivated ? Math.floor(nbMaxData / limit) : Math.ceil((filteredRestaurantCount ?? 0) / limit), [isFilterActivated, filteredRestaurantCount])
@@ -94,12 +95,12 @@ export default function MainLayout() {
 
   return  <main className='max-w-6xl mx-auto px-5 flex justify-center xl:items-center items-start md:gap-12 xl:gap-20 lg:gap-16 transition-all overflow-x-hidden' style={{ minHeight: 'var(--viewport-minus-header-plus-footer)' }}>
       <div className='hidden xl:mt-0 mt-10 md:flex flex-col justify-center items-start gap-12 w-[350px] lg:text-base text-sm'>
-        <DiscoverButtons setBtnSate={setBtnState} />
-        <MainForm isSearchBtnClicked={isSearchRestaurantBtnClicked} breakPoint="lg" limit={limit} setFilteredData={setFilteredRestaurant} setNbOfRestaurant={setTotalCount} offset={offsetFilteredData} setIsFilterActivated={setIsFilteredModeActivated} setIsFilteredRestaurantLoading={setFilteredRestaurantLoading} setRestaurantDetails={setRestaurantDetails} />
+        <DiscoverButtons setBtnState={setBtnState} breakPoint="lg" />
+        <MainForm setisFilterMobileActivated={setisFilterMobileActivated} isSearchBtnClicked={isSearchRestaurantBtnClicked} breakPoint="lg" limit={limit} setFilteredData={setFilteredRestaurant} setNbOfRestaurant={setTotalCount} offset={offsetFilteredData} setIsFilterActivated={setIsFilteredModeActivated} setIsFilteredRestaurantLoading={setFilteredRestaurantLoading} setRestaurantDetails={setRestaurantDetails} />
       </div>
 
       <div className='w-full relative flex flex-col justify-center items-start gap-10'>
-        <SearchAndTooltip />
+        <SearchAndTooltip setisFilterMobileActivated={setisFilterMobileActivated} />
         <AdvancedFilterButtons />
 
         <RestaurantList>
@@ -126,7 +127,7 @@ export default function MainLayout() {
         <RestaurantDetailsPrintModal restaurantDetails={printRestaurantDetails} handleClick={handleClickPrintRestaurantDetails} />
       </div>
 
-      <FilterModalMobileDevices />
+      <FilterModalMobileDevices setBtnState={setBtnState} isSearchBtnClicked={isSearchRestaurantBtnClicked} breakPoint="xs" isFilterMobileActivated={isFilterMobileActivated} setisFilterMobileActivated={setisFilterMobileActivated} limit={limit} setFilteredData={setFilteredRestaurant} setNbOfRestaurant={setTotalCount} offset={offsetFilteredData} setIsFilterActivated={setIsFilteredModeActivated} setIsFilteredRestaurantLoading={setFilteredRestaurantLoading} setRestaurantDetails={setRestaurantDetails} />
     </main>
   
 }

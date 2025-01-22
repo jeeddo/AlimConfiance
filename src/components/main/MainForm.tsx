@@ -8,7 +8,7 @@ import formatFilterQueryString from "../../utils/formatFilterQueryString"
 import AutocompleteLi from "./AutocompleteLi"
 import type { AutocompleteValue } from "../../types/autocomplete.d"
 
-interface MainFormProps {
+export interface MainFormProps {
     breakPoint : string,
     limit: number,
     offset : number,
@@ -16,10 +16,11 @@ interface MainFormProps {
     setNbOfRestaurant : (nbRestaurant: number) => void,
     setIsFilterActivated: (isActivated: boolean) => void,
     setIsFilteredRestaurantLoading: (isLoading: boolean) => void,
-    setRestaurantDetails: (restaurant : React.SetStateAction<Restaurant | null>) => void
+    setRestaurantDetails: (restaurant : React.SetStateAction<Restaurant | null>) => void,
+    setisFilterMobileActivated: (isClicked: React.SetStateAction<boolean>) => void,
     isSearchBtnClicked: boolean
 }
-export default function MainForm({breakPoint, limit, offset, setFilteredData, setNbOfRestaurant, setIsFilterActivated, setIsFilteredRestaurantLoading, isSearchBtnClicked, setRestaurantDetails} : MainFormProps) {
+export default function MainForm({breakPoint, limit, offset, setFilteredData, setNbOfRestaurant, setisFilterMobileActivated, setIsFilterActivated, setIsFilteredRestaurantLoading, isSearchBtnClicked, setRestaurantDetails} : MainFormProps) {
 
     const [autocompleteValues, setAutocompleteValues] = useState([])
     const [inputValue, setinputValue] = useState('')
@@ -28,7 +29,7 @@ export default function MainForm({breakPoint, limit, offset, setFilteredData, se
     const [isLoading, setLoading] = useState(false)
     const [isFilterModeActivated, setIsFilterModeActivated] = useState(false)
     const divElement = useRef<null | HTMLDivElement>(null)
-    const[hygieneLevel, setHygieneLevel] = useState('Tous les niveaux')
+    const [hygieneLevel, setHygieneLevel] = useState('Tous les niveaux')
     const [error, setError] = useState('')
     const submitBtn = useRef<HTMLButtonElement | null>(null)
 
@@ -147,6 +148,7 @@ export default function MainForm({breakPoint, limit, offset, setFilteredData, se
             setError('Le formulaire est vide..')
             return 
         }
+        setisFilterMobileActivated(false)
         setIsFilteredRestaurantLoading(true)
         setIsFilterModeActivated(true)
         setIsFilterActivated(true)
@@ -192,7 +194,7 @@ export default function MainForm({breakPoint, limit, offset, setFilteredData, se
                <input value={inputValue} onFocus={handleOnFocusAutocompleteVisibility} onChange={handleInputValueChange} className='w-full px-4 py-1 shadow-md bg-slate-100 focus:ring-2 focus:shadow-lg transition-all duration-500 outline-none rounded' type="text" autoComplete='off' placeholder={isSearchBtnClicked ? 'Search a restaurant' : 'Enter a localisation'} id='localisation' />
                <FontAwesomeIcon className='absolute top-1/2 -translate-y-1/2 right-3' icon={isSearchBtnClicked ? searchIcon : locationIcon} />
                <ul  className={autocompleteVisibility + ` absolute top-[125%] left-1/2 -translate-x-1/2 flex flex-col justify-center items-start gap-2 bg-primary rounded-xl py-3 px-4 ${!isSearchBtnClicked ? 'w-11/12' : 'w-full'} max-h-[200px] overflow-y-auto`}>
-               {autocompleteValues.length > 0 && autocompleteValues.map((value: AutocompleteValue, i) => (<AutocompleteLi key={i} handleLiClicked={handleLiClicked} setRestaurantDetails={setRestaurantDetails} value={value} />))}
+               {autocompleteValues.length > 0 && autocompleteValues.map((value: AutocompleteValue, i) => (<AutocompleteLi key={i} setisFilterMobileActivated={setisFilterMobileActivated} handleLiClicked={handleLiClicked} setRestaurantDetails={setRestaurantDetails} value={value} />))}
                {autocompleteValues.length === 0 && !isLoading && <p>Not found...</p>}
                {isLoading && <p>Loading...</p>}
                
