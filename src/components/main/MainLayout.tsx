@@ -97,7 +97,7 @@ export default function MainLayout() {
   const setBtnState = (state: boolean) => setIsSearchRestaurantBtnClicked(state) 
 
 
-  return  <main className='max-w-6xl mx-auto px-5 flex justify-center xl:items-center items-start md:gap-12 xl:gap-20 lg:gap-16 transition-all overflow-x-hidden' style={{ minHeight: 'var(--viewport-minus-header-plus-footer)' }}>
+  return  <main className='max-w-6xl mx-auto px-5 flex justify-center xl:items-center items-start md:gap-12 xl:gap-20 lg:gap-16 transition-all' style={{ minHeight: 'var(--viewport-minus-header-plus-footer)' }}>
       <div className='hidden xl:mt-0 mt-10 md:flex flex-col justify-center items-start gap-12 w-[350px] lg:text-base text-sm'>
         <DiscoverButtons setBtnState={setBtnState} breakPoint="lg" />
         <MainForm setCurrentPage={setCurrentPage} isFilterActivated={isFilterActivated} setisFilterMobileActivated={setisFilterMobileActivated} isSearchBtnClicked={isSearchRestaurantBtnClicked} breakPoint="lg" limit={limit} setFilteredData={setFilteredRestaurant} setNbOfRestaurant={setTotalCount} offset={offsetFilteredData} setIsFilterActivated={setIsFilteredModeActivated} setIsFilteredRestaurantLoading={setFilteredRestaurantLoading} setRestaurantDetails={setRestaurantDetails} />

@@ -23,12 +23,12 @@ body{
 
 
 ::-webkit-scrollbar {
-    width: .9vw;
+    width: 1.25vw;
     }
     
-    @media (min-width: 640px) {
+    @media (min-width: 770px) {
         ::-webkit-scrollbar {
-          width: .5vw;
+          width: .6vw;
         }
       }
     

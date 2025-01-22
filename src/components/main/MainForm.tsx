@@ -1,4 +1,4 @@
-import { faLocationDot as locationIcon, faSearch as searchIcon } from "@fortawesome/free-solid-svg-icons"
+import { faLocationDot as locationIcon, faSearch as searchIcon, faCircleQuestion as circleQuestionIcon } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React, { useEffect, useRef, useState } from "react"
 import type { Restaurant } from "../../types/restaurant.d"
@@ -201,6 +201,27 @@ export default function MainForm({breakPoint, limit, offset, isFilterActivated,s
 
 
            </div>
+
+
+           {isSearchBtnClicked && <div className={`flex justify-center items-start gap-2 lg:gap-3 bg-secondary rounded px-3 lg:px-4 py-3 ${breakPoint === 'xs' ? 'h-[180px] w-11/12 mx-auto' : 'h-[200px] lg:h-[230px] w-full'} ${(!autocompleteVisibility && breakPoint === 'lg') ? 'translate-y-[93%] lg:translate-y-[85%]' : (!autocompleteVisibility && breakPoint === 'xs') ? 'translate-y-[105%]' : ''} transition-all duration-700`}>
+                <div className={`bg-main h-full ${breakPoint === 'xs' ? 'w-[1.5rem]' : 'w-[25%]'} text-bg rounded`}>
+                <FontAwesomeIcon className="w-full" icon={circleQuestionIcon} />
+                </div>
+                <div className="flex flex-col justify-center items-start gap-4 px-1">
+                    <div className="flex flex-col justify-center items-start gap-2">
+                    <h3 className="lg:tracking-normal tracking-tighter text-lg font-semibold text-main">Aide à la recherche</h3>
+                    <p className="leading-4">Vous pouvez rechercher un établissement selon plusieurs critères :</p>
+                    </div>
+                    <ul className="list-disc flex flex-col justify-center items-start gap-[2px] w-full ml-3">
+                        <li> <span className="italic font-semibold">son nom</span> (PASTA Y DOLCE)</li>
+                        <li><span className="italic font-semibold">sa commune</span> (Nantes)</li>
+                        <li><span className="italic font-semibold">son code SIRET</span> (306094)</li>
+                    </ul>
+                </div>
+           </div>}
+
+
+
            <div className={ (isSearchBtnClicked ? 'hidden' : '') +  ' flex flex-col justify-center items-start gap-2 w-full'}>
            <label className={`text-base ${breakPoint}:text-lg font-semibold italic`} htmlFor="niveau-hygiène">Niveau d'hygiène</label>
            <select value={hygieneLevel} onChange={handleSelectValueChange}  className=" w-full px-4 py-1 shadow-md bg-slate-100 focus:ring-2 focus:shadow-lg transition-all duration-500 outline-none rounded" id="niveau-hygiène">
