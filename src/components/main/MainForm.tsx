@@ -18,20 +18,20 @@ export interface MainFormProps {
     setIsFilteredRestaurantLoading: (isLoading: boolean) => void,
     setRestaurantDetails: (restaurant : React.SetStateAction<Restaurant | null>) => void,
     setisFilterMobileActivated: (isClicked: React.SetStateAction<boolean>) => void,
-    isSearchBtnClicked: boolean
+    setCurrentPage: (page: React.SetStateAction<number>) => void,
+    isSearchBtnClicked: boolean,
+    isFilterActivated: boolean
 }
-export default function MainForm({breakPoint, limit, offset, setFilteredData, setNbOfRestaurant, setisFilterMobileActivated, setIsFilterActivated, setIsFilteredRestaurantLoading, isSearchBtnClicked, setRestaurantDetails} : MainFormProps) {
+export default function MainForm({breakPoint, limit, offset, isFilterActivated,setFilteredData, setCurrentPage, setNbOfRestaurant, setisFilterMobileActivated, setIsFilterActivated, setIsFilteredRestaurantLoading, isSearchBtnClicked, setRestaurantDetails} : MainFormProps) {
 
     const [autocompleteValues, setAutocompleteValues] = useState([])
     const [inputValue, setinputValue] = useState('')
     const [autocompleteVisibility, setAutocompleteVisibility] = useState<'hidden' | ''>('hidden')
     const [isLiClicked, setLiClicked] = useState<boolean>(false)
     const [isLoading, setLoading] = useState(false)
-    const [isFilterModeActivated, setIsFilterModeActivated] = useState(false)
     const divElement = useRef<null | HTMLDivElement>(null)
     const [hygieneLevel, setHygieneLevel] = useState('Tous les niveaux')
     const [error, setError] = useState('')
-    const submitBtn = useRef<HTMLButtonElement | null>(null)
 
     useEffect(() => {
         if (!inputValue || isLiClicked) {
@@ -42,7 +42,7 @@ export default function MainForm({breakPoint, limit, offset, setFilteredData, se
      }, [inputValue])
 
      useEffect(() => {
-        if (isFilterModeActivated) submitBtn.current?.click();
+        if (isFilterActivated) handleFormSubmit();
      }, [offset])
 
     const handleInputValueChange = (e:React.ChangeEvent<HTMLInputElement> ) => {
@@ -142,15 +142,15 @@ export default function MainForm({breakPoint, limit, offset, setFilteredData, se
         setError('')
      }
 
-     const handleFormSubmit = async (e: React.FormEvent) => {
-        e.preventDefault()
+     const handleFormSubmit = async (e?: React.FormEvent) => {
+        if (e) e.preventDefault()    
+        
         if (!inputValue && hygieneLevel === 'Tous les niveaux') {
             setError('Le formulaire est vide..')
             return 
         }
         setisFilterMobileActivated(false)
         setIsFilteredRestaurantLoading(true)
-        setIsFilterModeActivated(true)
         setIsFilterActivated(true)
         const restaurantLocation = inputValue.includes(',') ? inputValue.split(', ') : inputValue;
         try {
@@ -166,7 +166,6 @@ export default function MainForm({breakPoint, limit, offset, setFilteredData, se
                     activity: Array.isArray(restaurant.app_libelle_activite_etablissement) ? restaurant.app_libelle_activite_etablissement[0] : '',
                     rating: formatRate(restaurant.synthese_eval_sanit as string)
                   })));
-                console.log(response.results)
             setNbOfRestaurant(response.total_count)
         } catch (error) {
             if (error instanceof Error) console.log(error.message)
@@ -178,7 +177,6 @@ export default function MainForm({breakPoint, limit, offset, setFilteredData, se
 
      
      const handleResetFilters = () => {
-        setIsFilterModeActivated(false)
         setinputValue('')
         setHygieneLevel('Tous les niveaux')
         setIsFilterActivated(false)
@@ -215,7 +213,7 @@ export default function MainForm({breakPoint, limit, offset, setFilteredData, se
            {error && <p className="w-full text-center text-xs text-poor tracking-wide">{error}</p>}
            </div>
            <div className={(isSearchBtnClicked ? 'hidden' : '') + ' flex flex-col w-full justify-center items-center gap-5 mt-5'}>
-           <button ref={submitBtn} className='text-white bg-main px-7 py-2 rounded-lg shadow-md shadow-main hover:shadow-lg hover:shadow-blue-600 hover:bg-blue-600 hover:text-primary hover:rounded-xl hover:-translate-y-1 transition-all duration-700'>Rechercher</button>
+           <button onClick={() => setCurrentPage(0)} className='text-white bg-main px-7 py-2 rounded-lg shadow-md shadow-main hover:shadow-lg hover:shadow-blue-600 hover:bg-blue-600 hover:text-primary hover:rounded-xl hover:-translate-y-1 transition-all duration-700'>Rechercher</button>
            <button onClick={handleResetFilters} type="button" className={`text-main bg-transparent  px-5 ${breakPoint}:px-7 py-2 rounded-lg shadow-lg border border-main hover:bg-main hover:text-white hover:shadow-xl transition duration-700`} >Réinitialiser les filtres</button>
            </div>
           

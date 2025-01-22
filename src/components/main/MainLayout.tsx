@@ -63,6 +63,10 @@ export default function MainLayout() {
     if (!isFilterActivated) fecthRestaurantData(currentPage);
   }, [currentPage]);
 
+  useEffect(() => {
+      setCurrentPage(0)
+  }, [isFilterActivated])
+
   const handleClickRestaurantModalDetails = (restaurant: Restaurant | null) => {
     setRestaurantDetails(restaurant);
   };
@@ -76,14 +80,13 @@ export default function MainLayout() {
 
   const setTotalCount = (count : number) => {
     setFilteredRestaurantCount(count);
-    console.log(filteredRestaurantCount)
   }
 
   const setFilteredRestaurant = (filteredRestaurant: Restaurant[]) => {
     setFilteredRestaurantData(filteredRestaurant)
   }
 
-  const setIsFilteredModeActivated = (isActivated: boolean) => {
+  const setIsFilteredModeActivated = async (isActivated: boolean) => {
     setIsFilterActivated(isActivated)
   }
 
@@ -93,10 +96,11 @@ export default function MainLayout() {
 
   const setBtnState = (state: boolean) => setIsSearchRestaurantBtnClicked(state) 
 
+
   return  <main className='max-w-6xl mx-auto px-5 flex justify-center xl:items-center items-start md:gap-12 xl:gap-20 lg:gap-16 transition-all overflow-x-hidden' style={{ minHeight: 'var(--viewport-minus-header-plus-footer)' }}>
       <div className='hidden xl:mt-0 mt-10 md:flex flex-col justify-center items-start gap-12 w-[350px] lg:text-base text-sm'>
         <DiscoverButtons setBtnState={setBtnState} breakPoint="lg" />
-        <MainForm setisFilterMobileActivated={setisFilterMobileActivated} isSearchBtnClicked={isSearchRestaurantBtnClicked} breakPoint="lg" limit={limit} setFilteredData={setFilteredRestaurant} setNbOfRestaurant={setTotalCount} offset={offsetFilteredData} setIsFilterActivated={setIsFilteredModeActivated} setIsFilteredRestaurantLoading={setFilteredRestaurantLoading} setRestaurantDetails={setRestaurantDetails} />
+        <MainForm setCurrentPage={setCurrentPage} isFilterActivated={isFilterActivated} setisFilterMobileActivated={setisFilterMobileActivated} isSearchBtnClicked={isSearchRestaurantBtnClicked} breakPoint="lg" limit={limit} setFilteredData={setFilteredRestaurant} setNbOfRestaurant={setTotalCount} offset={offsetFilteredData} setIsFilterActivated={setIsFilteredModeActivated} setIsFilteredRestaurantLoading={setFilteredRestaurantLoading} setRestaurantDetails={setRestaurantDetails} />
       </div>
 
       <div className='w-full relative flex flex-col justify-center items-start gap-10'>
@@ -121,13 +125,14 @@ export default function MainLayout() {
           className='flex justify-center items-center sm:gap-3 gap-1 w-full'
           pageClassName="sm:text-base text-sm bg-primary px-3 py-2 rounded-lg hover:bg-secondary cursor-pointer relative before:content-[''] before:absolute before:w-3 before:rounded-lg before:h-[1px] before:bg-slate-400 before:bottom-[7px] before:left-1/2 before:-translate-x-1/2 before:scale-0 hover:before:scale-100 transition-all duration-700"
           activeClassName='bg-secondary border border-main'
+          forcePage={currentPage}
         />
 
         <RestaurantDetailsModal setRestaurantDetailsPrinter={handleClickPrintRestaurantDetails} handleClick={handleClickRestaurantModalDetails} restaurantDetails={restaurantDetails} />
         <RestaurantDetailsPrintModal restaurantDetails={printRestaurantDetails} handleClick={handleClickPrintRestaurantDetails} />
       </div>
 
-      <FilterModalMobileDevices setBtnState={setBtnState} isSearchBtnClicked={isSearchRestaurantBtnClicked} breakPoint="xs" isFilterMobileActivated={isFilterMobileActivated} setisFilterMobileActivated={setisFilterMobileActivated} limit={limit} setFilteredData={setFilteredRestaurant} setNbOfRestaurant={setTotalCount} offset={offsetFilteredData} setIsFilterActivated={setIsFilteredModeActivated} setIsFilteredRestaurantLoading={setFilteredRestaurantLoading} setRestaurantDetails={setRestaurantDetails} />
+      <FilterModalMobileDevices setCurrentPage={setCurrentPage}  isFilterActivated={isFilterActivated}  setBtnState={setBtnState} isSearchBtnClicked={isSearchRestaurantBtnClicked} breakPoint="xs" isFilterMobileActivated={isFilterMobileActivated} setisFilterMobileActivated={setisFilterMobileActivated} limit={limit} setFilteredData={setFilteredRestaurant} setNbOfRestaurant={setTotalCount} offset={offsetFilteredData} setIsFilterActivated={setIsFilteredModeActivated} setIsFilteredRestaurantLoading={setFilteredRestaurantLoading} setRestaurantDetails={setRestaurantDetails} />
     </main>
   
 }
