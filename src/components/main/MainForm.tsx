@@ -1,12 +1,11 @@
-import { faLocationDot as locationIcon, faSearch as searchIcon, faCircleQuestion as circleQuestionIcon } from "@fortawesome/free-solid-svg-icons"
+import { faCircleQuestion as circleQuestionIcon } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useState } from "react"
 import type { Restaurant } from "../../types/restaurant.d"
 import formatDate from "../../utils/formatDate"
 import formatRate from "../../utils/formatRate"
 import formatFilterQueryString from "../../utils/formatFilterQueryString"
-import AutocompleteLi from "./AutocompleteLi"
-import type { AutocompleteValue } from "../../types/autocomplete.d"
+import AutocompleteInput from "./AutocompleteInput"
 
 export interface MainFormProps {
     breakPoint : string,
@@ -24,22 +23,12 @@ export interface MainFormProps {
 }
 export default function MainForm({breakPoint, limit, offset, isFilterActivated,setFilteredData, setCurrentPage, setNbOfRestaurant, setisFilterMobileActivated, setIsFilterActivated, setIsFilteredRestaurantLoading, isSearchBtnClicked, setRestaurantDetails} : MainFormProps) {
 
-    const [autocompleteValues, setAutocompleteValues] = useState([])
     const [inputValue, setinputValue] = useState('')
-    const [autocompleteVisibility, setAutocompleteVisibility] = useState<'hidden' | ''>('hidden')
-    const [isLiClicked, setLiClicked] = useState<boolean>(false)
-    const [isLoading, setLoading] = useState(false)
-    const divElement = useRef<null | HTMLDivElement>(null)
     const [hygieneLevel, setHygieneLevel] = useState('Tous les niveaux')
     const [error, setError] = useState('')
+    const [autocompleteVisibility, setAutocompleteVisibility] = useState(false)
 
-    useEffect(() => {
-        if (!inputValue || isLiClicked) {
-            setAutocompleteVisibility('hidden') 
-            return;
-        }
-         fetchAutocomplete(inputValue)
-     }, [inputValue])
+  
 
      useEffect(() => {
         if (isFilterActivated) handleFormSubmit();
@@ -51,89 +40,8 @@ export default function MainForm({breakPoint, limit, offset, isFilterActivated,s
     }  
 
 
-    const handleLiClicked = (liValue: string) => {
-            setinputValue(liValue)
-            setLiClicked(true)
-            setTimeout(() => {
-                setLiClicked(false)
-            }, 100);
-        
-    }
 
 
-
-    const fetchAutocomplete = async (inputValue : string) : Promise<void> => {
-         try {
-            setAutocompleteVisibility('')
-            setLoading(true)
-            if (!isSearchBtnClicked) {
-                const api = await fetch(`https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/georef-france-commune/records?limit=15&where=com_name like "${inputValue}" or dep_code like "${inputValue}" or reg_name like "${inputValue}" or dep_name like "${inputValue}"`);
-                if (!api.ok) throw new Error('Failed to fetch data..')
-   
-                const filtre = (await api.json()).results.map((locationRecord: Record<string, unknown>) => {
-                 
-        
-                    if (Array.isArray(locationRecord.com_name) && Array.isArray(locationRecord.dep_code)) {
-                       return {
-                           city: locationRecord.com_name[0],
-                           depCode: locationRecord.dep_code[0],
-                           type: 'Location'
-                       }
-                       
-                    }
-                })
-        
-                setAutocompleteValues(filtre); 
-            }
-            else {
-                const api = await fetch(`https://dgal.opendatasoft.com/api/explore/v2.1/catalog/datasets/export_alimconfiance/records?limit=15&where=com_name like "${inputValue}" or dep_code like "${inputValue}" or reg_name like "${inputValue}" or dep_name like "${inputValue}" or siret like "${inputValue}" or  app_libelle_etablissement like "${inputValue}"`)
-                if (!api.ok) throw new Error('Failed to fetch data..')
-                    const response = await api.json()
-          
-                   
-                    const searchedRestaurant = response.results.map((restaurant: Record<string, unknown>) => 
-                             ({
-                                name: restaurant.app_libelle_etablissement,
-                                address: restaurant.adresse_2_ua,
-                                postalCode: restaurant.code_postal,
-                                city: restaurant.libelle_commune,
-                                inspectionDate: formatDate(restaurant.date_inspection as string),
-                                activity: Array.isArray(restaurant.app_libelle_activite_etablissement) ? restaurant.app_libelle_activite_etablissement[0] : '',
-                                rating: formatRate(restaurant.synthese_eval_sanit as string),
-                                type: 'Restaurant'
-                              }))
-                    setAutocompleteValues(searchedRestaurant)
-
-            }
-          
-         } catch (error) {
-             if (error instanceof Error) console.log(error.message);
-         }
-         finally {
-            setTimeout(() => {
-                setLoading(false)
-            }, 200);
-         }
-     };
-
-
-
-     useEffect(() => {
-        const handleClickOutside = (e: MouseEvent) => {
-        
-           
-            if (!divElement.current?.contains((e.target as Node))) setAutocompleteVisibility('hidden')
-     }
-        window.addEventListener('click' , handleClickOutside)
-    return () => removeEventListener('click', handleClickOutside)
-     }, [])
-
-
-
-
-     const handleOnFocusAutocompleteVisibility = () => {
-        if (inputValue) setAutocompleteVisibility('')
-     }
 
    
 
@@ -188,22 +96,13 @@ export default function MainForm({breakPoint, limit, offset, isFilterActivated,s
        <form onSubmit={handleFormSubmit} className='flex flex-col justify-center items-start gap-8 w-full'>
            <div className='flex flex-col w-full justify-center items-start gap-2 '>
                <label htmlFor="localisation" className={`text-base ${breakPoint}:text-lg font-semibold italic`}>{isSearchBtnClicked ? 'Rechercher' : 'Localisation'}</label>
-               <div ref={divElement} className='w-full relative'>
-               <input value={inputValue} onFocus={handleOnFocusAutocompleteVisibility} onChange={handleInputValueChange} className='w-full px-4 py-1 shadow-md bg-slate-100 focus:ring-2 focus:shadow-lg transition-all duration-500 outline-none rounded' type="text" autoComplete='off' placeholder={isSearchBtnClicked ? 'Search a restaurant' : 'Enter a localisation'} id='localisation' />
-               <FontAwesomeIcon className='absolute top-1/2 -translate-y-1/2 right-3' icon={isSearchBtnClicked ? searchIcon : locationIcon} />
-               <ul  className={autocompleteVisibility + ` absolute top-[125%] left-1/2 -translate-x-1/2 flex flex-col justify-center items-start gap-2 bg-primary rounded-xl py-3 px-4 ${!isSearchBtnClicked ? 'w-11/12' : 'w-full'} max-h-[200px] overflow-y-auto`}>
-               {autocompleteValues.length > 0 && autocompleteValues.map((value: AutocompleteValue, i) => (<AutocompleteLi key={i} setisFilterMobileActivated={setisFilterMobileActivated} handleLiClicked={handleLiClicked} setRestaurantDetails={setRestaurantDetails} value={value} />))}
-               {autocompleteValues.length === 0 && !isLoading && <p>Not found...</p>}
-               {isLoading && <p>Loading...</p>}
-               
-           </ul>
-               </div>
+               <AutocompleteInput setIsAutocompleteVisible={setAutocompleteVisibility} inputValue={inputValue} handleInputValueChange={handleInputValueChange} isSearchBtnClicked={isSearchBtnClicked} setInputValue={setinputValue} setRestaurantDetails={setRestaurantDetails} setisFilterMobileActivated={setisFilterMobileActivated}  />
 
 
            </div>
 
 
-           {isSearchBtnClicked && <div className={`flex justify-center items-start gap-2 lg:gap-3 bg-secondary rounded px-3 lg:px-4 py-3 ${breakPoint === 'xs' ? 'h-[180px] w-11/12 mx-auto' : 'h-[200px] lg:h-[230px] w-full'} ${(!autocompleteVisibility && breakPoint === 'lg') ? 'translate-y-[93%] lg:translate-y-[85%]' : (!autocompleteVisibility && breakPoint === 'xs') ? 'translate-y-[105%]' : ''} transition-all duration-700`}>
+           {isSearchBtnClicked && <div className={`flex justify-center items-start gap-2 lg:gap-3 bg-secondary rounded px-3 lg:px-4 py-3 ${breakPoint === 'xs' ? 'h-[180px] w-11/12 mx-auto' : 'h-[200px] lg:h-[230px] w-full'} ${(autocompleteVisibility && breakPoint === 'lg') ? 'translate-y-[93%] lg:translate-y-[85%]' : (autocompleteVisibility && breakPoint === 'xs') ? 'translate-y-[105%]' : ''} transition-all duration-700`}>
                 <div className={`bg-main h-full ${breakPoint === 'xs' ? 'w-[1.5rem]' : 'w-[25%]'} text-bg rounded`}>
                 <FontAwesomeIcon className="w-full" icon={circleQuestionIcon} />
                 </div>
