@@ -2,6 +2,7 @@ import { faXmark as closeIcon } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import RestaurantImg from '../../assets/images/RestaurantImg.png'
 import type { Restaurant } from "../../types/restaurant.d"
+import clsx from "clsx"
 
 interface CardDetailsModalProps {
     restaurantDetails: Restaurant | null,
@@ -36,7 +37,7 @@ export default function CardDetailsModal({restaurantDetails, handleClick, setRes
         <div className='flex flex-col justify-center items-center gap-5'>
             <div className='relative'>
                 <p className='px-3 py-4 xs:p-5 shadow border border-indigo xl:text-xl md:text-lg xs:text-base hover:border-2 hover:scale-105 transition-all duration-700 rounded-lg'>{restaurantDetails?.rating.rate}</p>
-                <div className={`h-2 w-2 bg-${restaurantDetails.rating.color} rounded-full absolute xs:top-2 xs:right-2 right-[5px] top-[5px]`}></div>
+                <div className={clsx(`h-2 w-2 rounded-full absolute xs:top-2 xs:right-2 right-[5px] top-[5px]`, {'bg-poor': restaurantDetails.rating.color === 'poor', 'bg-average': restaurantDetails.rating.color === 'average', 'bg-good': restaurantDetails.rating.color === 'good', 'bg-excellent': restaurantDetails.rating.color === 'excellent'})}></div>
             </div>
             <button onClick={() => {setRestaurantDetailsPrinter(restaurantDetails); handleClick(null)}} className=' bg-main text-white px-1 xs:px-3 py-2 rounded-lg sm:rounded-md shadow-lg hover:shadow-xl active:scale-95 hover:bg-blue-600 hover:text-primary transition-all duration-700 '>Imprimer cette affichette</button>
         </div>

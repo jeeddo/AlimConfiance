@@ -4,6 +4,7 @@ import Logo2 from '../../assets/images/Logo2.png'
 import { Restaurant } from "../../types/restaurant"
 import { useReactToPrint } from "react-to-print";
 import { useEffect, useRef, useState } from "react";
+import clsx from "clsx";
 
 interface CardDetailsPrintModalProps {
     handleClick: (restaurant: Restaurant | null) => void,
@@ -72,7 +73,7 @@ export default function CardDetailsPrintModal({handleClick, restaurantDetails}: 
         </div>
         <div className='relative max-w-full mx-auto mt-5'>
             <p className='text-base sm:text-xl xs:px-12 xs:py-5 px-8 py-3 border border-indigo hover:border-2 hover:scale-105 hover:shadow-md xs:hover:shadow-lg transition-all duration-700 rounded-lg shadow'>{restaurantDetails.rating.rate}</p>
-            <div className={`h-2 w-2 rounded-full absolute bg-${restaurantDetails.rating.color} top-2 right-2`}>
+            <div className={clsx(`h-2 w-2 rounded-full absolute top-2 right-2`, {'bg-poor': restaurantDetails.rating.color === 'poor', 'bg-average': restaurantDetails.rating.color === 'average', 'bg-good': restaurantDetails.rating.color === 'good', 'bg-excellent': restaurantDetails.rating.color === 'excellent'})}>
 
             </div>
         </div>

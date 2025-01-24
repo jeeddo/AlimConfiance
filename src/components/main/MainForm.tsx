@@ -6,7 +6,7 @@ import formatDate from "../../utils/formatDate"
 import formatRate from "../../utils/formatRate"
 import formatFilterQueryString from "../../utils/formatFilterQueryString"
 import AutocompleteInput from "./AutocompleteInput"
-
+import clsx from "clsx"
 export interface MainFormProps {
     breakPoint : string,
     limit: number,
@@ -27,7 +27,8 @@ export default function MainForm({breakPoint, limit, offset, isFilterActivated,s
     const [hygieneLevel, setHygieneLevel] = useState('Tous les niveaux')
     const [error, setError] = useState('')
     const [autocompleteVisibility, setAutocompleteVisibility] = useState(false)
-
+    const breakPointLg = breakPoint === 'lg'
+    const breakPointXs = breakPoint === 'xs'
   
 
      useEffect(() => {
@@ -95,15 +96,15 @@ export default function MainForm({breakPoint, limit, offset, isFilterActivated,s
         
        <form onSubmit={handleFormSubmit} className='flex flex-col justify-center items-start gap-8 w-full'>
            <div className='flex flex-col w-full justify-center items-start gap-2 '>
-               <label htmlFor="localisation" className={`text-base ${breakPoint}:text-lg font-semibold italic`}>{isSearchBtnClicked ? 'Rechercher' : 'Localisation'}</label>
+               <label htmlFor="localisation" className={clsx(`text-base font-semibold italic`, breakPointLg && 'lg:text-lg', breakPointXs && 'xs:text-lg')}>{isSearchBtnClicked ? 'Rechercher' : 'Localisation'}</label>
                <AutocompleteInput setIsAutocompleteVisible={setAutocompleteVisibility} inputValue={inputValue} handleInputValueChange={handleInputValueChange} isSearchBtnClicked={isSearchBtnClicked} setInputValue={setinputValue} setRestaurantDetails={setRestaurantDetails} setisFilterMobileActivated={setisFilterMobileActivated}  />
 
 
            </div>
 
 
-           {isSearchBtnClicked && <div className={`flex justify-center items-start gap-2 lg:gap-3 bg-secondary rounded px-3 lg:px-4 py-3 ${breakPoint === 'xs' ? 'h-[180px] w-11/12 mx-auto' : 'h-[200px] lg:h-[230px] w-full'} ${(autocompleteVisibility && breakPoint === 'lg') ? 'translate-y-[93%] lg:translate-y-[85%]' : (autocompleteVisibility && breakPoint === 'xs') ? 'translate-y-[105%]' : ''} transition-all duration-700`}>
-                <div className={`bg-main h-full ${breakPoint === 'xs' ? 'w-[1.5rem]' : 'w-[25%]'} text-bg rounded`}>
+           {isSearchBtnClicked && <div className={`flex justify-center items-start gap-2 lg:gap-3 bg-secondary rounded px-3 lg:px-4 py-3 ${breakPointXs ? 'h-[180px] w-11/12 mx-auto' : 'h-[200px] lg:h-[230px] w-full'} ${(autocompleteVisibility && breakPointLg) ? 'translate-y-[93%] lg:translate-y-[85%]' : (autocompleteVisibility && breakPointXs) && 'translate-y-[105%]'} transition-all duration-700`}>
+                <div className={`bg-main h-full ${breakPointXs ? 'hidden xs:w-[1.8rem]' : 'w-[20%]'} text-bg rounded`}>
                 <FontAwesomeIcon className="w-full" icon={circleQuestionIcon} />
                 </div>
                 <div className="flex flex-col justify-center items-start gap-4 px-1">
@@ -122,7 +123,7 @@ export default function MainForm({breakPoint, limit, offset, isFilterActivated,s
 
 
            <div className={ (isSearchBtnClicked ? 'hidden' : '') +  ' flex flex-col justify-center items-start gap-2 w-full'}>
-           <label className={`text-base ${breakPoint}:text-lg font-semibold italic`} htmlFor="niveau-hygiène">Niveau d'hygiène</label>
+           <label className={clsx(`text-base font-semibold italic`, breakPointLg && 'lg:text-lg', breakPointXs && 'xs:text-lg')} htmlFor="niveau-hygiène">Niveau d'hygiène</label>
            <select value={hygieneLevel} onChange={handleSelectValueChange}  className=" w-full px-4 py-1 shadow-md bg-slate-100 focus:ring-2 focus:shadow-lg transition-all duration-500 outline-none rounded" id="niveau-hygiène">
                <option>Tous les niveaux</option>
                <option >A corriger de manière urgente</option>
@@ -134,7 +135,7 @@ export default function MainForm({breakPoint, limit, offset, isFilterActivated,s
            </div>
            <div className={(isSearchBtnClicked ? 'hidden' : '') + ' flex flex-col w-full justify-center items-center gap-5 mt-5'}>
            <button onClick={() => setCurrentPage(0)} className='text-white bg-main px-7 py-2 rounded-lg shadow-md shadow-main hover:shadow-lg hover:shadow-blue-600 hover:bg-blue-600 hover:text-primary hover:rounded-xl hover:-translate-y-1 transition-all duration-700'>Rechercher</button>
-           <button onClick={handleResetFilters} type="button" className={`text-main bg-transparent  px-5 ${breakPoint}:px-7 py-2 rounded-lg shadow-lg border border-main hover:bg-main hover:text-white hover:shadow-xl transition duration-700`} >Réinitialiser les filtres</button>
+           <button onClick={handleResetFilters} type="button" className={clsx(`text-main bg-transparent  px-5 py-2 rounded-lg shadow-lg border border-main hover:bg-main hover:text-white hover:shadow-xl transition duration-700`, breakPointLg && 'lg:px-7', breakPointXs && 'xs:px-7')} >Réinitialiser les filtres</button>
            </div>
           
        </form>

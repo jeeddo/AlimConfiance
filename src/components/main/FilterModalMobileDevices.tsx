@@ -15,7 +15,7 @@ export default function FilterModalMobileDevices({isFilterMobileActivated, setBt
     <header className='brightness-75 grayscale hover:grayscale-0 transition-all duration-200 z-20 relative flex flex-col justify-center items-center gap-6 w-full rounded-t-2xl py-5 px-2 h-1/5 font-extrabold'>
         <FontAwesomeIcon onClick={() => props.setisFilterMobileActivated(false)} className='cursor-pointer text-base' icon={chevronDown} />
         <h2 className='text-lg'>Les contrôles sanitaires accessibles à tous</h2>
-        <img className='absolute inset-0 h-full w-full opacity-45 -z-30 rounded-t-2xl' src={ControleSanitaire} alt="Contrôles sanitaires (aliments)" />
+        <img className='absolute h-full w-full opacity-45 -z-30 rounded-t-2xl' src={ControleSanitaire} alt="Contrôles sanitaires (aliments)" />
     </header>
     <main className='flex flex-col justify-center items-center gap-7 w-3/4'>
     <DiscoverButtons setBtnState={setBtnState} breakPoint="xs" />
