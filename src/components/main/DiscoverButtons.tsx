@@ -1,7 +1,7 @@
 import clsx from "clsx"
 
 export interface DiscoverButtonsProps {
-    setBtnState: (state: boolean) => void,
+    setBtnState: (state: React.SetStateAction<boolean>) => void,
     breakPoint: string
 }
 

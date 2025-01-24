@@ -1,4 +1,4 @@
-import AdvancedFilterButtons from "./AdvancedFilterButtons";
+import AdvancedFilterButtons from "./SortButtons";
 import RestaurantDetailsModal from "./RestaurantDetailsModal";
 import RestaurantDetailsPrintModal from "./RestaurantDetailsPrintModal";
 import RestaurantList from "./RestaurantList";
@@ -26,15 +26,15 @@ export default function MainLayout() {
   const [isLoading, setLoading] = useState(false)
   const [filteredRestaurantData, setFilteredRestaurantData] = useState<Restaurant[]>([])
   const [isFilterActivated, setIsFilterActivated] = useState(false)
-  const limit = 6;  
   const [currentPage, setCurrentPage] = useState(0); 
   const [filteredRestaurantCount, setFilteredRestaurantCount] = useState(0);
   const [isFilteredRestaurantLoading, setIsFilteredRestaurantLoading] = useState(false)
   const [isSearchRestaurantBtnClicked, setIsSearchRestaurantBtnClicked] = useState(false)
   const [isFilterMobileActivated, setisFilterMobileActivated] = useState(false)
+  const limit = 6;  
   const offsetFilteredData = useMemo(() => currentPage * limit, [currentPage])
   const nbMaxData = 10000;  
-  const pageCount = useMemo( () => !isFilterActivated ? Math.floor(nbMaxData / limit) : Math.ceil((filteredRestaurantCount ?? 0) / limit), [isFilterActivated, filteredRestaurantCount])
+  const pageCount = useMemo( () => !isFilterActivated ? Math.floor(nbMaxData / limit) : Math.ceil((filteredRestaurantCount ?? 0) / limit), [isFilterActivated])
 
   const fecthRestaurantData = async (page: number): Promise<void> => {
     try {
@@ -67,40 +67,19 @@ export default function MainLayout() {
       setCurrentPage(0)
   }, [isFilterActivated])
 
-  const handleClickRestaurantModalDetails = (restaurant: Restaurant | null) => {
-    setRestaurantDetails(restaurant);
-  };
-  const handleClickPrintRestaurantDetails = (restaurant: Restaurant | null) => {
-    setPrintRestaurantDetails(restaurant);
-  };
 
   const handlePageChange = (selectedPage: { selected: number }) => {
     setCurrentPage(selectedPage.selected);  
   };
 
-  const setTotalCount = (count : number) => {
-    setFilteredRestaurantCount(count);
-  }
 
-  const setFilteredRestaurant = (filteredRestaurant: Restaurant[]) => {
-    setFilteredRestaurantData(filteredRestaurant)
-  }
 
-  const setIsFilteredModeActivated = async (isActivated: boolean) => {
-    setIsFilterActivated(isActivated)
-  }
-
-  const setFilteredRestaurantLoading = (isLoading: boolean) => {
-    setIsFilteredRestaurantLoading(isLoading)
-  }
-
-  const setBtnState = (state: boolean) => setIsSearchRestaurantBtnClicked(state) 
 
 
   return  <main className='max-w-6xl mx-auto px-5 flex justify-center xl:items-center items-start md:gap-12 xl:gap-20 lg:gap-16 transition-all' style={{ minHeight: 'var(--viewport-minus-header-plus-footer)' }}>
       <div className='hidden xl:mt-0 mt-10 md:flex flex-col justify-center items-start gap-12 w-[350px] lg:text-base text-sm'>
-        <DiscoverButtons setBtnState={setBtnState} breakPoint="lg" />
-        <MainForm setCurrentPage={setCurrentPage} isFilterActivated={isFilterActivated} setisFilterMobileActivated={setisFilterMobileActivated} isSearchBtnClicked={isSearchRestaurantBtnClicked} breakPoint="lg" limit={limit} setFilteredData={setFilteredRestaurant} setNbOfRestaurant={setTotalCount} offset={offsetFilteredData} setIsFilterActivated={setIsFilteredModeActivated} setIsFilteredRestaurantLoading={setFilteredRestaurantLoading} setRestaurantDetails={setRestaurantDetails} />
+        <DiscoverButtons setBtnState={setIsSearchRestaurantBtnClicked} breakPoint="lg" />
+        <MainForm setCurrentPage={setCurrentPage} isFilterActivated={isFilterActivated} setisFilterMobileActivated={setisFilterMobileActivated} isSearchBtnClicked={isSearchRestaurantBtnClicked} breakPoint="lg" limit={limit} setFilteredData={setFilteredRestaurantData} setNbOfRestaurant={setFilteredRestaurantCount} offset={offsetFilteredData} setIsFilterActivated={setIsFilterActivated} setIsFilteredRestaurantLoading={setIsFilteredRestaurantLoading} setRestaurantDetails={setRestaurantDetails} />
       </div>
 
       <div className='w-full relative flex flex-col justify-center items-start gap-10'>
@@ -108,10 +87,10 @@ export default function MainLayout() {
         <AdvancedFilterButtons />
 
         <RestaurantList>
-        {!isLoading && !isFilterActivated && restaurantData.map((restaurant: Restaurant, i: number) => (<RestaurantCard key={i} handleClick={handleClickRestaurantModalDetails} restaurant={restaurant} />))}
-        {!isFilteredRestaurantLoading && isFilterActivated && filteredRestaurantData.map((restaurant: Restaurant, i: number) => (<RestaurantCard key={i} handleClick={handleClickRestaurantModalDetails} restaurant={restaurant} />))}
+        {!isLoading && !isFilterActivated && restaurantData.map((restaurant: Restaurant, i: number) => (<RestaurantCard key={i} setRestaurantDetails={setRestaurantDetails} restaurant={restaurant} />))}
+        {!isFilteredRestaurantLoading && isFilterActivated && filteredRestaurantData.map((restaurant: Restaurant, i: number) => (<RestaurantCard key={i} setRestaurantDetails={setRestaurantDetails} restaurant={restaurant} />))}
         {!isFilteredRestaurantLoading && isFilterActivated && filteredRestaurantData.length === 0 && <p className="text-lg text-main">No results found</p>}
-       {(isLoading || isFilteredRestaurantLoading) && restaurantData.map((_, index) => <RestaurantCardSkeleton key={index} />)}
+       {(isLoading || isFilteredRestaurantLoading) && restaurantData.map((_, i) => <RestaurantCardSkeleton key={i} />)}
         </RestaurantList>
 
         <ReactPaginate
@@ -128,11 +107,11 @@ export default function MainLayout() {
           forcePage={currentPage}
         />
 
-        <RestaurantDetailsModal setRestaurantDetailsPrinter={handleClickPrintRestaurantDetails} handleClick={handleClickRestaurantModalDetails} restaurantDetails={restaurantDetails} />
-        <RestaurantDetailsPrintModal restaurantDetails={printRestaurantDetails} handleClick={handleClickPrintRestaurantDetails} />
+        <RestaurantDetailsModal setRestaurantDetailsPrinter={setPrintRestaurantDetails} setRestaurantDetails={setRestaurantDetails} restaurantDetails={restaurantDetails} />
+        <RestaurantDetailsPrintModal restaurantDetails={printRestaurantDetails} setRestaurantDetailsPrinter={setPrintRestaurantDetails} />
       </div>
 
-      <FilterModalMobileDevices setCurrentPage={setCurrentPage}  isFilterActivated={isFilterActivated}  setBtnState={setBtnState} isSearchBtnClicked={isSearchRestaurantBtnClicked} breakPoint="xs" isFilterMobileActivated={isFilterMobileActivated} setisFilterMobileActivated={setisFilterMobileActivated} limit={limit} setFilteredData={setFilteredRestaurant} setNbOfRestaurant={setTotalCount} offset={offsetFilteredData} setIsFilterActivated={setIsFilteredModeActivated} setIsFilteredRestaurantLoading={setFilteredRestaurantLoading} setRestaurantDetails={setRestaurantDetails} />
+      <FilterModalMobileDevices setCurrentPage={setCurrentPage}  isFilterActivated={isFilterActivated}  setBtnState={setIsSearchRestaurantBtnClicked} isSearchBtnClicked={isSearchRestaurantBtnClicked}  isFilterMobileActivated={isFilterMobileActivated} setisFilterMobileActivated={setisFilterMobileActivated} limit={limit} setFilteredData={setFilteredRestaurantData} setNbOfRestaurant={setFilteredRestaurantCount} offset={offsetFilteredData} setIsFilterActivated={setIsFilterActivated} setIsFilteredRestaurantLoading={setIsFilteredRestaurantLoading} setRestaurantDetails={setRestaurantDetails} />
     </main>
   
 }

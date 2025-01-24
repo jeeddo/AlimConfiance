@@ -1,14 +1,14 @@
 import clsx from "clsx"
 import type { Restaurant } from "../../types/restaurant"
 
-interface SingleCardProps {
+interface RestaurantCardProps {
     restaurant: Restaurant,
-    handleClick: (restaurant: Restaurant) => void
+    setRestaurantDetails: (restaurant: React.SetStateAction<Restaurant | null>) => void
 }
 
-export default function SingleCard({restaurant, handleClick} : SingleCardProps) {
+export default function RestaurantCard({restaurant, setRestaurantDetails} : RestaurantCardProps) {
 
-return <div onClick={() => handleClick(restaurant)} className='relative w-full xl:w-[360px] bg-primary rounded-md xl:rounded-lg p-6 overflow-hidden hover:ring-2 hover:opacity-85 transition-all duration-500 cursor-pointer'>
+return <div onClick={() => setRestaurantDetails(restaurant)} className='relative w-full xl:w-[360px] bg-primary rounded-md xl:rounded-lg p-6 overflow-hidden hover:ring-2 hover:opacity-85 transition-all duration-500 cursor-pointer'>
     <div className='absolute top-3 right-3'>
         <p className='text-xs sm:text-sm font-semibold italic'>{restaurant.rating.rate}</p>
         <div className={clsx(`w-2 h-2 rounded-full absolute top-1/2 -translate-y-1/2 -left-4`, {'bg-poor': restaurant.rating.color === 'poor', 'bg-average': restaurant.rating.color === 'average', 'bg-good': restaurant.rating.color === 'good', 'bg-excellent': restaurant.rating.color === 'excellent'})}></div>

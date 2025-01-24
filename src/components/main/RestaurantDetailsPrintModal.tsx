@@ -1,16 +1,16 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faXmark as closeIcon, faPrint as printerIcon } from "@fortawesome/free-solid-svg-icons"
 import Logo2 from '../../assets/images/Logo2.png'
-import { Restaurant } from "../../types/restaurant"
+import type { Restaurant } from "../../types/restaurant"
 import { useReactToPrint } from "react-to-print";
 import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 
 interface CardDetailsPrintModalProps {
-    handleClick: (restaurant: Restaurant | null) => void,
+    setRestaurantDetailsPrinter: (restaurant: React.SetStateAction<Restaurant | null>) => void,
     restaurantDetails: Restaurant | null,
 }
-export default function CardDetailsPrintModal({handleClick, restaurantDetails}: CardDetailsPrintModalProps) {
+export default function RestaurantDetailsPrintModal({setRestaurantDetailsPrinter, restaurantDetails}: CardDetailsPrintModalProps) {
     const [isPrintBtnClicked, setPrintBtnClicked] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const contentRef = useRef<HTMLDivElement | null>(null);
@@ -23,7 +23,7 @@ export default function CardDetailsPrintModal({handleClick, restaurantDetails}: 
     
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
-            if (isModalOpen && !printMdoal.current?.contains(e.target as Node)) handleClick(null)
+            if (isModalOpen && !printMdoal.current?.contains(e.target as Node)) setRestaurantDetailsPrinter(null)
         }
         document.addEventListener('click', handleClickOutside)
         return () => document.removeEventListener('click', handleClickOutside)
@@ -45,11 +45,11 @@ export default function CardDetailsPrintModal({handleClick, restaurantDetails}: 
 
     return  isModalOpen && restaurantDetails && (<div ref={printMdoal} className='z-50 flex flex-col justify-center items-start gap-2 w-full xs:w-3/4 bg-bg absolute top-0 left-0 rounded-md xs:text-sm text-xs '>
     <header className='h-10 bg-indigo flex justify-center items-center w-full rounded-t-md'>
-        <button onClick={() => handleClick(null)} className='sm:text-base text-sm hover:opacity-65 transition duration-300 w-full h-full'> <FontAwesomeIcon icon={closeIcon} />
+        <button onClick={() => setRestaurantDetailsPrinter(null)} className='sm:text-base text-sm hover:opacity-65 transition duration-300 w-full h-full'> <FontAwesomeIcon icon={closeIcon} />
         </button>
     </header>
     <main ref={contentRef} className='flex flex-col justify-center items-start md:gap-5 gap-4 p-5 border-dashed border-2 border-indigo m-4 rounded'>
-        <div  className={`flex ${isPrintBtnClicked ? 'justify-evenly' : 'justify-around'} items-center gap-2 mb-1`}>
+        <div  className={`flex ${isPrintBtnClicked ? 'justify-between' : 'justify-around'} items-center gap-2 mb-1`}>
             <img className='w-1/5 shadow' src={Logo2} alt="Logo ministère de l'agriculture et de l'alimentation" />
             <h2>alimconfiance.gouv.fr</h2>
             { !isPrintBtnClicked &&
