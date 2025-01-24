@@ -1,16 +1,17 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faSearch as searchIcon, faQuestion as questionMarkIcon } from "@fortawesome/free-solid-svg-icons"
+import { faQuestion as questionMarkIcon } from "@fortawesome/free-solid-svg-icons"
+import AutocompleteInput from "./AutocompleteInput"
+import type { Restaurant } from "../../types/restaurant"
 
 interface SearchAndTooltipProps {
-   setisFilterMobileActivated : (isClicked: boolean) => void
+   setisFilterMobileActivated: (isClicked: React.SetStateAction<boolean>) => void,
+   setRestaurantDetails: (restaurant: React.SetStateAction<Restaurant | null>) => void
 }
-export default function SearchAndTooltip({setisFilterMobileActivated}: SearchAndTooltipProps) {
-   return  <div className='md:hidden sm:text-base text-sm flex w-full justify-around items-center mt-1'>
+export default function SearchAndTooltip({setisFilterMobileActivated, setRestaurantDetails}: SearchAndTooltipProps) {
+   
+   return  <div className='md:hidden sm:text-base text-sm flex w-full justify-between px-2 xs:px-6 sm:px-0 sm:justify-around items-center mt-1'>
     <button onClick={() => setisFilterMobileActivated(true)} className='text-white bg-main px-7 py-2 rounded-lg shadow-md shadow-main hover:shadow-lg hover:shadow-blue-600 hover:bg-blue-600 hover:text-primary hover:rounded-xl hover:-translate-y-1 transition-all duration-700'>Filtrer</button>
-    <div className='relative'>
-    <input readOnly className='sm:w-[300px] sm:placeholder:visible placeholder:invisible w-10 px-4 py-1 shadow-md bg-slate-100 focus:ring-2 focus:shadow-lg transition-all duration-500 outline-none rounded-xl sm:rounded' type="text" autoComplete='off' placeholder='Search a restaurant' />
-    <FontAwesomeIcon className='absolute top-1/2 -translate-y-1/2 right-3 cursor-pointer' icon={searchIcon} />
-    </div>
+    <AutocompleteInput isInForm={false} className="sm:w-[300px] rounded-full sm:rounded sm:placeholder:visible" setRestaurantDetails={setRestaurantDetails}/>
     <span data-tooltip="Vous pouvez rechercher un établissement selon plusieurs critères : son nom, sa commune, son code SIRET." className="before:shadow-lg before:italic before:border before:border-secondary before:px-5 before:py-2 text-sm relative before:content-[attr(data-tooltip)] before:absolute before:bg-primary before:z-10 before:w-[230px]
      before:top-[145%] before:-right-2 before:rounded-lg tracking-tighter text-center
      after:content-[''] after:absolute after:border-b-[6px] after:border-secondary

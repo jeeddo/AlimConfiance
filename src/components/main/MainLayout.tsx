@@ -104,7 +104,7 @@ export default function MainLayout() {
       </div>
 
       <div className='w-full relative flex flex-col justify-center items-start gap-10'>
-        <SearchAndTooltip setisFilterMobileActivated={setisFilterMobileActivated} />
+        <SearchAndTooltip setisFilterMobileActivated={setisFilterMobileActivated} setRestaurantDetails={setRestaurantDetails} />
         <AdvancedFilterButtons />
 
         <RestaurantList>

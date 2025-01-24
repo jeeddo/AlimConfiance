@@ -6,21 +6,25 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faLocationDot as locationIcon, faSearch as searchIcon } from "@fortawesome/free-solid-svg-icons"
 import AutocompleteLi from "./AutocompleteLi"
 import type { AutocompleteLiProps } from "./AutocompleteLi"
-interface AutocompleteInputProps extends Omit<AutocompleteLiProps, 'value' | 'setLiClicked'> {
+export interface AutocompleteInputProps extends Omit<AutocompleteLiProps, 'value' | 'setLiClicked'> {
     inputValue: string,
+    isInForm: boolean,
+    className: string,
     isSearchBtnClicked: boolean, 
     handleInputValueChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
     setIsAutocompleteVisible: (isVisible: boolean) => void
-
 }
 
-export default function AutocompleteInput({inputValue, isSearchBtnClicked, handleInputValueChange, setIsAutocompleteVisible, ...props}: AutocompleteInputProps) {
+type AutocompleteInputPropsType = Partial<AutocompleteInputProps> & Required<Pick<AutocompleteLiProps, 'setRestaurantDetails'>>
+
+export default function AutocompleteInput({inputValue, isSearchBtnClicked, isInForm = true, className, handleInputValueChange, setIsAutocompleteVisible, ...props}: AutocompleteInputPropsType ) {
     const divElement = useRef<null | HTMLDivElement>(null)
     const [autocompleteVisibility, setAutocompleteVisibility] = useState<'hidden' | ''>('hidden')
     const [isLiClicked, setLiClicked] = useState(false)
     const [isLoading, setLoading] = useState(false)
+    const [input, setInput] = useState('')
     const [autocompleteValues, setAutocompleteValues] = useState<AutocompleteValue[]>([])
-    
+    const [showInput, setShowInput] = useState(false)
 
     useEffect(() => {
             const handleClickOutside = (e: MouseEvent) => {
@@ -28,7 +32,8 @@ export default function AutocompleteInput({inputValue, isSearchBtnClicked, handl
                
                 if (!divElement.current?.contains((e.target as Node))){
                     setAutocompleteVisibility('hidden')
-                    setIsAutocompleteVisible(false)
+                    setIsAutocompleteVisible?.(false)
+                    setShowInput(false)
                 } 
          }
             window.addEventListener('click' , handleClickOutside)
@@ -37,28 +42,28 @@ export default function AutocompleteInput({inputValue, isSearchBtnClicked, handl
     
          
      const handleOnFocusAutocompleteVisibility = () => {
-        if (inputValue)  {
+        if (inputValue || input)  {
             setAutocompleteVisibility('')
-            setIsAutocompleteVisible(true)
+            setIsAutocompleteVisible?.(true)
         }
      }
 
        useEffect(() => {
-             if (!inputValue || isLiClicked) {
+             if ((!inputValue && isInForm)  || (!input && !isInForm ) || isLiClicked) {
                  setAutocompleteVisibility('hidden') 
-                 setIsAutocompleteVisible(false)
+                 setIsAutocompleteVisible?.(false)
                  return;
              }
-              fetchAutocomplete(inputValue)
-          }, [inputValue])
-        
+              fetchAutocomplete(inputValue ?? input)
+          }, [inputValue, input])
+       
           
     const fetchAutocomplete = async (inputValue : string) : Promise<void> => {
         try {
            setAutocompleteVisibility('')
-           setIsAutocompleteVisible(true)
+           setIsAutocompleteVisible?.(true)
            setLoading(true)
-           if (!isSearchBtnClicked) {
+           if (!isSearchBtnClicked && isInForm) {
                const api = await fetch(`https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/georef-france-commune/records?limit=15&where=com_name like "${inputValue}" or dep_code like "${inputValue}" or reg_name like "${inputValue}" or dep_name like "${inputValue}"`);
                if (!api.ok) throw new Error('Failed to fetch data..')
   
@@ -108,15 +113,18 @@ export default function AutocompleteInput({inputValue, isSearchBtnClicked, handl
         }
     };
 
+    const handleClass = (): string => {
+        let letClass = className
+        if (!isInForm && showInput) letClass += ' w-[220px]'
+        else if (!isInForm && !showInput ) letClass += ' w-10 placeholder:invisible'
+        else return 'w-full rounded'
+        return letClass ?? ''
+    }
 
-   
-
-
-
-    return <div ref={divElement} className='w-full relative'>
-    <input value={inputValue} onFocus={handleOnFocusAutocompleteVisibility} onChange={handleInputValueChange} className='w-full px-4 py-1 shadow-md bg-slate-100 focus:ring-2 focus:shadow-lg transition-all duration-500 outline-none rounded' type="text" autoComplete='off' placeholder={isSearchBtnClicked ? 'Search a restaurant' : 'Enter a localisation'} id='localisation' />
-    <FontAwesomeIcon className='absolute top-1/2 -translate-y-1/2 right-3' icon={isSearchBtnClicked ? searchIcon : locationIcon} />
-    <ul  className={autocompleteVisibility + ` absolute top-[125%] left-1/2 -translate-x-1/2 flex flex-col justify-center items-start gap-2 bg-primary rounded-xl py-3 px-4 ${!isSearchBtnClicked ? 'w-11/12' : 'w-full'} max-h-[200px] overflow-y-auto`}>
+    return <div onClick={() => { if (window.innerWidth <= 640) setShowInput(true)}} ref={divElement} className={`${isInForm ? 'w-full' : ''} relative`}>
+    <input value={inputValue} onFocus={handleOnFocusAutocompleteVisibility} onChange={(e) => handleInputValueChange?.(e) ?? setInput(e.target.value)} className={`${handleClass()} px-4 py-1 shadow-md bg-slate-100 focus:ring-2 focus:shadow-lg transition-all duration-500 outline-none`} type="text" autoComplete='off' placeholder={isSearchBtnClicked || !isInForm ? 'Search a restaurant' : 'Enter a localisation'} id='localisation' />
+    <FontAwesomeIcon className={`absolute top-1/2 -translate-y-1/2 ${!showInput && !isInForm ? 'left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-auto sm:right-3' : 'right-3 '}`} icon={isSearchBtnClicked || !isInForm ? searchIcon : locationIcon} />
+    <ul  className={autocompleteVisibility + ` absolute top-[125%] left-1/2 -translate-x-1/2 flex flex-col justify-center items-start gap-2 ${isInForm ? 'bg-primary' : 'bg-secondary'} rounded-xl py-3 px-4 ${!isSearchBtnClicked && isInForm ? 'w-11/12' : 'w-full'} max-h-[200px] overflow-y-auto overflow-x-hidden z-50`}>
     {autocompleteValues.length > 0 && autocompleteValues.map((value: AutocompleteValue, i) => (<AutocompleteLi key={i} setLiClicked={setLiClicked} {...props} value={value} />))}
     {autocompleteValues.length === 0 && !isLoading && <p>Not found...</p>}
     {isLoading && <p>Loading...</p>}

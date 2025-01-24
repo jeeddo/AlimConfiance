@@ -3,9 +3,9 @@ import type { AutocompleteValue, Type } from "../../types/autocomplete.d"
 
 export interface AutocompleteLiProps {
     setLiClicked: (isClicked: boolean) => void,
-    setInputValue: (value: React.SetStateAction<string>) => void,
+    setInputValue?: (value: React.SetStateAction<string>) => void,
     setRestaurantDetails: (restaurant: React.SetStateAction<Restaurant | null>) => void,
-    setisFilterMobileActivated: (isClicked: React.SetStateAction<boolean>) => void
+    setisFilterMobileActivated?: (isClicked: React.SetStateAction<boolean>) => void
     value: AutocompleteValue
 }
 
@@ -14,11 +14,11 @@ export default function AutocompleteLi({setLiClicked, setInputValue, setRestaura
       
     const handleClickRestaurantLi = (value: Restaurant) => {
         setRestaurantDetails(value)
-        setisFilterMobileActivated(false)
+        setisFilterMobileActivated?.(false)
     }
       
     const handleLiClicked = (liValue: string) => {
-        setInputValue(liValue)
+        setInputValue?.(liValue)
         setLiClicked(true)
         setTimeout(() => {
             setLiClicked(false)
