@@ -7,10 +7,13 @@ import formatRate from "../../utils/formatRate"
 import formatFilterQueryString from "../../utils/formatFilterQueryString"
 import AutocompleteInput from "./AutocompleteInput"
 import clsx from "clsx"
+import type { SortFilter, HygieneLevel } from "../../types/filter.d"
 export interface MainFormProps {
     breakPoint : string,
     limit: number,
     offset : number,
+    sortFilter: SortFilter,
+    setSortFilter: (filter: React.SetStateAction<SortFilter>) => void,
     setFilteredData: (results: React.SetStateAction<Restaurant[]>) => void,
     setNbOfRestaurant : (nbRestaurant: React.SetStateAction<number>) => void,
     setIsFilterActivated: (isActivated: React.SetStateAction<boolean>) => void,
@@ -21,10 +24,10 @@ export interface MainFormProps {
     isSearchBtnClicked: boolean,
     isFilterActivated: boolean
 }
-export default function MainForm({breakPoint, limit, offset, isFilterActivated,setFilteredData, setCurrentPage, setNbOfRestaurant, setisFilterMobileActivated, setIsFilterActivated, setIsFilteredRestaurantLoading, isSearchBtnClicked, setRestaurantDetails} : MainFormProps) {
+export default function MainForm({breakPoint, sortFilter, setSortFilter, limit, offset, isFilterActivated,setFilteredData, setCurrentPage, setNbOfRestaurant, setisFilterMobileActivated, setIsFilterActivated, setIsFilteredRestaurantLoading, isSearchBtnClicked, setRestaurantDetails} : MainFormProps) {
 
     const [inputValue, setinputValue] = useState('')
-    const [hygieneLevel, setHygieneLevel] = useState('Tous les niveaux')
+    const [hygieneLevel, setHygieneLevel] = useState<HygieneLevel>('Tous les niveaux')
     const [error, setError] = useState('')
     const [autocompleteVisibility, setAutocompleteVisibility] = useState(false)
     const breakPointLg = breakPoint === 'lg'
@@ -33,28 +36,25 @@ export default function MainForm({breakPoint, limit, offset, isFilterActivated,s
 
      useEffect(() => {
         if (isFilterActivated) handleFormSubmit();
-     }, [offset])
+     }, [offset, sortFilter])
 
+     useEffect(() => {
+        setinputValue('')
+     }, [isSearchBtnClicked])
     const handleInputValueChange = (e:React.ChangeEvent<HTMLInputElement> ) => {
         setinputValue(e.target.value)
         setError('')
     }  
 
-
-
-
-
-   
-
      const handleSelectValueChange = (e: React.ChangeEvent) => {
-        setHygieneLevel((e.target as HTMLSelectElement).value)
+        setHygieneLevel((e.target as HTMLSelectElement).value as HygieneLevel)
         setError('')
      }
 
      const handleFormSubmit = async (e?: React.FormEvent) => {
         if (e) e.preventDefault()    
-        
-        if (!inputValue && hygieneLevel === 'Tous les niveaux') {
+        if (isSearchBtnClicked) return;
+        if (!inputValue && hygieneLevel === 'Tous les niveaux' && !sortFilter) {
             setError('Le formulaire est vide..')
             return 
         }
@@ -63,9 +63,9 @@ export default function MainForm({breakPoint, limit, offset, isFilterActivated,s
         setIsFilterActivated(true)
         const restaurantLocation = inputValue.includes(',') ? inputValue.split(', ') : inputValue;
         try {
-            const api = await fetch('https://dgal.opendatasoft.com/api/explore/v2.1/catalog/datasets/export_alimconfiance/records?limit=' + limit + '&offset=' + offset + '&where=app_libelle_activite_etablissement="Restaurants" ' + formatFilterQueryString(restaurantLocation, hygieneLevel))
+            const api = await fetch('https://dgal.opendatasoft.com/api/explore/v2.1/catalog/datasets/export_alimconfiance/records?limit=' + limit + '&offset=' + offset + '&where=app_libelle_activite_etablissement="Restaurants" ' + formatFilterQueryString(restaurantLocation, hygieneLevel, sortFilter))
             const response = await api.json()
-            if (!api.ok) throw new Error('Failed to search..')
+            if (!api.ok) throw new Error('Failed to search restaurant..')
             setFilteredData(response.results.map((restaurant: Record<string, unknown>) => ({
                     name: restaurant.app_libelle_etablissement,
                     address: restaurant.adresse_2_ua,
@@ -88,6 +88,7 @@ export default function MainForm({breakPoint, limit, offset, isFilterActivated,s
      const handleResetFilters = () => {
         setinputValue('')
         setHygieneLevel('Tous les niveaux')
+        setSortFilter('')
         setIsFilterActivated(false)
      }
 

@@ -1,8 +1,10 @@
 import { faXmark as closeIcon } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import RestaurantImg from '../../assets/images/RestaurantImg.png'
+import Restaurant2 from '../../assets/images/Restaurant2.png'
 import type { Restaurant } from "../../types/restaurant.d"
 import clsx from "clsx"
+import generateRandomNumber from "../../utils/generateRandomNumber"
 
 interface CardDetailsModalProps {
     restaurantDetails: Restaurant | null,
@@ -12,10 +14,15 @@ interface CardDetailsModalProps {
 
 export default function RestaurantDetailsModal({restaurantDetails, setRestaurantDetails, setRestaurantDetailsPrinter}: CardDetailsModalProps) {
 
+    const chooseRestaurantImg = () => {
+        const randomNumber = generateRandomNumber()
+        if (randomNumber === 1) return Restaurant2
+        return RestaurantImg 
+    }
     return   restaurantDetails !== null && (<div className='absolute bottom-0 w-full bg-bg rounded-md'>
     <header className='relative flex justify-between items-center bg-indigo px-4 rounded-t-md' >
         <h2 className='md:text-lg text-base text-main font-semibold'>Restaurants</h2>
-        <img className='w-1/3' src={RestaurantImg} alt="Restaurant" />
+        <img className='w-1/3' src={chooseRestaurantImg()} alt="Restaurant" />
         <button onClick={() => setRestaurantDetails(null)} className=' xs:text-base text-sm absolute top-2 left-1/2 -translate-x-1/2 hover:opacity-65 transition duration-300' ><FontAwesomeIcon icon={closeIcon}/></button>
   
     </header>
