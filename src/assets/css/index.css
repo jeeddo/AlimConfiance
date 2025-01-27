@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body{
-    @apply bg-bg
+    @apply bg-bg transition-colors duration-700 
 }
 
 :root {
@@ -20,6 +20,10 @@ body{
 
 }
 
+.dark {
+  --color-bg : theme(colors.slate.400);
+  --color-indigo: theme(colors.indigo.300);
+}
 
 
 ::-webkit-scrollbar {
@@ -45,3 +49,6 @@ body{
     background-color: transparent; 
     }
     
+  html {
+    scroll-behavior: smooth;
+  }

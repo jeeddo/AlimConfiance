@@ -5,6 +5,7 @@ export default {
     "./index.html",
     "./src/**/*.{ts,tsx}",
   ],
+  darkMode: 'selector',
   theme: {
     extend: {
       screens: {
@@ -30,7 +31,6 @@ export default {
         'skeleton' : {
           '100%': {transform: 'translateX(100%)'}
         }
-      
       }
     },
   },

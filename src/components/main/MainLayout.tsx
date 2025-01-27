@@ -15,6 +15,8 @@ import type { Restaurant } from "../../types/restaurant.d";
 import formatRate from "../../utils/formatRate";
 import formatDate from "../../utils/formatDate";
 import RestaurantCardSkeleton from "./RestaurantCardSkeleton";
+import scrollToTop from "../../utils/scrollToTop";
+import calculateOffset from "../../utils/calculateOffset";
 
 export default function MainLayout() {
   
@@ -32,14 +34,14 @@ export default function MainLayout() {
   const [isSearchRestaurantBtnClicked, setIsSearchRestaurantBtnClicked] = useState(false)
   const [isFilterMobileActivated, setisFilterMobileActivated] = useState(false)
   const limit = 6;  
-  const offsetFilteredData = useMemo(() => currentPage * limit, [currentPage])
+  const offsetFilteredData = useMemo(() => calculateOffset(currentPage, limit), [currentPage])
   const nbMaxData = 10000;  
   const pageCount = useMemo( () => !isFilterActivated ? Math.floor(nbMaxData / limit) : Math.ceil((filteredRestaurantCount ?? 0) / limit), [isFilterActivated])
 
   const fecthRestaurantData = async (page: number): Promise<void> => {
     try {
       setLoading(true)
-      const offset = page * limit;
+      const offset = calculateOffset(page, limit);
       const api = await fetch(`https://dgal.opendatasoft.com/api/explore/v2.1/catalog/datasets/export_alimconfiance/records?limit=${limit}&offset=${offset}&where=app_libelle_activite_etablissement="Restaurants"`);
       if (!api.ok) console.log((await api.json()).message);
       const data = await api.json();
@@ -70,6 +72,7 @@ export default function MainLayout() {
 
   const handlePageChange = (selectedPage: { selected: number }) => {
     setCurrentPage(selectedPage.selected);  
+    scrollToTop()
   };
 
 

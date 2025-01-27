@@ -83,7 +83,7 @@ export default function AutocompleteInput({inputValue, isSearchBtnClicked, isInF
                setAutocompleteValues(filtre); 
            }
            else {
-               const api = await fetch(`https://dgal.opendatasoft.com/api/explore/v2.1/catalog/datasets/export_alimconfiance/records?limit=15&where=com_name like "${inputValue}" or dep_code like "${inputValue}" or reg_name like "${inputValue}" or dep_name like "${inputValue}" or siret like "${inputValue}" or  app_libelle_etablissement like "${inputValue}"`)
+               const api = await fetch(`https://dgal.opendatasoft.com/api/explore/v2.1/catalog/datasets/export_alimconfiance/records?limit=15&where=app_libelle_activite_etablissement="Restaurants" and (com_name like "${inputValue}" or dep_code like "${inputValue}" or reg_name like "${inputValue}" or dep_name like "${inputValue}" or siret like "${inputValue}" or  app_libelle_etablissement like "${inputValue}")`)
                if (!api.ok) throw new Error('Failed to fetch data..')
                    const response = await api.json()
          

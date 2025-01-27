@@ -105,7 +105,7 @@ export default function MainForm({breakPoint, limit, offset, isFilterActivated,s
 
            {isSearchBtnClicked && <div className={`flex justify-center items-start gap-2 lg:gap-3 bg-secondary rounded px-3 lg:px-4 py-3 ${breakPointXs ? 'h-[180px] w-11/12 mx-auto' : 'h-[200px] lg:h-[230px] w-full'} ${(autocompleteVisibility && breakPointLg) ? 'translate-y-[93%] lg:translate-y-[85%]' : (autocompleteVisibility && breakPointXs) && 'translate-y-[105%]'} transition-all duration-700`}>
                 <div className={`bg-main h-full ${breakPointXs ? 'hidden xs:w-[1.8rem]' : 'w-[20%]'} text-bg rounded`}>
-                <FontAwesomeIcon className="w-full" icon={circleQuestionIcon} />
+                <FontAwesomeIcon className="w-full dark:text-primary" icon={circleQuestionIcon} />
                 </div>
                 <div className="flex flex-col justify-center items-start gap-4 px-1">
                     <div className="flex flex-col justify-center items-start gap-2">
