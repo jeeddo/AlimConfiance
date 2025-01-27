@@ -7,45 +7,38 @@ import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 
 interface CardDetailsPrintModalProps {
-    setRestaurantDetailsPrinter: (restaurant: React.SetStateAction<Restaurant | null>) => void,
+    setPrintRestaurantDetails: (restaurant: React.SetStateAction<Restaurant | null>) => void,
     restaurantDetails: Restaurant | null,
 }
-export default function RestaurantDetailsPrintModal({setRestaurantDetailsPrinter, restaurantDetails}: CardDetailsPrintModalProps) {
+export default function RestaurantDetailsPrintModal({setPrintRestaurantDetails, restaurantDetails}: CardDetailsPrintModalProps) {
     const [isPrintBtnClicked, setPrintBtnClicked] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const contentRef = useRef<HTMLDivElement | null>(null);
-    const printMdoal = useRef<HTMLDivElement | null>(null);
+    const printModal = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
         if (restaurantDetails) setIsModalOpen(true)
         else setIsModalOpen(false)
     }, [restaurantDetails])
-    
-    useEffect(() => {
+        useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
-            if (isModalOpen && !printMdoal.current?.contains(e.target as Node)) setRestaurantDetailsPrinter(null)
+            if (isModalOpen && !printModal.current?.contains(e.target as Node)) setPrintRestaurantDetails(null)
         }
         document.addEventListener('click', handleClickOutside)
         return () => document.removeEventListener('click', handleClickOutside)
     }, [isModalOpen])
+
     const reactToPrint = useReactToPrint({
         contentRef,
-        onAfterPrint: () => {
-            setPrintBtnClicked(false);
-        }
+        onAfterPrint: () => setPrintBtnClicked(false)
     });
-   
-    const print = () => {
-        setPrintBtnClicked(true)
-        setTimeout(() => {
-            reactToPrint()
+   useEffect(() => {
+    if (isPrintBtnClicked) reactToPrint()
+   }, [isPrintBtnClicked])
 
-        }, 0.5);
-    }
-
-    return  isModalOpen && restaurantDetails && (<div ref={printMdoal} className='z-50 flex flex-col justify-center items-start gap-2 w-full xs:w-3/4 bg-bg absolute top-0 left-0 rounded-md xs:text-sm text-xs '>
+    return  isModalOpen && restaurantDetails !== null && (<div ref={printModal} className='z-50 flex flex-col justify-center items-start gap-2 w-full xs:w-3/4 bg-bg absolute top-0 left-0 rounded-md xs:text-sm text-xs '>
     <header className='h-10 bg-indigo flex justify-center items-center w-full rounded-t-md'>
-        <button onClick={() => setRestaurantDetailsPrinter(null)} className='sm:text-base text-sm hover:opacity-65 transition duration-300 w-full h-full'> <FontAwesomeIcon icon={closeIcon} />
+        <button onClick={() => setPrintRestaurantDetails(null)} className='sm:text-base text-sm hover:opacity-65 transition duration-300 w-full h-full'> <FontAwesomeIcon icon={closeIcon} />
         </button>
     </header>
     <main ref={contentRef} className='flex flex-col justify-center items-start md:gap-5 gap-4 p-5 border-dashed border-2 border-indigo m-4 rounded'>
@@ -53,7 +46,7 @@ export default function RestaurantDetailsPrintModal({setRestaurantDetailsPrinter
             <img className='w-1/5 shadow' src={Logo2} alt="Logo ministère de l'agriculture et de l'alimentation" />
             <h2>alimconfiance.gouv.fr</h2>
             { !isPrintBtnClicked &&
-                <button onClick={print} className='bg-main flex justify-center items-center gap-2 text-white px-3 py-1 rounded active:scale-95 transition duration-500 hover:bg-indigo hover:text-main hover:shadow-indigo shadow-lg'>Imprimer<FontAwesomeIcon icon={printerIcon} /></button>
+                <button onClick={() => setPrintBtnClicked(true)} className='bg-main flex justify-center items-center gap-2 text-white px-3 py-1 rounded active:scale-95 transition duration-500 hover:bg-indigo hover:text-main hover:shadow-indigo shadow-lg'>Imprimer<FontAwesomeIcon icon={printerIcon} /></button>
             }
         </div>
         <div className='flex flex-col justify-center items-start gap-4'>

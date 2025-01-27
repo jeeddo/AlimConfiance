@@ -113,7 +113,7 @@ export default function MainLayout() {
         />
 
         <RestaurantDetailsModal setRestaurantDetailsPrinter={setPrintRestaurantDetails} setRestaurantDetails={setRestaurantDetails} restaurantDetails={restaurantDetails} />
-        <RestaurantDetailsPrintModal restaurantDetails={printRestaurantDetails} setRestaurantDetailsPrinter={setPrintRestaurantDetails} />
+        <RestaurantDetailsPrintModal restaurantDetails={printRestaurantDetails} setPrintRestaurantDetails={setPrintRestaurantDetails} />
       </div>
 
       <FilterModalMobileDevices setSortFilter={setSortFilter} sortFilter={sortFilter} setCurrentPage={setCurrentPage}  isFilterActivated={isFilterActivated}  setBtnState={setIsSearchRestaurantBtnClicked} isSearchBtnClicked={isSearchRestaurantBtnClicked}  isFilterMobileActivated={isFilterMobileActivated} setisFilterMobileActivated={setisFilterMobileActivated} limit={limit} setFilteredData={setFilteredRestaurantData} setNbOfRestaurant={setFilteredRestaurantCount} offset={offsetFilteredData} setIsFilterActivated={setIsFilterActivated} setIsFilteredRestaurantLoading={setIsFilteredRestaurantLoading} setRestaurantDetails={setRestaurantDetails} />
