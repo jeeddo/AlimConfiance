@@ -5,6 +5,7 @@ import type { Restaurant } from "../../types/restaurant"
 import { useReactToPrint } from "react-to-print";
 import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
+import useClickOutside from "../../hooks/useClickOutside";
 
 interface CardDetailsPrintModalProps {
     setPrintRestaurantDetails: (restaurant: React.SetStateAction<Restaurant | null>) => void,
@@ -20,14 +21,9 @@ export default function RestaurantDetailsPrintModal({setPrintRestaurantDetails, 
         if (restaurantDetails) setIsModalOpen(true)
         else setIsModalOpen(false)
     }, [restaurantDetails])
-        useEffect(() => {
-        const handleClickOutside = (e: MouseEvent) => {
-            if (isModalOpen && !printModal.current?.contains(e.target as Node)) setPrintRestaurantDetails(null)
-        }
-        document.addEventListener('click', handleClickOutside)
-        return () => document.removeEventListener('click', handleClickOutside)
-    }, [isModalOpen])
 
+
+    useClickOutside(printModal, () => setPrintRestaurantDetails(null), false, isModalOpen)
     const reactToPrint = useReactToPrint({
         contentRef,
         onAfterPrint: () => setPrintBtnClicked(false)

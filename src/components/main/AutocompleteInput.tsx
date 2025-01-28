@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react"
+import { useRef, useState, useEffect, act } from "react"
 import type { AutocompleteValue } from "../../types/autocomplete.d"
 import formatDate from "../../utils/formatDate"
 import formatRate from "../../utils/formatRate"
@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faLocationDot as locationIcon, faSearch as searchIcon } from "@fortawesome/free-solid-svg-icons"
 import AutocompleteLi from "./AutocompleteLi"
 import type { AutocompleteLiProps } from "./AutocompleteLi"
+import useClickOutside from "../../hooks/useClickOutside"
 export interface AutocompleteInputProps extends Omit<AutocompleteLiProps, 'value' | 'setLiClicked'> {
     inputValue: string,
     isInForm: boolean,
@@ -26,20 +27,16 @@ export default function AutocompleteInput({inputValue, isSearchBtnClicked, isInF
     const [autocompleteValues, setAutocompleteValues] = useState<AutocompleteValue[]>([])
     const [showInput, setShowInput] = useState(false)
 
-    useEffect(() => {
-            const handleClickOutside = (e: MouseEvent) => {
-            
-               
-                if (!divElement.current?.contains((e.target as Node))){
-                    setAutocompleteVisibility('hidden')
-                    setIsAutocompleteVisible?.(false)
-                    setShowInput(false)
-                } 
-         }
-            window.addEventListener('click' , handleClickOutside)
-        return () => removeEventListener('click', handleClickOutside)
-         }, [])
-    
+   
+     
+    const clickOutsideAction = () => {
+        setAutocompleteVisibility('hidden')
+        setIsAutocompleteVisible?.(false)
+        setShowInput(false)
+    }
+
+    useClickOutside(divElement, clickOutsideAction)
+         
          
      const handleOnFocusAutocompleteVisibility = () => {
         if (inputValue || input)  {

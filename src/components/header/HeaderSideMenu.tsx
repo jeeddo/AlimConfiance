@@ -1,6 +1,8 @@
-import { faXmark as closeIcon, faSun as sunLightMode, faMoon as moonDarkMode, faDesktop as pcIcon } from "@fortawesome/free-solid-svg-icons"
+import { faXmark as closeIcon, faSun as sunLightMode, faMoon as moonDarkMode, faDesktop as pcIcon, faL } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { useThemeContext } from "../../context/themeContext"
+import { useThemeContext } from "../../context/ThemeContext"
+import useClickOutside from "../../hooks/useClickOutside"
+import { useRef } from "react"
 
 interface HeaderSideMenuProps {
     setShowSideBar: (bool: React.SetStateAction<boolean>) => void,
@@ -8,14 +10,17 @@ interface HeaderSideMenuProps {
 }
 
 export default function HeaderSideMenu({isSideBarOpen, setShowSideBar}: HeaderSideMenuProps) {
-
+    const overlay = useRef<HTMLDivElement | null>(null)
     const {darkMode, lightMode, checkSystemTheme} = useThemeContext()
+
+    useClickOutside(overlay, () => setShowSideBar(false), true)
+
     return (
-       <div className={`z-50 fixed inset-0 bg-slate-400 bg-opacity-50 ${isSideBarOpen ? 'scale-100' : 'scale-0'} transition duration-1000 origin-bottom-left sm:hidden flex justify-end`}>
-        <div className={`relative h-full ${isSideBarOpen ? 'scale-100' : 'scale-0'} xs:w-[250px] w-[270px] origin-top-right transition-all delay-500 duration-700 bg-primary p-12 xs:p-14`}>
+       <div ref={overlay} className={`z-50 fixed inset-0 bg-slate-400 bg-opacity-50 ${isSideBarOpen ? 'visible' : 'invisible'} sm:hidden flex justify-end`}>
+        <div  className={`relative h-full ${isSideBarOpen ? 'translate-x-0' : 'translate-x-full'} xs:w-[250px] w-[270px] transition-all duration-700 bg-primary p-12 xs:p-14`}>
             <button onClick={() => setShowSideBar(false)} className='absolute top-4 right-6 text-xl hover:opacity-55 active:scale-75 transition duration-500' ><FontAwesomeIcon icon={closeIcon}/></button>
             <div  className='flex flex-col items-start justify-center gap-3'>
-            <h3 className='font-semibold hover:font-bold inline-block text-lg'>Theme</h3>
+            <h3 className="relative font-semibold inline-block text-lg before:content-[''] before:absolute before:h-px before:w-0 before:top-full before:bg-main hover:before:w-full before:transition-all before:duration-500 ">Theme</h3>
             <ul className='flex flex-col justify-center items-start w-full gap-1'>
             <li>
             <button onClick={lightMode} className='flex justify-center items-center gap-2 hover:text-slate-600 hover:scale-95 transition duration-500'><FontAwesomeIcon className='w-4' icon={sunLightMode} />Light</button>

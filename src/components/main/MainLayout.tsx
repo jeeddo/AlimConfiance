@@ -1,4 +1,3 @@
-import AdvancedFilterButtons from "./SortButtons";
 import RestaurantDetailsModal from "./RestaurantDetailsModal";
 import RestaurantDetailsPrintModal from "./RestaurantDetailsPrintModal";
 import RestaurantList from "./RestaurantList";
@@ -36,14 +35,15 @@ export default function MainLayout() {
   const [isFilterMobileActivated, setisFilterMobileActivated] = useState(false)
   const [sortFilter, setSortFilter] = useState<SortFilter>('')
   const limit = 6;  
+  const offset = useMemo(() => calculateOffset(currentPage, limit), [currentPage])
   const offsetFilteredData = useMemo(() => calculateOffset(currentPage, limit), [currentPage])
   const nbMaxData = 10000;  
-  const pageCount = useMemo( () => !isFilterActivated ? Math.floor(nbMaxData / limit) : Math.ceil((filteredRestaurantCount ?? 0) / limit), [isFilterActivated])
+  const pageCount = Math.floor(nbMaxData / limit)
+  const pageCountFilteredRestaurant = useMemo(() => filteredRestaurantCount > nbMaxData ? pageCount :  Math.ceil((filteredRestaurantCount) / limit), [filteredRestaurantCount])
 
-  const fecthRestaurantData = async (page: number): Promise<void> => {
+  const fecthRestaurantData = async (limit: number, offset: number): Promise<void> => {
     try {
       setLoading(true)
-      const offset = calculateOffset(page, limit);
       const api = await fetch(`https://dgal.opendatasoft.com/api/explore/v2.1/catalog/datasets/export_alimconfiance/records?limit=${limit}&offset=${offset}&where=app_libelle_activite_etablissement="Restaurants"`);
       if (!api.ok) console.log((await api.json()).message);
       const data = await api.json();
@@ -64,12 +64,12 @@ export default function MainLayout() {
   };
 
   useEffect(() => {
-    if (!isFilterActivated) fecthRestaurantData(currentPage);
+    if (!isFilterActivated) fecthRestaurantData(limit, offset);
   }, [currentPage]);
 
   useEffect(() => {
       setCurrentPage(0)
-  }, [isFilterActivated])
+  }, [isFilterActivated, sortFilter])
 
 
   const handlePageChange = (selectedPage: { selected: number }) => {
@@ -89,7 +89,7 @@ export default function MainLayout() {
 
       <div className='w-full relative flex flex-col justify-center items-start gap-10'>
         <SearchAndTooltip setisFilterMobileActivated={setisFilterMobileActivated} setRestaurantDetails={setRestaurantDetails} />
-        <SortButtons setIsFilterActivated={setIsFilterActivated} setSortFilter={setSortFilter} />
+        <SortButtons sortFilter={sortFilter} setIsFilterActivated={setIsFilterActivated} setSortFilter={setSortFilter} />
 
         <RestaurantList>
         {!isLoading && !isFilterActivated && restaurantData.map((restaurant: Restaurant, i: number) => (<RestaurantCard key={i} setRestaurantDetails={setRestaurantDetails} restaurant={restaurant} />))}
@@ -103,7 +103,7 @@ export default function MainLayout() {
           nextLabel={<span className='hover:opacity-50 transition duration-200 sm:text-base text-sm'><FontAwesomeIcon icon={chevronRight} /></span>}
           onPageChange={handlePageChange} 
           pageRangeDisplayed={3}
-          pageCount={pageCount}
+          pageCount={isFilterActivated ? pageCountFilteredRestaurant : pageCount}
           previousLabel={<span className='hover:opacity-50 transition duration-200 sm:text-base text-sm'><FontAwesomeIcon icon={chevronLeft} /></span>}
           renderOnZeroPageCount={null}
           className='flex justify-center items-center sm:gap-3 gap-1 w-full overflow-x-hidden'

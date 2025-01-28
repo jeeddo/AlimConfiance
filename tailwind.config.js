@@ -25,7 +25,7 @@ export default {
         }
       },
       animation: {
-        'skeleton': 'skeleton 1s ease-in-out infinite'
+        'skeleton': 'skeleton .9s ease-in-out infinite'
       },
       keyframes: {
         'skeleton' : {

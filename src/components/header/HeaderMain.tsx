@@ -2,7 +2,7 @@ import { faMoon as moonDarkMode, faStar as starDarkMode, faBars as menuIcon} fro
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import LogoAlimConfiance from '../../assets/images/LogoAlimConfiance.svg'
 import Sun from '../../assets/images/Sun.png'
-import { useThemeContext } from "../../context/themeContext"
+import { useThemeContext } from "../../context/ThemeContext"
 
 interface HeaderMainProps  {
     setShowSideBar: (bool: React.SetStateAction<boolean>) => void
