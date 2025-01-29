@@ -25,11 +25,22 @@ export default {
         }
       },
       animation: {
-        'skeleton': 'skeleton .9s ease-in-out infinite'
+        'skeleton': 'skeleton .9s ease-in-out infinite',
+        'slide-in': 'slide-in 1s ease-out forwards',
+        'fade-in' : 'fade-in 1s linear forwards 1s'
       },
       keyframes: {
         'skeleton' : {
           '100%': {transform: 'translateX(100%)'}
+        },
+        'slide-in' : {
+          '100%' : {
+            transform : 'translate(0)',
+            opacity: '1'
+          }
+        },
+        'fade-in' : {
+          '100%' : {opacity: '1'}
         }
       }
     },
