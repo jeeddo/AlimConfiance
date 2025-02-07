@@ -14,7 +14,7 @@ export default function HeaderSideMenu({isSideBarOpen, setShowSideBar}: HeaderSi
     const overlay = useRef<HTMLDivElement | null>(null)
     const {darkMode, lightMode, checkSystemTheme, isDarkMode} = useThemeContext()
 
-    useClickOutside(overlay, () => setShowSideBar(false), true)
+    useClickOutside(overlay, () => setShowSideBar(false), true, isSideBarOpen)
 
     return (
        <div ref={overlay} className={`z-50 fixed inset-0 bg-slate-400 bg-opacity-50 ${isSideBarOpen ? 'visible' : 'invisible'} sm:hidden flex justify-end`}>

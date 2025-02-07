@@ -35,7 +35,7 @@ export default function AutocompleteInput({inputValue, isSearchBtnClicked, isInF
         setShowInput(false)
     }
 
-    useClickOutside(divElement, clickOutsideAction)
+    useClickOutside(divElement, clickOutsideAction, false, autocompleteVisibility === '')
          
          
      const handleOnFocusAutocompleteVisibility = () => {
