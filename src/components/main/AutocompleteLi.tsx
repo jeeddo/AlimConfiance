@@ -1,5 +1,5 @@
 import type { Restaurant } from "../../types/restaurant.d"
-import type { AutocompleteValue, Type } from "../../types/autocomplete.d"
+import type { AutocompleteValue } from "../../types/autocomplete.d"
 
 export interface AutocompleteLiProps {
     setLiClicked: (isClicked: boolean) => void,
@@ -10,7 +10,7 @@ export interface AutocompleteLiProps {
 }
 
 export default function AutocompleteLi({setLiClicked, setInputValue, setRestaurantDetails, value, setisFilterMobileActivated} : AutocompleteLiProps) {
-    const isRestaurant = (value: AutocompleteValue): value is Restaurant & Type => value.type === "Restaurant"
+    const isRestaurant = (value: AutocompleteValue): value is Restaurant => value.type === "Restaurant"
       
     const handleClickRestaurantLi = (value: Restaurant) => {
         setRestaurantDetails(value)

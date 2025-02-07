@@ -1,4 +1,4 @@
-import type {Rating} from "./ratings"
+import type {Rating, RatingsKeys} from "./ratings"
 
 export interface Restaurant {
 name: string,
@@ -7,5 +7,6 @@ postalCode: number,
 city: string,
 inspectionDate: string,
 activity: string,
-rating: Rating
+rating: Rating | RatingsKeys,
+type: 'Restaurant'
 }

@@ -2,12 +2,10 @@ import { faCircleQuestion as circleQuestionIcon } from "@fortawesome/free-solid-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React, { useEffect, useState } from "react"
 import type { Restaurant } from "../../types/restaurant.d"
-import formatDate from "../../utils/formatDate"
-import formatRate from "../../utils/formatRate"
-import formatFilterQueryString from "../../utils/formatFilterQueryString"
 import AutocompleteInput from "./AutocompleteInput"
 import clsx from "clsx"
 import type { SortFilter, HygieneLevel } from "../../types/filter.d"
+import { getFilteredRestaurants } from "../../services/restaurant"
 export interface MainFormProps {
     breakPoint : string,
     limit: number,
@@ -61,27 +59,10 @@ export default function MainForm({breakPoint, sortFilter, setSortFilter, limit, 
         setisFilterMobileActivated(false)
         setIsFilteredRestaurantLoading(true)
         setIsFilterActivated(true)
-        const restaurantLocation = inputValue.includes(',') ? inputValue.split(', ') : inputValue;
-        try {
-            const api = await fetch('https://dgal.opendatasoft.com/api/explore/v2.1/catalog/datasets/export_alimconfiance/records?limit=' + limit + '&offset=' + offset + '&where=app_libelle_activite_etablissement="Restaurants" ' + formatFilterQueryString(restaurantLocation, hygieneLevel, sortFilter))
-            const response = await api.json()
-            if (!api.ok) throw new Error('Failed to search restaurant..')
-            setFilteredData(response.results.map((restaurant: Record<string, unknown>) => ({
-                    name: restaurant.app_libelle_etablissement,
-                    address: restaurant.adresse_2_ua,
-                    postalCode: restaurant.code_postal,
-                    city: restaurant.libelle_commune,
-                    inspectionDate: formatDate(restaurant.date_inspection as string),
-                    activity: Array.isArray(restaurant.app_libelle_activite_etablissement) ? restaurant.app_libelle_activite_etablissement[0] : '',
-                    rating: formatRate(restaurant.synthese_eval_sanit as string)
-                  })));
-            setNbOfRestaurant(response.total_count)
-        } catch (error) {
-            if (error instanceof Error) console.log(error.message)
-        }
-    finally {
+        const {restaurants, total_count} = await getFilteredRestaurants(inputValue, hygieneLevel, sortFilter, limit, offset)
+        setFilteredData(restaurants);
+        setNbOfRestaurant(total_count)
         setIsFilteredRestaurantLoading(false)
-    }
      }
 
      

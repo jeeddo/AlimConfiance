@@ -1,15 +1,18 @@
 enum Ratings {
-    Excellent = 'Très satisfaisant',
-    Good = 'Satisfaisant',
-    Average = 'A améliorer',
-    Poor = 'Mauvais'
+    EXCELLENT = 'Très satisfaisant',
+    GOOD = 'Satisfaisant',
+    AVERAGE = 'A améliorer',
+    POOR = 'Mauvais'
 }
 
-type RatingColor = 'excellent' | 'good' | 'average' | 'poor'
+type RatingColor = Lowercase<RatingsKeys>
+
+export type RatingsKeys = keyof typeof Ratings
 
 export interface Rating {
     rate: Ratings,
     color: RatingColor
 }
+
 
 export default Ratings

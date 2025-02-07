@@ -11,13 +11,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft as chevronLeft, faChevronRight as chevronRight } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState, useMemo } from "react";
 import type { Restaurant } from "../../types/restaurant.d";
-import formatRate from "../../utils/formatRate";
-import formatDate from "../../utils/formatDate";
 import RestaurantCardSkeleton from "./RestaurantCardSkeleton";
 import scrollToTop from "../../utils/scrollToTop";
 import calculateOffset from "../../utils/calculateOffset";
 import SortButtons from "./SortButtons";
 import type { SortFilter } from "../../types/filter.d";
+import { getRestaurant } from "../../services/restaurant";
 export default function MainLayout() {
   
   
@@ -42,25 +41,11 @@ export default function MainLayout() {
   const pageCountFilteredRestaurant = useMemo(() => filteredRestaurantCount > nbMaxData ? pageCount :  Math.ceil((filteredRestaurantCount) / limit), [filteredRestaurantCount])
 
   const fecthRestaurantData = async (limit: number, offset: number): Promise<void> => {
-    try {
       setLoading(true)
-      const api = await fetch(`https://dgal.opendatasoft.com/api/explore/v2.1/catalog/datasets/export_alimconfiance/records?limit=${limit}&offset=${offset}&where=app_libelle_activite_etablissement="Restaurants"`);
-      if (!api.ok) console.log((await api.json()).message);
-      const data = await api.json();
-      setRestaurantData(data.results.map((restaurant: Record<string, unknown>) => ({
-        name: restaurant.app_libelle_etablissement,
-        address: restaurant.adresse_2_ua,
-        postalCode: restaurant.code_postal,
-        city: restaurant.libelle_commune,
-        inspectionDate: formatDate(restaurant.date_inspection as string),
-        activity: Array.isArray(restaurant.app_libelle_activite_etablissement) ? restaurant.app_libelle_activite_etablissement[0] : '',
-        rating: formatRate(restaurant.synthese_eval_sanit as string)
-      })));
-    } catch (error) {
-      if (error instanceof Error) console.log(error.message);
-    } finally {
-      setLoading(false);
-    }
+        const restaurant = await getRestaurant(limit, offset)
+        setRestaurantData(restaurant);
+        setLoading(false);
+    
   };
 
   useEffect(() => {
@@ -71,14 +56,10 @@ export default function MainLayout() {
       setCurrentPage(0)
   }, [isFilterActivated, sortFilter])
 
-
   const handlePageChange = (selectedPage: { selected: number }) => {
     setCurrentPage(selectedPage.selected);  
     scrollToTop()
   };
-
-
-
 
 
   return  <main className=' animate-fade-in opacity-0 max-w-6xl mx-auto px-5 flex justify-center xl:items-center items-start md:gap-12 xl:gap-20 lg:gap-16 transition-all' style={{ minHeight: 'var(--viewport-minus-header-plus-footer)' }}>

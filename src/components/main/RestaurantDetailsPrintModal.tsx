@@ -6,6 +6,7 @@ import { useReactToPrint } from "react-to-print";
 import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import useClickOutside from "../../hooks/useClickOutside";
+import { Rating } from "../../types/ratings";
 
 interface CardDetailsPrintModalProps {
     setPrintRestaurantDetails: (restaurant: React.SetStateAction<Restaurant | null>) => void,
@@ -61,8 +62,8 @@ export default function RestaurantDetailsPrintModal({setPrintRestaurantDetails, 
             <p className='italic underline'>Validité 1 an</p>
         </div>
         <div className='relative max-w-full mx-auto mt-5'>
-            <p className='text-base sm:text-xl xs:px-12 xs:py-5 px-8 py-3 border border-indigo hover:border-2 hover:scale-105 hover:shadow-md xs:hover:shadow-lg transition-all duration-700 rounded-lg shadow'>{restaurantDetails.rating.rate}</p>
-            <div className={clsx(`h-2 w-2 rounded-full absolute top-2 right-2`, {'bg-poor': restaurantDetails.rating.color === 'poor', 'bg-average': restaurantDetails.rating.color === 'average', 'bg-good': restaurantDetails.rating.color === 'good', 'bg-excellent': restaurantDetails.rating.color === 'excellent'})}>
+            <p className='text-base sm:text-xl xs:px-12 xs:py-5 px-8 py-3 border border-indigo hover:border-2 hover:scale-105 hover:shadow-md xs:hover:shadow-lg transition-all duration-700 rounded-lg shadow'>{(restaurantDetails.rating as Rating).rate}</p>
+            <div className={clsx(`h-2 w-2 rounded-full absolute top-2 right-2`, {'bg-poor': (restaurantDetails.rating as Rating).color === 'poor', 'bg-average': (restaurantDetails.rating as Rating).color === 'average', 'bg-good': (restaurantDetails.rating as Rating).color === 'good', 'bg-excellent': (restaurantDetails.rating as Rating).color === 'excellent'})}>
 
             </div>
         </div>

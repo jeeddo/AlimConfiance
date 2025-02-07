@@ -1,12 +1,12 @@
-import { useRef, useState, useEffect, act } from "react"
+import { useRef, useState, useEffect } from "react"
 import type { AutocompleteValue } from "../../types/autocomplete.d"
-import formatDate from "../../utils/formatDate"
-import formatRate from "../../utils/formatRate"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faLocationDot as locationIcon, faSearch as searchIcon } from "@fortawesome/free-solid-svg-icons"
 import AutocompleteLi from "./AutocompleteLi"
 import type { AutocompleteLiProps } from "./AutocompleteLi"
 import useClickOutside from "../../hooks/useClickOutside"
+import { getLocations } from "../../services/location"
+import { getSpecificRestaurant } from "../../services/restaurant"
 export interface AutocompleteInputProps extends Omit<AutocompleteLiProps, 'value' | 'setLiClicked'> {
     inputValue: string,
     isInForm: boolean,
@@ -56,59 +56,21 @@ export default function AutocompleteInput({inputValue, isSearchBtnClicked, isInF
        
           
     const fetchAutocomplete = async (inputValue : string) : Promise<void> => {
-        try {
-           setAutocompleteVisibility('')
-           setIsAutocompleteVisible?.(true)
-           setLoading(true)
-           if (!isSearchBtnClicked && isInForm) {
-               const api = await fetch(`https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/georef-france-commune/records?limit=15&where=com_name like "${inputValue}" or dep_code like "${inputValue}" or reg_name like "${inputValue}" or dep_name like "${inputValue}"`);
-               if (!api.ok) throw new Error('Failed to fetch data..')
-  
-               const filtre = (await api.json()).results.map((locationRecord: Record<string, unknown>) => {
-                
-       
-                   if (Array.isArray(locationRecord.com_name) && Array.isArray(locationRecord.dep_code)) {
-                      return {
-                          city: locationRecord.com_name[0],
-                          depCode: locationRecord.dep_code[0],
-                          type: 'Location'
-                      }
-                      
-                   }
-               })
-       
-               setAutocompleteValues(filtre); 
-           }
-           else {
-               const api = await fetch(`https://dgal.opendatasoft.com/api/explore/v2.1/catalog/datasets/export_alimconfiance/records?limit=15&where=app_libelle_activite_etablissement="Restaurants" and (com_name like "${inputValue}" or dep_code like "${inputValue}" or reg_name like "${inputValue}" or dep_name like "${inputValue}" or siret like "${inputValue}" or  app_libelle_etablissement like "${inputValue}")`)
-               if (!api.ok) throw new Error('Failed to fetch data..')
-                   const response = await api.json()
+        setAutocompleteVisibility('')
+        setIsAutocompleteVisible?.(true)
+        setLoading(true)
+      
          
-                  
-                   const searchedRestaurant = response.results.map((restaurant: Record<string, unknown>) => 
-                            ({
-                               name: restaurant.app_libelle_etablissement,
-                               address: restaurant.adresse_2_ua,
-                               postalCode: restaurant.code_postal,
-                               city: restaurant.libelle_commune,
-                               inspectionDate: formatDate(restaurant.date_inspection as string),
-                               activity: Array.isArray(restaurant.app_libelle_activite_etablissement) ? restaurant.app_libelle_activite_etablissement[0] : '',
-                               rating: formatRate(restaurant.synthese_eval_sanit as string),
-                               type: 'Restaurant'
-                             }))
-                   setAutocompleteValues(searchedRestaurant)
-
-           }
-         
-        } catch (error) {
-            if (error instanceof Error) console.log(error.message);
+        if (!isSearchBtnClicked && isInForm) {
+            const locations = await getLocations(inputValue)
+            setAutocompleteValues(locations); 
         }
-        finally {
-           setTimeout(() => {
-               setLoading(false)
-           }, 200);
+        else {
+            const searchedRestaurant = await getSpecificRestaurant(inputValue)
+            setAutocompleteValues(searchedRestaurant)
         }
-    };
+        setLoading(false)
+    }
 
     const handleClass = (): string => {
         let letClass = className

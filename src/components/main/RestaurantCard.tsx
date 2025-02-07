@@ -1,5 +1,6 @@
 import clsx from "clsx"
 import type { Restaurant } from "../../types/restaurant"
+import { Rating } from "../../types/ratings"
 
 interface RestaurantCardProps {
     restaurant: Restaurant,
@@ -10,8 +11,8 @@ export default function RestaurantCard({restaurant, setRestaurantDetails} : Rest
 
 return <div onClick={() => setRestaurantDetails(restaurant)} className='relative w-full xl:w-[360px] bg-primary rounded-md xl:rounded-lg p-6 overflow-hidden hover:ring-2 hover:opacity-85 transition-all duration-500 cursor-pointer'>
     <div className='absolute top-3 right-3'>
-        <p className='text-xs sm:text-sm font-semibold italic'>{restaurant.rating.rate}</p>
-        <div className={clsx(`w-2 h-2 rounded-full absolute top-1/2 -translate-y-1/2 -left-4`, {'bg-poor': restaurant.rating.color === 'poor', 'bg-average': restaurant.rating.color === 'average', 'bg-good': restaurant.rating.color === 'good', 'bg-excellent': restaurant.rating.color === 'excellent'})}></div>
+        <p className='text-xs sm:text-sm font-semibold italic'>{(restaurant.rating as Rating).rate}</p>
+        <div className={clsx(`w-2 h-2 rounded-full absolute top-1/2 -translate-y-1/2 -left-4`, {'bg-poor': (restaurant.rating as Rating).color === 'poor', 'bg-average': (restaurant.rating as Rating).color === 'average', 'bg-good': (restaurant.rating as Rating).color === 'good', 'bg-excellent': (restaurant.rating as Rating).color === 'excellent'})}></div>
 
     </div>
     <div className='flex flex-col justify-center items-start gap-5'>

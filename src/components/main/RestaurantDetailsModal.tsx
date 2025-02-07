@@ -5,6 +5,7 @@ import Restaurant2 from '../../assets/images/Restaurant2.png'
 import type { Restaurant } from "../../types/restaurant.d"
 import clsx from "clsx"
 import generateRandomNumber from "../../utils/generateRandomNumber"
+import { Rating } from "../../types/ratings"
 
 interface CardDetailsModalProps {
     restaurantDetails: Restaurant | null,
@@ -37,14 +38,14 @@ export default function RestaurantDetailsModal({restaurantDetails, setRestaurant
             </div>
             <div className='flex flex-col justify-center items-start gap-1'>
                 <p><strong>Date de l'inspection : </strong>{restaurantDetails.inspectionDate}</p>
-                <p><strong>Niveau d'hygiène : </strong>{restaurantDetails.rating.rate}</p>
+                <p><strong>Niveau d'hygiène : </strong>{(restaurantDetails.rating as Rating).rate}</p>
             </div>
           
         </div>
         <div className='flex flex-col justify-center items-center gap-5'>
             <div className='relative'>
-                <p className='px-3 py-4 xs:p-5 shadow border border-indigo xl:text-xl md:text-lg xs:text-base hover:border-2 hover:scale-105 transition-all duration-700 rounded-lg'>{restaurantDetails?.rating.rate}</p>
-                <div className={clsx(`h-2 w-2 rounded-full absolute xs:top-2 xs:right-2 right-[5px] top-[5px]`, {'bg-poor': restaurantDetails.rating.color === 'poor', 'bg-average': restaurantDetails.rating.color === 'average', 'bg-good': restaurantDetails.rating.color === 'good', 'bg-excellent': restaurantDetails.rating.color === 'excellent'})}></div>
+                <p className='px-3 py-4 xs:p-5 shadow border border-indigo xl:text-xl md:text-lg xs:text-base hover:border-2 hover:scale-105 transition-all duration-700 rounded-lg'>{(restaurantDetails.rating as Rating).rate}</p>
+                <div className={clsx(`h-2 w-2 rounded-full absolute xs:top-2 xs:right-2 right-[5px] top-[5px]`, {'bg-poor': (restaurantDetails.rating as Rating).color === 'poor', 'bg-average': (restaurantDetails.rating as Rating).color === 'average', 'bg-good': (restaurantDetails.rating as Rating).color === 'good', 'bg-excellent':(restaurantDetails.rating as Rating).color === 'excellent'})}></div>
             </div>
             <button onClick={() => {setRestaurantDetailsPrinter(restaurantDetails); setRestaurantDetails(null)}} className=' bg-main text-white px-1 xs:px-3 py-2 rounded-lg sm:rounded-md shadow-lg hover:shadow-xl active:scale-95 hover:bg-blue-600 hover:text-primary transition-all duration-700 '>Imprimer cette affichette</button>
         </div>

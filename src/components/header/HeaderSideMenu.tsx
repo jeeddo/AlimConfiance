@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useThemeContext } from "../../context/ThemeContext"
 import useClickOutside from "../../hooks/useClickOutside"
 import { useRef } from "react"
+import clsx from "clsx"
 
 interface HeaderSideMenuProps {
     setShowSideBar: (bool: React.SetStateAction<boolean>) => void,
@@ -11,7 +12,7 @@ interface HeaderSideMenuProps {
 
 export default function HeaderSideMenu({isSideBarOpen, setShowSideBar}: HeaderSideMenuProps) {
     const overlay = useRef<HTMLDivElement | null>(null)
-    const {darkMode, lightMode, checkSystemTheme} = useThemeContext()
+    const {darkMode, lightMode, checkSystemTheme, isDarkMode} = useThemeContext()
 
     useClickOutside(overlay, () => setShowSideBar(false), true)
 
@@ -23,10 +24,10 @@ export default function HeaderSideMenu({isSideBarOpen, setShowSideBar}: HeaderSi
             <h3 className="relative font-semibold inline-block text-lg before:content-[''] before:absolute before:h-px before:w-0 before:top-full before:bg-main hover:before:w-full before:transition-all before:duration-500 ">Theme</h3>
             <ul className='flex flex-col justify-center items-start w-full gap-1'>
             <li>
-            <button onClick={lightMode} className='flex justify-center items-center gap-2 hover:text-slate-600 hover:scale-95 transition duration-500'><FontAwesomeIcon className='w-4' icon={sunLightMode} />Light</button>
+            <button onClick={lightMode} className={clsx('flex justify-center items-center gap-2 hover:text-slate-600 hover:scale-95 transition duration-500', !isDarkMode && 'font-semibold text-main')}><FontAwesomeIcon className='w-4' icon={sunLightMode} />Light</button>
             </li>
             <li>
-            <button onClick={darkMode} className='flex justify-center items-center gap-2 hover:text-slate-600 hover:scale-95 transition duration-500'><FontAwesomeIcon className='w-4' icon={moonDarkMode} />Dark</button>
+            <button onClick={darkMode} className={clsx('flex justify-center items-center gap-2 hover:text-slate-600 hover:scale-95 transition duration-500', isDarkMode && 'font-semibold text-main')}><FontAwesomeIcon className='w-4' icon={moonDarkMode} />Dark</button>
             </li>
             <li>
             <button onClick={checkSystemTheme} className=' flex justify-center items-center gap-2 hover:text-slate-600 hover:scale-95 transition duration-500'><FontAwesomeIcon className='w-4' icon={pcIcon} />System</button>   

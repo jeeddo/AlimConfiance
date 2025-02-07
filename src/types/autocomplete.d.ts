@@ -3,11 +3,9 @@ import type { Restaurant } from "./restaurant"
 interface Location {
     city: string,
     depCode: string
-}
-type Type = {
-    type: 'Location' | 'Restaurant'
+    type: 'Location'
 }
 
-type AutocompleteValue = (Restaurant & Type) | (Location & Type)
+type AutocompleteValue = Restaurant | Location
 
-export type {Location, AutocompleteValue, Type};
+export type {Location, AutocompleteValue};
