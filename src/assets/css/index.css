@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body{
-    @apply bg-bg transition-colors duration-700 
+    @apply bg-bg transition-colors duration-700 overflow-x-hidden
 }
 
 :root {
