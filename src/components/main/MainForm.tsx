@@ -20,11 +20,13 @@ export interface MainFormProps {
     setisFilterMobileActivated: (isClicked: React.SetStateAction<boolean>) => void,
     setCurrentPage: (page: React.SetStateAction<number>) => void,
     isSearchBtnClicked: boolean,
-    isFilterActivated: boolean
-}
-export default function MainForm({breakPoint, sortFilter, setSortFilter, limit, offset, isFilterActivated,setFilteredData, setCurrentPage, setNbOfRestaurant, setisFilterMobileActivated, setIsFilterActivated, setIsFilteredRestaurantLoading, isSearchBtnClicked, setRestaurantDetails} : MainFormProps) {
+    isFilterActivated: boolean,
+    hasCurrentPage: boolean
 
-    const [inputValue, setinputValue] = useState('')
+}
+export default function MainForm({breakPoint, sortFilter, hasCurrentPage, setSortFilter, limit, offset, isFilterActivated,setFilteredData, setCurrentPage, setNbOfRestaurant, setisFilterMobileActivated, setIsFilterActivated, setIsFilteredRestaurantLoading, isSearchBtnClicked, setRestaurantDetails} : MainFormProps) {
+
+    const [inputValue, setInputValue] = useState('')
     const [hygieneLevel, setHygieneLevel] = useState<HygieneLevel>('Tous les niveaux')
     const [error, setError] = useState('')
     const [autocompleteVisibility, setAutocompleteVisibility] = useState(false)
@@ -34,15 +36,19 @@ export default function MainForm({breakPoint, sortFilter, setSortFilter, limit, 
 
      useEffect(() => {
         if (isFilterActivated) handleFormSubmit();
+        
      }, [offset, sortFilter])
 
      useEffect(() => {
-        setinputValue('')
+        if (inputValue) setInputValue('')
+        
      }, [isSearchBtnClicked])
     const handleInputValueChange = (e:React.ChangeEvent<HTMLInputElement> ) => {
-        setinputValue(e.target.value)
+        setInputValue(e.target.value)
         setError('')
     }  
+
+
 
      const handleSelectValueChange = (e: React.ChangeEvent) => {
         setHygieneLevel((e.target as HTMLSelectElement).value as HygieneLevel)
@@ -53,8 +59,8 @@ export default function MainForm({breakPoint, sortFilter, setSortFilter, limit, 
         if (e) e.preventDefault()    
         if (isSearchBtnClicked) return;
         if (!inputValue && hygieneLevel === 'Tous les niveaux' && !sortFilter) {
-            setError('Le formulaire est vide..')
-            return 
+                setError('Le formulaire est vide..')
+                return 
         }
         setisFilterMobileActivated(false)
         setIsFilteredRestaurantLoading(true)
@@ -64,13 +70,19 @@ export default function MainForm({breakPoint, sortFilter, setSortFilter, limit, 
         setNbOfRestaurant(total_count)
         setIsFilteredRestaurantLoading(false)
      }
-
      
      const handleResetFilters = () => {
-        setinputValue('')
-        setHygieneLevel('Tous les niveaux')
-        setSortFilter('')
-        setIsFilterActivated(false)
+        if (isFilterActivated) {
+            setInputValue('')
+            setHygieneLevel('Tous les niveaux')
+            setSortFilter('')
+            setIsFilterActivated(false)
+        }
+      
+     }
+     const handleClick = () => {
+        
+        if (hasCurrentPage && !isSearchBtnClicked) setCurrentPage(0)
      }
 
     return (
@@ -79,7 +91,7 @@ export default function MainForm({breakPoint, sortFilter, setSortFilter, limit, 
        <form onSubmit={handleFormSubmit} className='flex flex-col justify-center items-start gap-8 w-full'>
            <div className='flex flex-col w-full justify-center items-start gap-2 '>
                <label htmlFor="localisation" className={clsx(`text-base font-semibold italic`, breakPointLg && 'lg:text-lg', breakPointXs && 'xs:text-lg')}>{isSearchBtnClicked ? 'Rechercher' : 'Localisation'}</label>
-               <AutocompleteInput setIsAutocompleteVisible={setAutocompleteVisibility} inputValue={inputValue} handleInputValueChange={handleInputValueChange} isSearchBtnClicked={isSearchBtnClicked} setInputValue={setinputValue} setRestaurantDetails={setRestaurantDetails} setisFilterMobileActivated={setisFilterMobileActivated}  />
+               <AutocompleteInput setIsAutocompleteVisible={setAutocompleteVisibility} inputValue={inputValue} handleInputValueChange={handleInputValueChange} isSearchBtnClicked={isSearchBtnClicked} setInputValue={setInputValue} setRestaurantDetails={setRestaurantDetails} setisFilterMobileActivated={setisFilterMobileActivated}  />
 
 
            </div>
@@ -116,7 +128,7 @@ export default function MainForm({breakPoint, sortFilter, setSortFilter, limit, 
            {error && <p className="w-full text-center text-xs text-poor tracking-wide">{error}</p>}
            </div>
            <div className={(isSearchBtnClicked ? 'hidden' : '') + ' flex flex-col w-full justify-center items-center gap-5 mt-5'}>
-           <button onClick={() => setCurrentPage(0)} className='text-white bg-main px-7 py-2 rounded-lg shadow-md shadow-main hover:shadow-lg hover:shadow-blue-600 hover:bg-blue-600 hover:text-primary hover:rounded-xl hover:-translate-y-1 transition-all duration-700'>Rechercher</button>
+           <button onClick={handleClick} className='text-white bg-main px-7 py-2 rounded-lg shadow-md shadow-main hover:shadow-lg hover:shadow-blue-600 hover:bg-blue-600 hover:text-primary hover:rounded-xl hover:-translate-y-1 transition-all duration-700'>Rechercher</button>
            <button onClick={handleResetFilters} type="button" className={clsx(`text-main bg-transparent  px-5 py-2 rounded-lg shadow-lg border border-main hover:bg-main hover:text-white hover:shadow-xl transition duration-700`, breakPointLg && 'lg:px-7', breakPointXs && 'xs:px-7')} >Réinitialiser les filtres</button>
            </div>
           

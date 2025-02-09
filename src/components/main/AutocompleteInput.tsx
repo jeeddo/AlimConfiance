@@ -7,7 +7,7 @@ import type { AutocompleteLiProps } from "./AutocompleteLi"
 import useClickOutside from "../../hooks/useClickOutside"
 import { getLocations } from "../../services/location"
 import { getSpecificRestaurant } from "../../services/restaurant"
-import { MAX_MOBILE_DEVICES_WIDTH } from "../../utils/constants"
+import { MOBILE_DEVICES_WIDTH } from "../../utils/constants"
 export interface AutocompleteInputProps extends Omit<AutocompleteLiProps, 'value' | 'setLiClicked'> {
     inputValue: string,
     isInForm: boolean,
@@ -29,16 +29,19 @@ export default function AutocompleteInput({inputValue, isSearchBtnClicked, isInF
     const [showInput, setShowInput] = useState(false)
     const inputRef = useRef<HTMLInputElement | null>(null)
 
-   
      
     const clickOutsideAction = () => {
-        if (window.innerWidth <= MAX_MOBILE_DEVICES_WIDTH && input) {
+        if (window.innerWidth <= MOBILE_DEVICES_WIDTH && input) {
             setInput('')
         }
         setAutocompleteVisibility('hidden')
         setIsAutocompleteVisible?.(false)
         setShowInput(false)
     }
+    useEffect(() => {
+        setAutocompleteValues([])
+    }, [isSearchBtnClicked])
+
 
     useClickOutside(divElement, clickOutsideAction, false, autocompleteVisibility === '')
 
@@ -50,6 +53,7 @@ export default function AutocompleteInput({inputValue, isSearchBtnClicked, isInF
         }
      }
 
+
        useEffect(() => {
              if ((!inputValue && isInForm)  || (!input && !isInForm ) || isLiClicked) {
                  setAutocompleteVisibility('hidden') 
@@ -57,7 +61,7 @@ export default function AutocompleteInput({inputValue, isSearchBtnClicked, isInF
                  return;
              }
               fetchAutocomplete(inputValue ?? input)
-          }, [inputValue, input])
+          }, [inputValue, input, isLiClicked])
        
           
     const fetchAutocomplete = async (inputValue : string) : Promise<void> => {
@@ -85,7 +89,7 @@ export default function AutocompleteInput({inputValue, isSearchBtnClicked, isInF
         return letClass ?? ''
     }
     const onClick = () => {
-         if (window.innerWidth <= MAX_MOBILE_DEVICES_WIDTH && !showInput && inputRef.current) {
+         if (window.innerWidth <= MOBILE_DEVICES_WIDTH && !showInput && inputRef.current) {
             const end = inputRef.current.value.length;
             setShowInput(true)
             inputRef.current?.focus()
@@ -93,9 +97,15 @@ export default function AutocompleteInput({inputValue, isSearchBtnClicked, isInF
  
         } 
     }
+
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (handleInputValueChange) handleInputValueChange(e)
+        else setInput(e.target.value)
+    }
+
     
     return <div onClick={onClick} ref={divElement} className={`${isInForm ? 'w-full' : ''} relative`}>
-    <input value={inputValue ?? input} ref={inputRef} onFocus={handleOnFocusAutocompleteVisibility} onChange={(e) => handleInputValueChange?.(e) ?? setInput(e.target.value)} className={`${handleClass()} px-4 py-1 shadow-md bg-slate-100 focus:ring-2 focus:shadow-lg transition-all duration-500 outline-none`} type="text" autoComplete='off' placeholder={isSearchBtnClicked || !isInForm ? 'Search a restaurant' : 'Enter a localisation'} id='localisation' />
+    <input value={inputValue ?? input} ref={inputRef} onFocus={handleOnFocusAutocompleteVisibility} onChange={onChange} className={`${handleClass()} px-4 py-1 shadow-md bg-slate-100 focus:ring-2 focus:shadow-lg transition-all duration-500 outline-none`} type="text" autoComplete='off' placeholder={isSearchBtnClicked || !isInForm ? 'Search a restaurant' : 'Enter a localisation'} id='localisation' />
     <FontAwesomeIcon className={`absolute top-1/2 -translate-y-1/2 ${!showInput && !isInForm ? 'left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-auto sm:right-3' : 'right-3 '}`} icon={isSearchBtnClicked || !isInForm ? searchIcon : locationIcon} />
     <ul  className={autocompleteVisibility + ` absolute top-[125%] left-1/2 -translate-x-1/2 flex flex-col justify-center items-start gap-2 ${isInForm ? 'bg-primary' : 'bg-secondary'} rounded-xl py-3 px-4 ${!isSearchBtnClicked && isInForm ? 'w-11/12' : 'w-full'} max-h-[200px] overflow-y-auto overflow-x-hidden z-50`}>
     {autocompleteValues.length > 0 && autocompleteValues.map((value: AutocompleteValue, i) => (<AutocompleteLi key={i} setLiClicked={setLiClicked} {...props} value={value} />))}
