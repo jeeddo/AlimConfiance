@@ -3,6 +3,7 @@ import FooterLayout from "./components/footer/FooterLayout"
 import HeaderLayout from "./components/header/HeaderLayout"
 import MainLayout from "./components/main/MainLayout"
 import { MAX_MOBILE_DEVICES_WIDTH } from "./utils/constants"
+import SideMenu from "./components/side-menu/SideMenu"
 
 function App() {
     const [isMobile, setIsMobile] = useState(false)
@@ -16,6 +17,7 @@ function App() {
     })
     return (
         <>
+        <SideMenu />
         <HeaderLayout />
         <MainLayout isMobile={isMobile} />
         <FooterLayout />

@@ -10,7 +10,7 @@ import { getSpecificRestaurant } from "../../services/restaurant"
 import { MOBILE_DEVICES_WIDTH } from "../../utils/constants"
 export interface AutocompleteInputProps extends Omit<AutocompleteLiProps, 'value' | 'setLiClicked'> {
     inputValue: string,
-    isInForm?: boolean,
+    isInForm: boolean,
     className: string,
     isSearchBtnClicked: boolean, 
     handleInputValueChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
@@ -29,7 +29,7 @@ export default function AutocompleteInput({inputValue, isSearchBtnClicked, isInF
     const [showInput, setShowInput] = useState(false)
     const inputRef = useRef<HTMLInputElement | null>(null)
 
-     
+    
     const clickOutsideAction = () => {
         if (window.innerWidth <= MOBILE_DEVICES_WIDTH && input) {
             setInput('')
