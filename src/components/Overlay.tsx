@@ -1,6 +1,6 @@
 import { ReactNode, useRef } from "react"
 import useClickOutside from "../hooks/useClickOutside"
-import { useGlobalContext } from "../context/GlobalContext"
+import { useGlobalContext } from "../contexts/GlobalContext"
 
 interface OverlayProps {
     children: ReactNode,
