@@ -2,12 +2,12 @@ import { useRef, useState, useEffect } from "react"
 import type { AutocompleteValue } from "../../types/autocomplete.d"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faLocationDot as locationIcon, faSearch as searchIcon } from "@fortawesome/free-solid-svg-icons"
-import AutocompleteLi from "./AutocompleteLi"
 import type { AutocompleteLiProps } from "./AutocompleteLi"
 import useClickOutside from "../../hooks/useClickOutside"
 import { getLocations } from "../../services/location"
 import { getSpecificRestaurant } from "../../services/restaurant"
 import { MOBILE_DEVICES_WIDTH } from "../../utils/constants"
+import AutocompleteList from "./AutocompleteList"
 export interface AutocompleteInputProps extends Omit<AutocompleteLiProps, 'value' | 'setLiClicked'> {
     inputValue: string,
     isInForm: boolean,
@@ -41,6 +41,7 @@ export default function AutocompleteInput({inputValue, isSearchBtnClicked, isInF
     useEffect(() => {
         setAutocompleteValues([])
     }, [isSearchBtnClicked])
+
 
 
     useClickOutside(divElement, clickOutsideAction, false, autocompleteVisibility === '')
@@ -79,6 +80,7 @@ export default function AutocompleteInput({inputValue, isSearchBtnClicked, isInF
             setAutocompleteValues(searchedRestaurant)
         }
         setLoading(false)
+
     }
 
     const handleClass = (): string => {
@@ -107,11 +109,6 @@ export default function AutocompleteInput({inputValue, isSearchBtnClicked, isInF
     return <div onClick={onClick} ref={divElement} className={`${isInForm ? 'w-full' : ''} relative`}>
     <input value={inputValue ?? input} ref={inputRef} onFocus={handleOnFocusAutocompleteVisibility} onChange={onChange} className={`${handleClass()} px-4 py-1 shadow-md bg-slate-100 focus:ring-2 focus:shadow-lg transition-all duration-500 outline-none`} type="text" autoComplete='off' placeholder={isSearchBtnClicked || !isInForm ? 'Search a restaurant' : 'Enter a localisation'} id='localisation' />
     <FontAwesomeIcon className={`absolute top-1/2 -translate-y-1/2 ${!showInput && !isInForm ? 'left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-auto sm:right-3' : 'right-3 '}`} icon={isSearchBtnClicked || !isInForm ? searchIcon : locationIcon} />
-    <ul  className={autocompleteVisibility + ` absolute top-[125%] left-1/2 -translate-x-1/2 flex flex-col justify-center items-start gap-2 ${isInForm ? 'bg-primary' : 'bg-secondary'} rounded-xl py-3 px-4 ${!isSearchBtnClicked && isInForm ? 'w-11/12' : 'w-full'} max-h-[200px] overflow-y-auto overflow-x-hidden z-50`}>
-    {autocompleteValues.length > 0 && autocompleteValues.map((value: AutocompleteValue, i) => (<AutocompleteLi key={i} setLiClicked={setLiClicked} {...props} value={value} />))}
-    {autocompleteValues.length === 0 && !isLoading && <p>Not found...</p>}
-    {isLoading && <p>Loading...</p>}
-    
-</ul>
+    <AutocompleteList isSearchBtnClicked={isSearchBtnClicked} autocompleteVisibility={autocompleteVisibility} {...props} setLiClicked={setLiClicked} isLoading={isLoading} isInForm={isInForm} autocompleteValues={autocompleteValues} />
     </div>
 }

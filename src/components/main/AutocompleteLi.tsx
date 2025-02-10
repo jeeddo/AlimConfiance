@@ -25,5 +25,5 @@ export default function AutocompleteLi({setLiClicked, setInputValue, setRestaura
         }, 100);
     
 }
-    return <li onClick={ isRestaurant(value) ? () => handleClickRestaurantLi(value) : (e) => handleLiClicked((e.target as HTMLLIElement).textContent ?? "")} className="hover:scale-105 hover:opacity-50 transition duration-700 w-full cursor-pointer">{ !isRestaurant(value) ? value.city + ', ' + value.depCode : value.name + ` (${value.postalCode})`}</li>
+    return <li onClick={ isRestaurant(value) ? () => handleClickRestaurantLi(value) : (e) => handleLiClicked((e.target as HTMLLIElement).textContent ?? "")} className="hover:scale-105 hover:opacity-50 transition duration-700 w-full truncate cursor-pointer">{ !isRestaurant(value) ? value.city + ', ' + value.depCode : value.name + ` (${value.postalCode})`}</li>
 } 
