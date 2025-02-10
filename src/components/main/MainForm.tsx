@@ -6,9 +6,9 @@ import AutocompleteInput from "./AutocompleteInput"
 import clsx from "clsx"
 import type { SortFilter, HygieneLevel } from "../../types/filter.d"
 import { getFilteredRestaurants } from "../../services/restaurant"
+import { LIMIT } from "../../utils/constants"
 export interface MainFormProps {
     breakPoint : string,
-    limit: number,
     offset : number,
     sortFilter: SortFilter,
     setSortFilter: (filter: React.SetStateAction<SortFilter>) => void,
@@ -24,7 +24,7 @@ export interface MainFormProps {
     hasCurrentPage: boolean
 
 }
-export default function MainForm({breakPoint, sortFilter, hasCurrentPage, setSortFilter, limit, offset, isFilterActivated,setFilteredData, setCurrentPage, setNbOfRestaurant, setisFilterMobileActivated, setIsFilterActivated, setIsFilteredRestaurantLoading, isSearchBtnClicked, setRestaurantDetails} : MainFormProps) {
+export default function MainForm({breakPoint, sortFilter, hasCurrentPage, setSortFilter, offset, isFilterActivated,setFilteredData, setCurrentPage, setNbOfRestaurant, setisFilterMobileActivated, setIsFilterActivated, setIsFilteredRestaurantLoading, isSearchBtnClicked, setRestaurantDetails} : MainFormProps) {
 
     const [inputValue, setInputValue] = useState('')
     const [hygieneLevel, setHygieneLevel] = useState<HygieneLevel>('Tous les niveaux')
@@ -65,7 +65,7 @@ export default function MainForm({breakPoint, sortFilter, hasCurrentPage, setSor
         setisFilterMobileActivated(false)
         setIsFilteredRestaurantLoading(true)
         setIsFilterActivated(true)
-        const {restaurants, total_count} = await getFilteredRestaurants(inputValue, hygieneLevel, sortFilter, limit, offset)
+        const {restaurants, total_count} = await getFilteredRestaurants(inputValue, hygieneLevel, sortFilter, LIMIT, offset)
         setFilteredData(restaurants);
         setNbOfRestaurant(total_count)
         setIsFilteredRestaurantLoading(false)

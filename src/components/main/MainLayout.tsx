@@ -17,6 +17,7 @@ import calculateOffset from "../../utils/calculateOffset";
 import SortButtons from "./SortButtons";
 import type { SortFilter } from "../../types/filter.d";
 import { getRestaurant } from "../../services/restaurant";
+import { LIMIT, NB_MAX_DATA, PAGE_COUNT } from "../../utils/constants";
 
 export default function MainLayout({isMobile}: {isMobile: boolean}) {
   
@@ -32,12 +33,9 @@ export default function MainLayout({isMobile}: {isMobile: boolean}) {
   const [isSearchRestaurantBtnClicked, setIsSearchRestaurantBtnClicked] = useState(false)
   const [isFilterMobileActivated, setisFilterMobileActivated] = useState(false)
   const [sortFilter, setSortFilter] = useState<SortFilter>('')
-  const limit = 6;  
-  const offset = useMemo(() => calculateOffset(currentPage, limit), [currentPage])
-  const offsetFilteredData = useMemo(() => calculateOffset(currentPage, limit), [currentPage])
-  const nbMaxData = 10000;  
-  const pageCount = Math.floor(nbMaxData / limit)
-  const pageCountFilteredRestaurant = useMemo(() => filteredRestaurantCount > nbMaxData ? pageCount :  Math.ceil((filteredRestaurantCount) / limit), [filteredRestaurantCount])
+  const offset = useMemo(() => calculateOffset(currentPage, LIMIT), [currentPage])
+  const offsetFilteredData = useMemo(() => calculateOffset(currentPage, LIMIT), [currentPage])
+  const pageCountFilteredRestaurant = useMemo(() => filteredRestaurantCount > NB_MAX_DATA ? PAGE_COUNT :  Math.ceil((filteredRestaurantCount) / LIMIT), [filteredRestaurantCount])
 
   const fecthRestaurantData = async (limit: number, offset: number): Promise<void> => {
       setLoading(true)
@@ -47,7 +45,7 @@ export default function MainLayout({isMobile}: {isMobile: boolean}) {
     
   };
   useEffect(() => {
-    if (!isFilterActivated) fecthRestaurantData(limit, offset);
+    if (!isFilterActivated) fecthRestaurantData(LIMIT, offset);
   }, [currentPage]);
 
   useEffect(() => {
@@ -65,7 +63,7 @@ export default function MainLayout({isMobile}: {isMobile: boolean}) {
   return  <main className=' animate-fade-in opacity-0 max-w-6xl mx-auto px-5 flex justify-center xl:items-center items-start md:gap-12 xl:gap-20 lg:gap-16 transition-all' style={{ minHeight: 'var(--viewport-minus-header-plus-footer)' }}>
       <div className='hidden xl:mt-0 mt-10 md:flex flex-col justify-center items-start gap-12 w-[350px] lg:text-base text-sm'>
         <DiscoverButtons isSearchBtnClicked={isSearchRestaurantBtnClicked} setBtnState={setIsSearchRestaurantBtnClicked} breakPoint="lg" />
-        {!isMobile && <MainForm  hasCurrentPage={currentPage > 0} setSortFilter={setSortFilter} sortFilter={sortFilter} setCurrentPage={setCurrentPage} isFilterActivated={isFilterActivated} setisFilterMobileActivated={setisFilterMobileActivated} isSearchBtnClicked={isSearchRestaurantBtnClicked} breakPoint="lg" limit={limit} setFilteredData={setFilteredRestaurantData} setNbOfRestaurant={setFilteredRestaurantCount} offset={offsetFilteredData} setIsFilterActivated={setIsFilterActivated} setIsFilteredRestaurantLoading={setIsFilteredRestaurantLoading} setRestaurantDetails={setRestaurantDetails} />}
+        {!isMobile && <MainForm  hasCurrentPage={currentPage > 0} setSortFilter={setSortFilter} sortFilter={sortFilter} setCurrentPage={setCurrentPage} isFilterActivated={isFilterActivated} setisFilterMobileActivated={setisFilterMobileActivated} isSearchBtnClicked={isSearchRestaurantBtnClicked} breakPoint="lg" setFilteredData={setFilteredRestaurantData} setNbOfRestaurant={setFilteredRestaurantCount} offset={offsetFilteredData} setIsFilterActivated={setIsFilterActivated} setIsFilteredRestaurantLoading={setIsFilteredRestaurantLoading} setRestaurantDetails={setRestaurantDetails} />}
       </div>
 
       <div className='w-full relative flex flex-col justify-center items-start gap-10'>
@@ -84,7 +82,7 @@ export default function MainLayout({isMobile}: {isMobile: boolean}) {
           nextLabel={<span className='hover:opacity-50 transition duration-200 sm:text-base text-sm'><FontAwesomeIcon icon={chevronRight} /></span>}
           onPageChange={handlePageChange} 
           pageRangeDisplayed={3}
-          pageCount={isFilterActivated ? pageCountFilteredRestaurant : pageCount}
+          pageCount={isFilterActivated ? pageCountFilteredRestaurant : PAGE_COUNT}
           previousLabel={<span className='hover:opacity-50 transition duration-200 sm:text-base text-sm'><FontAwesomeIcon icon={chevronLeft} /></span>}
           renderOnZeroPageCount={null}
           className='flex justify-center items-center sm:gap-3 gap-1 w-full overflow-x-hidden'
@@ -97,7 +95,7 @@ export default function MainLayout({isMobile}: {isMobile: boolean}) {
         <RestaurantDetailsPrintModal restaurantDetails={printRestaurantDetails} setPrintRestaurantDetails={setPrintRestaurantDetails} />
       </div>
 
-      {isMobile && <FilterModalMobileDevices hasCurrentPage={currentPage > 0} setSortFilter={setSortFilter} sortFilter={sortFilter} setCurrentPage={setCurrentPage}  isFilterActivated={isFilterActivated}  setBtnState={setIsSearchRestaurantBtnClicked} isSearchBtnClicked={isSearchRestaurantBtnClicked}  isFilterMobileActivated={isFilterMobileActivated} setisFilterMobileActivated={setisFilterMobileActivated} limit={limit} setFilteredData={setFilteredRestaurantData} setNbOfRestaurant={setFilteredRestaurantCount} offset={offsetFilteredData} setIsFilterActivated={setIsFilterActivated} setIsFilteredRestaurantLoading={setIsFilteredRestaurantLoading} setRestaurantDetails={setRestaurantDetails} />}
+      {isMobile && <FilterModalMobileDevices hasCurrentPage={currentPage > 0} setSortFilter={setSortFilter} sortFilter={sortFilter} setCurrentPage={setCurrentPage}  isFilterActivated={isFilterActivated}  setBtnState={setIsSearchRestaurantBtnClicked} isSearchBtnClicked={isSearchRestaurantBtnClicked}  isFilterMobileActivated={isFilterMobileActivated} setisFilterMobileActivated={setisFilterMobileActivated} setFilteredData={setFilteredRestaurantData} setNbOfRestaurant={setFilteredRestaurantCount} offset={offsetFilteredData} setIsFilterActivated={setIsFilterActivated} setIsFilteredRestaurantLoading={setIsFilteredRestaurantLoading} setRestaurantDetails={setRestaurantDetails} />}
     </main>
   
 }
