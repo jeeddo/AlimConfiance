@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { getRestaurant } from "../../../services/restaurant";
-import { LIMIT } from "../../../utils/constants";
-import { Restaurant } from "../../../types/restaurant.d";
+import { Restaurant } from "../../../../types/restaurant";
+import { LIMIT } from "../../../../utils/constants";
+import { getRestaurant } from "../../../../services/restaurant";
 
 export default function useFetchRestaurant(offset: number, currentPage: number, isFilterActivated: boolean) {
 

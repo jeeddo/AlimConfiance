@@ -5,7 +5,6 @@ import { SortFilter } from "../../../types/filter.d";
 import { Restaurant } from "../../../types/restaurant.d";
 
 export default function useOnFormSubmit(
-   isSearchBtnClicked: boolean, 
    hygieneLevel: string, 
    sortFilter: SortFilter,
    offset: number,

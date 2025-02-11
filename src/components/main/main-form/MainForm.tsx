@@ -17,7 +17,7 @@ export default function MainForm({breakPoint, sortFilter, hasCurrentPage, setSor
     const breakPointLg = breakPoint === 'lg'
     const breakPointXs = breakPoint === 'xs'
   
-    const handleFormSubmit = useOnFormSubmit(isSearchBtnClicked, hygieneLevel, sortFilter, offset, isFilterActivated, inputValue, setisFilterMobileActivated, setFilteredData, setNbOfRestaurant, setIsFilteredRestaurantLoading, setIsFilterActivated, setError)
+    const handleFormSubmit = useOnFormSubmit(hygieneLevel, sortFilter, offset, isFilterActivated, inputValue, setisFilterMobileActivated, setFilteredData, setNbOfRestaurant, setIsFilteredRestaurantLoading, setIsFilterActivated, setError)
 
      useEffect(() => {
         if (inputValue) setInputValue('')
@@ -106,7 +106,7 @@ function FormButtons({isSearchBtnClicked, breakPointLg, breakPointXs, onClickRes
 function SelectForm({hygieneLevel, handleSelectValueChange}: SelectFormProps) {
 
     return    <select value={hygieneLevel} onChange={handleSelectValueChange}  className=" w-full px-4 py-1 shadow-md bg-slate-100 focus:ring-2 focus:shadow-lg transition-all duration-500 outline-none rounded" id="hygiene-level">
-    {HYGIENE_LEVELS.map(hygieneLevel => <option>{hygieneLevel}</option>)}
+    {HYGIENE_LEVELS.map((hygieneLevel, i) => <option key={i}>{hygieneLevel}</option>)}
 </select>
 }
 
