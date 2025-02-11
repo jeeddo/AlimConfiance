@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import FooterLayout from "./components/footer/FooterLayout"
 import HeaderLayout from "./components/header/HeaderLayout"
-import MainLayout from "./components/main/MainLayout"
+import MainLayout from "./components/main/main-layout/MainLayout"
 import { MAX_MOBILE_DEVICES_WIDTH } from "./utils/constants"
 import SideMenu from "./components/side-menu/SideMenu"
 

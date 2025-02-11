@@ -1,12 +1,13 @@
 import { faCircleQuestion as circleQuestionIcon } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React, { useEffect, useState } from "react"
-import type { Restaurant } from "../../types/restaurant.d"
-import AutocompleteInput from "./AutocompleteInput"
+import type { Restaurant } from "../../../types/restaurant"
+import AutocompleteInput from "../autocomplete-input/AutocompleteInput"
 import clsx from "clsx"
-import type { SortFilter, HygieneLevel } from "../../types/filter.d"
-import { getFilteredRestaurants } from "../../services/restaurant"
-import { LIMIT } from "../../utils/constants"
+import type { SortFilter, HygieneLevel } from "../../../types/filter"
+import { getFilteredRestaurants } from "../../../services/restaurant"
+import { LIMIT } from "../../../utils/constants"
+import useOnFormSubmit from "./useOnFormSubmit.hook"
 export interface MainFormProps {
     breakPoint : string,
     offset : number,
@@ -33,11 +34,7 @@ export default function MainForm({breakPoint, sortFilter, hasCurrentPage, setSor
     const breakPointLg = breakPoint === 'lg'
     const breakPointXs = breakPoint === 'xs'
   
-
-     useEffect(() => {
-        if (isFilterActivated) handleFormSubmit();
-        
-     }, [offset, sortFilter])
+    const handleFormSubmit = useOnFormSubmit(isSearchBtnClicked, hygieneLevel, sortFilter, offset, isFilterActivated, inputValue, setisFilterMobileActivated, setFilteredData, setNbOfRestaurant, setIsFilteredRestaurantLoading, setIsFilterActivated, setError)
 
      useEffect(() => {
         if (inputValue) setInputValue('')
@@ -55,21 +52,7 @@ export default function MainForm({breakPoint, sortFilter, hasCurrentPage, setSor
         setError('')
      }
 
-     const handleFormSubmit = async (e?: React.FormEvent) => {
-        if (e) e.preventDefault()    
-        if (isSearchBtnClicked) return;
-        if (!inputValue && hygieneLevel === 'Tous les niveaux' && !sortFilter) {
-                setError('Le formulaire est vide..')
-                return 
-        }
-        setisFilterMobileActivated(false)
-        setIsFilteredRestaurantLoading(true)
-        setIsFilterActivated(true)
-        const {restaurants, total_count} = await getFilteredRestaurants(inputValue, hygieneLevel, sortFilter, LIMIT, offset)
-        setFilteredData(restaurants);
-        setNbOfRestaurant(total_count)
-        setIsFilteredRestaurantLoading(false)
-     }
+   
      
      const handleResetFilters = () => {
         if (isFilterActivated) {

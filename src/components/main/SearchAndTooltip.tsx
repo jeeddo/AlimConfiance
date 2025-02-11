@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faQuestion as questionMarkIcon } from "@fortawesome/free-solid-svg-icons"
-import AutocompleteInput from "./AutocompleteInput"
+import AutocompleteInput from "./autocomplete-input/AutocompleteInput"
 import type { Restaurant } from "../../types/restaurant"
 
 interface SearchAndTooltipProps {

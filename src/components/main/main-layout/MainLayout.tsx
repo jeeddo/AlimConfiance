@@ -1,30 +1,28 @@
-import RestaurantDetailsModal from "./RestaurantDetailsModal";
-import RestaurantDetailsPrintModal from "./RestaurantDetailsPrintModal";
-import RestaurantList from "./RestaurantList";
-import DiscoverButtons from "./DiscoverButtons";
-import FilterModalMobileDevices from "./FilterModalMobileDevices";
-import MainForm from "./MainForm";
-import SearchAndTooltip from "./SearchAndTooltip";
-import RestaurantCard from "./RestaurantCard";
+import RestaurantDetailsModal from "../RestaurantDetailsModal";
+import RestaurantDetailsPrintModal from "../RestaurantDetailsPrintModal";
+import RestaurantList from "../RestaurantList";
+import DiscoverButtons from "../DiscoverButtons";
+import FilterModalMobileDevices from "../FilterModalMobileDevices";
+import MainForm from "../main-form/MainForm";
+import SearchAndTooltip from "../SearchAndTooltip";
+import RestaurantCard from "../RestaurantCard";
 import ReactPaginate from 'react-paginate';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft as chevronLeft, faChevronRight as chevronRight } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState, useMemo } from "react";
-import type { Restaurant } from "../../types/restaurant.d";
-import RestaurantCardSkeleton from "./RestaurantCardSkeleton";
-import scrollToTop from "../../utils/scrollToTop";
-import calculateOffset from "../../utils/calculateOffset";
-import SortButtons from "./SortButtons";
-import type { SortFilter } from "../../types/filter.d";
-import { getRestaurant } from "../../services/restaurant";
-import { LIMIT, NB_MAX_DATA, PAGE_COUNT } from "../../utils/constants";
+import type { Restaurant } from "../../../types/restaurant";
+import RestaurantCardSkeleton from "../RestaurantCardSkeleton";
+import scrollToTop from "../../../utils/scrollToTop";
+import calculateOffset from "../../../utils/calculateOffset";
+import SortButtons from "../SortButtons";
+import type { SortFilter } from "../../../types/filter";
+import { LIMIT, NB_MAX_DATA, PAGE_COUNT } from "../../../utils/constants";
+import useFetchRestaurant from "./useFetchRestaurant.hook";
 
 export default function MainLayout({isMobile}: {isMobile: boolean}) {
   
-  const [restaurantData, setRestaurantData] = useState<Restaurant[]>([]);
   const [restaurantDetails, setRestaurantDetails] = useState<Restaurant | null>(null);
   const [printRestaurantDetails, setPrintRestaurantDetails] = useState<Restaurant | null>(null);
-  const [isLoading, setLoading] = useState(false)
   const [filteredRestaurantData, setFilteredRestaurantData] = useState<Restaurant[]>([])
   const [isFilterActivated, setIsFilterActivated] = useState(false)
   const [currentPage, setCurrentPage] = useState(0); 
@@ -37,16 +35,7 @@ export default function MainLayout({isMobile}: {isMobile: boolean}) {
   const offsetFilteredData = useMemo(() => calculateOffset(currentPage, LIMIT), [currentPage])
   const pageCountFilteredRestaurant = useMemo(() => filteredRestaurantCount > NB_MAX_DATA ? PAGE_COUNT :  Math.ceil((filteredRestaurantCount) / LIMIT), [filteredRestaurantCount])
 
-  const fecthRestaurantData = async (limit: number, offset: number): Promise<void> => {
-      setLoading(true)
-        const restaurant = await getRestaurant(limit, offset)
-        setRestaurantData(restaurant);
-        setLoading(false);
-    
-  };
-  useEffect(() => {
-    if (!isFilterActivated) fecthRestaurantData(LIMIT, offset);
-  }, [currentPage]);
+  const {restaurantData, isLoading} = useFetchRestaurant(offset, currentPage, isFilterActivated)
 
   useEffect(() => {
     if (currentPage) setCurrentPage(0)
