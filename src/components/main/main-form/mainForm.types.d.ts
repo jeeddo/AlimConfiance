@@ -1,3 +1,6 @@
+import { SortFilter } from "../../../types/filter"
+import { Restaurant } from "../../../types/restaurant"
+
 export interface MainFormProps {
     breakPoint : string,
     offset : number,
