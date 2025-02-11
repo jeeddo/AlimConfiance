@@ -4,9 +4,9 @@ import Logo2 from '../../assets/images/Logo2.png'
 import type { Restaurant } from "../../types/restaurant"
 import { useReactToPrint } from "react-to-print";
 import { useEffect, useRef, useState } from "react";
-import clsx from "clsx";
 import useClickOutside from "../../hooks/useClickOutside";
 import { Rating } from "../../types/ratings";
+import { BG_RATES_COLORS } from "../../utils/constants";
 
 interface CardDetailsPrintModalProps {
     setPrintRestaurantDetails: (restaurant: React.SetStateAction<Restaurant | null>) => void,
@@ -79,7 +79,7 @@ function PrintModalContent({restaurantDetails}: PrintModalContentProps) {
     </div>
     <div className='relative max-w-full mx-auto mt-5'>
         <p className='text-base sm:text-xl xs:px-12 xs:py-5 px-8 py-3 border border-indigo hover:border-2 hover:scale-105 hover:shadow-md xs:hover:shadow-lg transition-all duration-700 rounded-lg shadow'>{(restaurantDetails.rating as Rating).rate}</p>
-        <div className={clsx(`h-2 w-2 rounded-full absolute top-2 right-2`, {'bg-poor': (restaurantDetails.rating as Rating).color === 'poor', 'bg-average': (restaurantDetails.rating as Rating).color === 'average', 'bg-good': (restaurantDetails.rating as Rating).color === 'good', 'bg-excellent': (restaurantDetails.rating as Rating).color === 'excellent'})}>
+        <div className={`h-2 w-2 rounded-full absolute top-2 right-2 ${BG_RATES_COLORS[(restaurantDetails.rating as Rating).color]}`}>
 
         </div>
     </div>

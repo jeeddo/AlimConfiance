@@ -5,7 +5,11 @@ enum Ratings {
     POOR = 'Mauvais'
 }
 
-type RatingColor = Lowercase<RatingsKeys>
+export type RatingColor = Lowercase<RatingsKeys>
+
+export type BgRatesColors = {
+    [k in RatingColor]: string
+}
 
 export type RatingsKeys = keyof typeof Ratings
 
