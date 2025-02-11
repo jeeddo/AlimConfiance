@@ -21,7 +21,6 @@ export default function useOnFormSubmit(
   
    const handleFormSubmit = async (e?: React.FormEvent) => {
       if (e) e.preventDefault()    
-      if (isSearchBtnClicked) return;
       if (!inputValue && hygieneLevel === 'Tous les niveaux' && !sortFilter) {
               setError('Le formulaire est vide..')
               return 

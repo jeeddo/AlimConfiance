@@ -10,19 +10,18 @@ setIsAutocompleteVisible?: (isVisible: React.SetStateAction<boolean>) => void,in
     const [isLoading, setLoading] = useState(false)
 
 
+    const verifyEntry = () => {
+        if ((!inputValue && isInForm)  || (!input && !isInForm ) || isLiClicked) {
+            setAutocompleteVisibility('hidden') 
+            setIsAutocompleteVisible?.(false)
+            return false;
+        }
+        return true
+  }
      useEffect(() => {
-            const verifyEntry = () => {
-                if ((!inputValue && isInForm)  || (!input && !isInForm ) || isLiClicked) {
-                    setAutocompleteVisibility('hidden') 
-                    setIsAutocompleteVisible?.(false)
-                    return false;
-                }
-                return true
-          }
             const fetchAutocomplete = async (inputValue : string) : Promise<void> => {
     
                 if (!verifyEntry()) return;
-                
                 setAutocompleteVisibility('')
                 setIsAutocompleteVisible?.(true)
                 setLoading(true)
@@ -40,7 +39,11 @@ setIsAutocompleteVisible?: (isVisible: React.SetStateAction<boolean>) => void,in
         
             }
                   fetchAutocomplete(inputValue ?? input)
-              }, [inputValue, input, isLiClicked])
+              }, [inputValue, input])
+
+              useEffect(() => {
+                verifyEntry()
+              }, [isLiClicked])
 
            useEffect(() => {
                 setAutocompleteValues([])
