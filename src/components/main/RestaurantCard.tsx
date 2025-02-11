@@ -16,8 +16,8 @@ return <div onClick={() => setRestaurantDetails(restaurant)} className='relative
 
     </div>
     <div className='flex flex-col justify-center items-start gap-5'>
-        <div className='flex flex-col justify-center items-start gap-3'>
-        <h2 className='font-bold text-main text-base sm:text-lg xl:w-[175px] xl:truncate xs:w-fit w-[200px]'>{restaurant.name}</h2>
+        <div className='flex flex-col justify-center items-start gap-3 w-full'>
+        <h2 className='font-bold text-main text-base sm:text-lg xl:w-[175px] truncate xs:w-9/12 w-[200px]'>{restaurant.name}</h2>
         <p className='px-2 text-white sm:text-sm py-1 rounded-lg bg-main'>{restaurant.activity}</p>
         </div>
         <div className='flex flex-col justify-center items-start gap-1 sm:text-sm'>

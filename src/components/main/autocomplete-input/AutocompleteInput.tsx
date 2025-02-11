@@ -53,7 +53,7 @@ export default function AutocompleteInput({inputValue, isSearchBtnClicked, isInF
 
     const handleClass = (): string => {
         let letClass = className
-        if (!isInForm && showInput) letClass += ' w-[220px]'
+        if (!isInForm && showInput) letClass += ' xs:w-[220px]'
         else if (!isInForm && !showInput ) letClass += ' w-12 placeholder:invisible'
         else return 'w-full rounded'
         return letClass ?? ''

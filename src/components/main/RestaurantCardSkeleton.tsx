@@ -7,13 +7,13 @@ export default function RestaurantCardSkeleton() {
     </div>
     <div className='flex flex-col justify-center items-start gap-14'>
         <div className='flex flex-col justify-center items-start gap-3'>
-        <h2 className='h-4 bg-secondary w-[200px] xl:w-40 rounded-lg'></h2>
+        <h2 className='h-4 bg-secondary w-[10rem] xs:w-[200px] xl:w-40 rounded-lg'></h2>
         <p className='h-5 w-24 rounded-md bg-main'></p>
         </div>
         <div className='flex flex-col justify-center items-start gap-2 sm:text-sm'>
-            <p className="bg-secondary h-3 w-[14rem] rounded-lg"></p>
-            <p className="bg-secondary h-3 w-[12rem] rounded-lg"></p>
-            <p className="bg-secondary h-3 w-[10rem] rounded-lg"></p>
+            <p className="bg-secondary h-3 w-[11rem] xs:w-[14rem] rounded-lg"></p>
+            <p className="bg-secondary h-3 w-[10rem] xs:w-[12rem] rounded-lg"></p>
+            <p className="bg-secondary h-3 w-[9rem] xs:w-[10rem] rounded-lg"></p>
         </div>
     </div>
 </div>
