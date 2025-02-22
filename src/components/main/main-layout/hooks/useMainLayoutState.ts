@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
-import { LIMIT, NB_MAX_DATA, PAGE_COUNT } from "../../../../utils/constants";
-import calculateOffset from "../../../../utils/calculateOffset";
+import { LIMIT, NB_MAX_DATA, PAGE_COUNT } from "../../../../utils-lib/constants";
+import calculateOffset from "../../../../utils-lib/calculateOffset";
 import { SortFilter } from "../../../../types/filter.d";
 import { Restaurant } from "../../../../types/restaurant.d";
 

@@ -1,5 +1,5 @@
 import { HygieneLevel } from "../types/filter.d";
-import Ratings, { BgRatesColors } from "../types/ratings";
+import Ratings, { BgRatesColors } from "../types/ratings.d";
 
 export const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL || 'http://localhost:8000';
 export const LOCATION_PATH = import.meta.env.VITE_BACKEND_LOCATION_PATH || '/api/location';
@@ -15,4 +15,18 @@ export const BG_RATES_COLORS: BgRatesColors = {
     'average': 'bg-average',
     'good': 'bg-good',
     'excellent': 'bg-excellent'
+}
+export type HelpToSearch = {
+    title: string,
+    subtitle: string,
+    demo: {name: string, example: string}[]
+}
+export const HELP_TO_SEARCH: HelpToSearch = {
+    title: 'Aide à la recherche',
+    subtitle: 'Vous pouvez rechercher un établissement selon plusieurs critères :',
+    demo: [
+        {name: 'son nom', example: '(PASTA Y DOLCE)'},
+        {name: 'sa commune', example: '(Nantes)'},
+        {name: 'son code SIRET', example: '(306094)'}
+    ]
 }

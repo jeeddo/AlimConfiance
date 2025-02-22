@@ -6,7 +6,7 @@ import { useReactToPrint } from "react-to-print";
 import { useEffect, useRef, useState } from "react";
 import useClickOutside from "../../hooks/useClickOutside";
 import { Rating } from "../../types/ratings";
-import { BG_RATES_COLORS } from "../../utils/constants";
+import { BG_RATES_COLORS } from "../../utils-lib/constants";
 
 interface CardDetailsPrintModalProps {
     setPrintRestaurantDetails: (restaurant: React.SetStateAction<Restaurant | null>) => void,

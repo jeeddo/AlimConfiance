@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { LIMIT } from "../../../utils/constants";
+import { LIMIT } from "../../../utils-lib/constants";
 import { getFilteredRestaurants } from "../../../services/restaurant";
 import { SortFilter } from "../../../types/filter.d";
 import { Restaurant } from "../../../types/restaurant.d";

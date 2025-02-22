@@ -12,9 +12,9 @@ import { faChevronLeft as chevronLeft, faChevronRight as chevronRight } from "@f
 import { useEffect } from "react";
 import type { Restaurant } from "../../../types/restaurant";
 import RestaurantCardSkeleton from "../RestaurantCardSkeleton";
-import scrollToTop from "../../../utils/scrollToTop";
+import scrollToTop from "../../../utils-lib/scrollToTop";
 import SortButtons from "../SortButtons";
-import { PAGE_COUNT } from "../../../utils/constants";
+import { PAGE_COUNT } from "../../../utils-lib/constants";
 import useMainLayoutState from "./hooks/useMainLayoutState";
 import useFetchRestaurant from "./hooks/useFetchRestaurant.hook";
 

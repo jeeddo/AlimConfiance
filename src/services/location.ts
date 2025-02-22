@@ -1,6 +1,6 @@
 import type { Location } from "../types/autocomplete.d"
-import { LOCATION_PATH } from "../utils/constants"
-import fetchData from "../utils/fetch"
+import { LOCATION_PATH } from "../utils-lib/constants"
+import fetchData from "../utils-lib/fetch"
 
 export const getLocations = async (queryValue: string): Promise<Location[]> => {
     const urlPath = LOCATION_PATH + '?query=' + queryValue

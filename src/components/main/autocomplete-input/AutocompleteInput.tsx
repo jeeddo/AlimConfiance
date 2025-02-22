@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faLocationDot as locationIcon, faSearch as searchIcon } from "@fortawesome/free-solid-svg-icons"
 import type { AutocompleteLiProps } from "../AutocompleteLi"
 import useClickOutside from "../../../hooks/useClickOutside"
-import { MOBILE_DEVICES_WIDTH } from "../../../utils/constants"
+import { MOBILE_DEVICES_WIDTH } from "../../../utils-lib/constants"
 import AutocompleteList from "../AutocompleteList"
 import useFetchAutocomplete from "./useFetchAutocomplete.hook"
 export interface AutocompleteInputProps extends Omit<AutocompleteLiProps, 'value' | 'setLiClicked'> {
