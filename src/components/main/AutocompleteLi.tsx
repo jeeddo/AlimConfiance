@@ -1,5 +1,6 @@
 import type { Restaurant } from "../../types/restaurant.d"
 import type { AutocompleteValue } from "../../types/autocomplete.d"
+import { checkType } from "../../utils-lib/checkType"
 
 export interface AutocompleteLiProps {
     setLiClicked: (isClicked: boolean) => void,
@@ -10,8 +11,8 @@ export interface AutocompleteLiProps {
 }
 
 export default function AutocompleteLi({setLiClicked, setInputValue, setRestaurantDetails, value, setisFilterMobileActivated} : AutocompleteLiProps) {
-    const isRestaurant = (value: AutocompleteValue): value is Restaurant => value.type === "Restaurant"
       
+    const isRestaurant = checkType<AutocompleteValue, Restaurant>(value, value.type === "Restaurant")
     const handleClickRestaurantLi = (value: Restaurant) => {
         setRestaurantDetails(value)
         setisFilterMobileActivated?.(false)
@@ -25,5 +26,5 @@ export default function AutocompleteLi({setLiClicked, setInputValue, setRestaura
         }, 100);
     
 }
-    return <li onClick={ isRestaurant(value) ? () => handleClickRestaurantLi(value) : (e) => handleLiClicked((e.target as HTMLLIElement).textContent ?? "")} className="hover:scale-105 hover:opacity-50 transition duration-700 w-full truncate cursor-pointer">{ !isRestaurant(value) ? value.city + ', ' + value.depCode : value.name + ` (${value.postalCode})`}</li>
+    return <li onClick={  isRestaurant ? () => handleClickRestaurantLi(value) : (e) => handleLiClicked((e.target as HTMLLIElement).textContent ?? "")} className="hover:scale-105 hover:opacity-50 transition duration-700 w-full truncate cursor-pointer">{ !isRestaurant ? value.city + ', ' + value.depCode : value.name + ` (${value.postalCode})`}</li>
 } 
