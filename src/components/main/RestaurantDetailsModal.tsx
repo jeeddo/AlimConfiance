@@ -3,9 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import RestaurantImg from '../../assets/images/RestaurantImg.png'
 import Restaurant2 from '../../assets/images/Restaurant2.png'
 import type { Restaurant } from "../../types/restaurant.d"
-import generateRandomNumber from "../../utils/generateRandomNumber"
+import generateRandomNumber from "../../utils-lib/generateRandomNumber"
 import { Rating } from "../../types/ratings"
-import { BG_RATES_COLORS } from "../../utils/constants"
+import { BG_RATES_COLORS } from "../../utils-lib/constants"
+import Button from "../ui/button/Button"
+import Badge from "../ui/badge/Badge"
 
 interface CardDetailsModalProps {
     restaurantDetails: Restaurant | null,
@@ -37,7 +39,7 @@ function DetailsModalHeader({setRestaurantDetails} : DetailsModalHeaderProps) {
     return   <header className='relative flex justify-between items-center bg-indigo px-4 rounded-t-md' >
     <h2 className='md:text-lg text-base text-main font-semibold'>Restaurants</h2>
     <img className='w-1/3' src={chooseRestaurantImg()} alt="Restaurant" />
-    <button onClick={() => setRestaurantDetails(null)} className=' xs:text-base text-sm absolute top-2 left-1/2 -translate-x-1/2 hover:opacity-65 transition duration-300' ><FontAwesomeIcon icon={closeIcon}/></button>
+    <Button onClick={() => setRestaurantDetails(null)} className="xs:text-base text-sm absolute top-2 left-1/2 -translate-x-1/2 hover:opacity-65 transition duration-300 hover:bg-indigo " variant={"ghost"}><FontAwesomeIcon icon={closeIcon}/></Button>
 
 </header>
 
@@ -50,7 +52,7 @@ function DetailsModalContent({setRestaurantDetails, setRestaurantDetailsPrinter,
     return    <main className='flex justify-between items-center px-4 py-3 md:text-base sm:text-sm text-xs'>
     <div className='flex flex-col justify-center items-start gap-5'> 
         <div className='flex flex-col justify-center items-start gap-1'>
-        <p className='mb-2 bg-green-700 text-white px-2 py-1 rounded-full shadow-md'>{restaurantDetails.activity}</p>
+        <Badge className="mb-2" asPill variant='green' size='sm'>{restaurantDetails.activity}</Badge>
         <h4>{restaurantDetails.name}</h4>
         <p >{restaurantDetails.address}</p>
         <p >{restaurantDetails.postalCode}</p>
@@ -63,10 +65,10 @@ function DetailsModalContent({setRestaurantDetails, setRestaurantDetailsPrinter,
     </div>
     <div className='flex flex-col justify-center items-center gap-5'>
         <div className='relative'>
-            <p className='px-3 py-4 xs:p-5 shadow border border-indigo xl:text-xl md:text-lg xs:text-base hover:border-2 hover:scale-105 transition-all duration-700 rounded-lg'>{(restaurantDetails.rating as Rating).rate}</p>
-            <div className={`h-2 w-2 rounded-full absolute xs:top-2 xs:right-2 right-[5px] top-[5px] ${BG_RATES_COLORS[(restaurantDetails.rating as Rating).color]}`}></div>
+            <Badge variant='default' size='md'>{(restaurantDetails.rating as Rating).rate}</Badge>
+            <Badge size='xs' asPill className={`absolute xs:top-2 xs:right-2 right-[5px] top-[5px] ${BG_RATES_COLORS[(restaurantDetails.rating as Rating).color]}`} />
         </div>
-        <button onClick={() => {setRestaurantDetailsPrinter(restaurantDetails); setRestaurantDetails(null)}} className=' bg-main text-white px-1 xs:px-3 py-2 rounded-lg sm:rounded-md shadow-lg hover:shadow-xl active:scale-95 hover:bg-blue-600 hover:text-primary transition-all duration-700 '>Imprimer cette affichette</button>
+        <Button className="px-1 xs:px-3 py-2 shadow hover:shadow-md hover:rounded-lg" onClick={() => {setRestaurantDetailsPrinter(restaurantDetails); setRestaurantDetails(null)}} >Imprimer cette affichette</Button>
     </div>
     </main>
 }

@@ -5,21 +5,24 @@ import Sun from '../../assets/images/Sun.png'
 import { useThemeContext } from "../../contexts/ThemeContext"
 import { useGlobalContext } from "../../contexts/GlobalContext"
 import clsx from "clsx"
+import Button from "../ui/button/Button"
 
-
-export default function HeaderMain() {
+export interface HeaderMainProps  {
+    logo?: string
+}
+export default function HeaderMain({logo = LogoAlimConfiance}: HeaderMainProps) {
     const {toggleTheme, isDarkMode} = useThemeContext()
     const {toggleSideBar} = useGlobalContext()
     return(
         <div className='max-w-6xl mx-auto w-full flex xl:justify-between justify-around items-center'>
-        <img className='min-w-[200px] max-w-[33%]' src={LogoAlimConfiance} alt="Logo AlimConfiance" />
+        <img className='min-w-[200px] max-w-[33%]' src={logo} alt="Logo AlimConfiance" />
         <div onClick={toggleTheme} className={clsx("relative w-fit cursor-pointer hidden text-main", isDarkMode && 'sm:hidden', !isDarkMode && 'sm:inline-block')}>
             <FontAwesomeIcon className='md:text-3xl text-2xl' icon={moonDarkMode} />
             <FontAwesomeIcon className='w-3 absolute top-1/4 -translate-y-1/2 -right-3' icon={starDarkMode} />
             <FontAwesomeIcon className='w-2 absolute top-[67%] -translate-y-1/2 -right-4' icon={starDarkMode} />
         </div>
         <img onClick={toggleTheme} className={clsx("cursor-pointer hidden w-7 md:w-9", isDarkMode && 'sm:inline-block', !isDarkMode && 'sm:hidden')} src={Sun} alt="Sun light mode" /> 
-        <button onClick={toggleSideBar} className='sm:hidden inline-block text-xl'><FontAwesomeIcon icon={menuIcon} /></button>
+        <Button variant={"ghost"} onClick={toggleSideBar} className='group sm:hidden inline-block text-xl px-3 py-1 hover:py-1.5 shadow-md hover:shadow-lg hover:bg-transparent'><FontAwesomeIcon className="group-hover:rotate-180 transition-transform duration-500" icon={menuIcon} /></Button>
     </div>
     )
 }

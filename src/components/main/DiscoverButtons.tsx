@@ -1,4 +1,5 @@
 import clsx from "clsx"
+import Button from "../ui/button/Button";
 
 export interface DiscoverButtonsProps {
     setBtnState: (state: React.SetStateAction<boolean>) => void,
@@ -20,9 +21,11 @@ export default function DiscoverButtons({setBtnState, breakPoint, isSearchBtnCli
    }
 
     return <div className={clsx(`w-full flex flex-col justify-center items-center bg-main text-white shadow shadow-main hover:shadow hover:shadow-main transition duration-500 rounded-lg h-[80px]`, breakPointLg && 'lg:flex-row lg:h-[64px]', breakPointXs && 'xs:h-[64px] xs:flex-row')}>
-       
-    <button onClick={handleClickBtnDiscover} className={clsx(`w-full px-5 py-2 active:scale-95 hover:text-primary hover:bg-blue-600 transition duration-500 rounded-b-none rounded-lg h-full`, breakPointLg && 'lg:rounded-r-none lg:rounded-l-lg lg:w-fit', breakPointXs && 'xs:rounded-r-none xs:rounded-l-lg xs:w-1/2')}>Découvrir</button>
-    <button onClick={handleClickBtnSearch} className={ clsx(`px-5 py-2 active:scale-95 hover:text-primary hover:bg-blue-600 transition duration-500 rounded-t-none  rounded-lg w-full  h-full`, breakPointLg && 'lg:w-max lg:rounded-l-none lg:rounded-r-lg', breakPointXs && 'xs:w-1/2 xs:rounded-l-none xs:rounded-r-lg')}>Trouver un restaurant</button>
+     
+
+       <Button onClick={handleClickBtnDiscover} className={clsx('w-full px-5 py-2  active:scale-[.98] duration-500 hover:rounded-lg shadow-none hover:shadow-none hover:rounded-b-none hover:translate-y-0 h-full', breakPointLg && 'lg:hover:rounded-r-none lg:hover:rounded-l-lg lg:w-fit', breakPointXs && 'xs:hover:rounded-r-none xs:hover:rounded-l-lg xs:w-1/2')}>Découvrir</Button>
+       <Button onClick={handleClickBtnSearch} className={clsx('px-5 py-2 active:scale-[.98] duration-500 shadow-none hover:shadow-none hover:rounded-lg  hover:translate-y-0 hover:rounded-t-none  w-full  h-full ', breakPointLg && 'lg:w-max lg:hover:rounded-l-none lg:hover:rounded-r-lg', breakPointXs && 'xs:w-1/2 xs:hover:rounded-l-none xs:hover:rounded-r-lg')}>Trouver un restaurant</Button>
   
+
 </div>
 }

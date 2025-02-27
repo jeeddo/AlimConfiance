@@ -1,10 +1,11 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, ReactElement } from "react";
+import { Children } from "../types/common.d";
 
 const ThemeContext = createContext<{isDarkMode: boolean, toggleTheme: () => void, checkSystemTheme: () => void, 
   lightMode: () => void, darkMode: () => void
 } | null>(null);
 
-const ThemeContextProvider = ({ children }: { children: React.ReactNode }) => {
+const ThemeContextProvider = ({ children }: Children<ReactElement>) => {
   const [isDarkMode, setIsDarkMode] = useState((): boolean => (localStorage.theme === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) && localStorage.theme !== 'light')
 
   useEffect(() => {

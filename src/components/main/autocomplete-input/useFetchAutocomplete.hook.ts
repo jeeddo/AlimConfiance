@@ -20,7 +20,6 @@ setIsAutocompleteVisible?: (isVisible: React.SetStateAction<boolean>) => void,in
   }
      useEffect(() => {
             const fetchAutocomplete = async (inputValue : string) : Promise<void> => {
-    
                 if (!verifyEntry()) return;
                 setAutocompleteVisibility('')
                 setIsAutocompleteVisible?.(true)
@@ -46,7 +45,7 @@ setIsAutocompleteVisible?: (isVisible: React.SetStateAction<boolean>) => void,in
               }, [isLiClicked])
 
            useEffect(() => {
-                setAutocompleteValues([])
+            if (autocompleteValues.length) setAutocompleteValues([])
             }, [isSearchBtnClicked])
 
         return {

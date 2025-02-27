@@ -16,9 +16,9 @@ export default function useOnFormSubmit(
    setIsFilteredRestaurantLoading: (isLoading:  React.SetStateAction<boolean>) => void,
    setIsFilterActivated: (isActivated: React.SetStateAction<boolean>) => void,
    setError: (error: React.SetStateAction<string>) => void,
-): (e: React.FormEvent) => Promise<void> {
+): (e?: React.FormEvent<HTMLFormElement>) => Promise<void> {
   
-   const handleFormSubmit = async (e?: React.FormEvent) => {
+   const handleFormSubmit = async (e?: React.FormEvent<HTMLFormElement>): Promise<void> => {
       if (e) e.preventDefault()    
       if (!inputValue && hygieneLevel === 'Tous les niveaux' && !sortFilter) {
               setError('Le formulaire est vide..')

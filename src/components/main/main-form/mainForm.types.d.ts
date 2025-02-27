@@ -1,5 +1,6 @@
-import { SortFilter } from "../../../types/filter"
-import { Restaurant } from "../../../types/restaurant"
+import type { SortFilter } from "../../../types/filter"
+import type { Restaurant } from "../../../types/restaurant"
+import type { HelpToSearch } from "../../../types/helpSeach"
 
 export interface MainFormProps {
     breakPoint : string,
@@ -25,7 +26,8 @@ interface BreakPoints {
 }
 
 export interface HelpToSearchProps extends BreakPoints {
-    isAutocompleteVisible: boolean
+    isAutocompleteVisible: boolean,
+    helpToSearch: HelpToSearch
 }
 
 export interface FormButtonsProps extends BreakPoints {
