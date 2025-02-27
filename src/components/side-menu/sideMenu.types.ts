@@ -22,4 +22,4 @@ interface SideBarContentProps extends SideBarListProps {
 
 interface SideMenuProps extends SideBarListProps {}
 interface ThemeOptionProps extends SideMenuLi {}
-export {SideBarContentProps, SideBarListProps, SideMenuBtn, SideMenuLi, SideMenuProps, ThemeOptionProps}
+export type {SideBarContentProps, SideBarListProps, SideMenuBtn, SideMenuLi, SideMenuProps, ThemeOptionProps}

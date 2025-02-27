@@ -1,7 +1,7 @@
-import type { Restaurant } from "../../types/restaurant"
-import { Rating } from "../../types/ratings"
-import { BG_RATES_COLORS } from "../../utils-lib/constants"
-import Badge from "../ui/badge/Badge"
+import type { Restaurant } from "../types/restaurant"
+import { Rating } from "../types/ratings"
+import { BG_RATES_COLORS } from "../utils-lib/constants"
+import Badge from "../../../components/ui/badge/Badge"
 
 interface RestaurantCardProps {
     restaurant: Restaurant,

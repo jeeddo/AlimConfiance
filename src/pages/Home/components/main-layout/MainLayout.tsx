@@ -10,14 +10,14 @@ import ReactPaginate from 'react-paginate';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft as chevronLeft, faChevronRight as chevronRight } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
-import type { Restaurant } from "../../../types/restaurant";
+import type { Restaurant } from "../../types/restaurant";
 import RestaurantCardSkeleton from "../RestaurantCardSkeleton";
-import scrollToTop from "../../../utils-lib/scrollToTop";
+import scrollToTop from "../../../../utils-lib/scrollToTop";
 import SortButtons from "../SortButtons";
-import { PAGE_COUNT } from "../../../utils-lib/constants";
-import useMainLayoutState from "./hooks/useMainLayoutState";
+import { PAGE_COUNT } from "../../utils-lib/constants";
+import useMainLayoutState from "./hooks/useMainLayoutState.hook";
 import useFetchRestaurant from "./hooks/useFetchRestaurant.hook";
-import { useGlobalContext } from "../../../contexts/GlobalContext";
+import { useGlobalContext } from "../../../../contexts/GlobalContext";
 
 export default function MainLayout() {
   

@@ -2,11 +2,11 @@ import { useRef, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faLocationDot as locationIcon, faSearch as searchIcon } from "@fortawesome/free-solid-svg-icons"
 import type { AutocompleteLiProps } from "../AutocompleteLi"
-import useClickOutside from "../../../hooks/useClickOutside"
-import { MOBILE_DEVICES_WIDTH } from "../../../utils-lib/constants"
+import useClickOutside from "../../../../hooks/useClickOutside"
+import { MOBILE_DEVICES_WIDTH } from "../../../../utils-lib/constants"
 import AutocompleteList from "../AutocompleteList"
 import useFetchAutocomplete from "./useFetchAutocomplete.hook"
-import Input from "../../ui/form/Input"
+import Input from "../../../../components/ui/form/Input"
 export interface AutocompleteInputProps extends Omit<AutocompleteLiProps, 'value' | 'setLiClicked'> {
     inputValue: string,
     isInForm: boolean,

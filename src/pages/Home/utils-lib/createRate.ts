@@ -1,4 +1,4 @@
-import  Ratings , {type RatingsKeys, type Rating } from "../types/ratings.d";
+import  Ratings , {type RatingsKeys, type Rating } from "../types/ratings";
 
  export default function createRate (rating: RatingsKeys): Rating {
     switch (rating) {

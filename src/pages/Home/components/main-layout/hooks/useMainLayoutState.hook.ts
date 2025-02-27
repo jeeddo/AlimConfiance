@@ -1,8 +1,8 @@
 import { useMemo, useState } from "react";
-import { LIMIT, NB_MAX_DATA, PAGE_COUNT } from "../../../../utils-lib/constants";
-import calculateOffset from "../../../../utils-lib/calculateOffset";
-import { SortFilter } from "../../../../types/filter.d";
-import { Restaurant } from "../../../../types/restaurant.d";
+import { LIMIT, NB_MAX_DATA, PAGE_COUNT } from "../../../utils-lib/constants";
+import calculateOffset from "../../../../../utils-lib/calculateOffset";
+import { SortFilter } from "../../../types/filter";
+import { Restaurant } from "../../../types/restaurant";
 
 export default function useMainLayoutState() {
      const [restaurantDetails, setRestaurantDetails] = useState<Restaurant | null>(null);

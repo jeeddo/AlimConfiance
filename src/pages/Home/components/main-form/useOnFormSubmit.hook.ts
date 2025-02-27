@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { LIMIT } from "../../../utils-lib/constants";
-import { getFilteredRestaurants } from "../../../services/restaurant";
-import { SortFilter } from "../../../types/filter.d";
-import { Restaurant } from "../../../types/restaurant.d";
+import { LIMIT } from "../../utils-lib/constants";
+import { getFilteredRestaurants } from "../../services/restaurant";
+import { SortFilter } from "../../types/filter";
+import { Restaurant } from "../../types/restaurant";
 
 export default function useOnFormSubmit(
    hygieneLevel: string, 

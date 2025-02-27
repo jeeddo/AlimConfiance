@@ -1,8 +1,8 @@
 import { faArrowUp as arrowUpIcon, faArrowDown as arrowDownIcon } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import type { SortFilter } from "../../types/filter.d"
+import type { SortFilter } from "../types/filter"
 import clsx from "clsx"
-import Button from "../ui/button/Button"
+import Button from "../../../components/ui/button/Button"
 interface SortButtonsProps {
     setSortFilter: (filter: React.SetStateAction<SortFilter>) => void,
     setIsFilterActivated: (isActivated: React.SetStateAction<boolean>) => void,

@@ -1,13 +1,13 @@
 import { faXmark as closeIcon } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import RestaurantImg from '../../assets/images/RestaurantImg.png'
-import Restaurant2 from '../../assets/images/Restaurant2.png'
-import type { Restaurant } from "../../types/restaurant.d"
-import generateRandomNumber from "../../utils-lib/generateRandomNumber"
-import { Rating } from "../../types/ratings"
-import { BG_RATES_COLORS } from "../../utils-lib/constants"
-import Button from "../ui/button/Button"
-import Badge from "../ui/badge/Badge"
+import RestaurantImg from '../../../assets/images/RestaurantImg.png'
+import Restaurant2 from '../../../assets/images/Restaurant2.png'
+import type { Restaurant } from "../types/restaurant"
+import generateRandomNumber from "../../../utils-lib/generateRandomNumber"
+import { Rating } from "../types/ratings"
+import { BG_RATES_COLORS } from "../utils-lib/constants"
+import Button from "../../../components/ui/button/Button"
+import Badge from "../../../components/ui/badge/Badge"
 
 interface CardDetailsModalProps {
     restaurantDetails: Restaurant | null,

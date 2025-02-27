@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useGlobalContext } from "../../contexts/GlobalContext"
 import Overlay from "../ui/Overlay"
 import CopyrightNotice from "../ui/CopyrightNotice"
-import { SideBarListProps, SideBarContentProps, SideMenuProps, SideMenuBtn, SideMenuLi} from "./sideMenu.types.d"
+import { SideBarListProps, SideBarContentProps, SideMenuProps, SideMenuBtn, SideMenuLi} from "./sideMenu.types"
 import Button from "../ui/button/Button"
 import ThemeOption from "./ThemeOption"
 

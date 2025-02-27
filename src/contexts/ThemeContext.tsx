@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactElement } from "react";
-import { Children } from "../types/common.d";
+import { Children } from "../types/common";
 
 const ThemeContext = createContext<{isDarkMode: boolean, toggleTheme: () => void, checkSystemTheme: () => void, 
   lightMode: () => void, darkMode: () => void

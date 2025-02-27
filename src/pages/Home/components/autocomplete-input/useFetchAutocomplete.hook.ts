@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
-import { AutocompleteValue } from "../../../types/autocomplete.d"
-import { getLocations } from "../../../services/location"
-import { getSpecificRestaurant } from "../../../services/restaurant"
+import { AutocompleteValue } from "../../types/autocomplete"
+import { getLocations } from "../../services/location"
+import { getSpecificRestaurant } from "../../services/restaurant"
 
 export default function useFetchAutocomplete( input: string, isInForm: boolean, 
     isLiClicked: boolean,  setAutocompleteVisibility: (visibility: React.SetStateAction<'' | 'hidden'>) => void, 

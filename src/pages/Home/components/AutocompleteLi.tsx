@@ -1,6 +1,6 @@
-import type { Restaurant } from "../../types/restaurant.d"
-import type { AutocompleteValue } from "../../types/autocomplete.d"
-import { checkType } from "../../utils-lib/checkType"
+import type { Restaurant } from "../types/restaurant"
+import type { AutocompleteValue } from "../types/autocomplete"
+import { checkType } from "../../../utils-lib/checkType"
 
 export interface AutocompleteLiProps {
     setLiClicked: (isClicked: boolean) => void,

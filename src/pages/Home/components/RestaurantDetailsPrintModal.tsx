@@ -1,14 +1,14 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faXmark as closeIcon, faPrint as printerIcon } from "@fortawesome/free-solid-svg-icons"
-import Logo2 from '../../assets/images/Logo2.png'
-import type { Restaurant } from "../../types/restaurant"
+import Logo2 from '../../../assets/images/Logo2.png'
+import type { Restaurant } from "../types/restaurant"
 import { useReactToPrint } from "react-to-print";
 import { useEffect, useRef, useState } from "react";
-import useClickOutside from "../../hooks/useClickOutside";
-import { Rating } from "../../types/ratings";
-import { BG_RATES_COLORS } from "../../utils-lib/constants";
-import Button from "../ui/button/Button";
-import Badge from "../ui/badge/Badge";
+import useClickOutside from "../../../hooks/useClickOutside";
+import { Rating } from "../types/ratings";
+import { BG_RATES_COLORS } from "../utils-lib/constants";
+import Button from "../../../components/ui/button/Button";
+import Badge from "../../../components/ui/badge/Badge";
 
 interface CardDetailsPrintModalProps {
     setPrintRestaurantDetails: (restaurant: React.SetStateAction<Restaurant | null>) => void,

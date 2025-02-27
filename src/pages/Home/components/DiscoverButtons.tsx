@@ -1,5 +1,5 @@
 import clsx from "clsx"
-import Button from "../ui/button/Button";
+import Button from "../../../components/ui/button/Button";
 
 export interface DiscoverButtonsProps {
     setBtnState: (state: React.SetStateAction<boolean>) => void,

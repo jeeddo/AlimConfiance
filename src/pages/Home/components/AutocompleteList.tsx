@@ -1,4 +1,4 @@
-import { AutocompleteValue } from "../../types/autocomplete"
+import { AutocompleteValue } from "../types/autocomplete"
 import AutocompleteLi, { AutocompleteLiProps } from "./AutocompleteLi"
 
 interface autocompleteListProps extends Omit<AutocompleteLiProps, 'value'> {

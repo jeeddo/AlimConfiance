@@ -1,10 +1,10 @@
 import MainForm from "./main-form/MainForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown as chevronDown } from "@fortawesome/free-solid-svg-icons";
-import ControleSanitaire from '../../assets/images/ControleSanitaire.jpg'
+import ControleSanitaire from '../../../assets/images/ControleSanitaire.jpg'
 import type { DiscoverButtonsProps } from "./DiscoverButtons";
 import DiscoverButtons from "./DiscoverButtons";
-import { MainFormProps } from "./main-form/mainForm.types.d";
+import {type MainFormProps } from "./main-form/mainForm.types";
 
 interface FilterModalMobileDevices extends MainFormProps, DiscoverButtonsProps {
     isFilterMobileActivated: boolean,

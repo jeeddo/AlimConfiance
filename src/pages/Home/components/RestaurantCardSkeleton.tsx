@@ -1,4 +1,4 @@
-import Badge from "../ui/badge/Badge";
+import Badge from "../../../components/ui/badge/Badge";
 
 export default function RestaurantCardSkeleton() {
     return  <div className=' before:content-[""] before:animate-skeleton before:-translate-x-full before:absolute before:inset-0  before:bg-gradient-to-r before:from-transparent before:via-slate-100/50 relative w-full xl:w-[360px] h-[204px] bg-primary rounded-md xl:rounded-lg p-6 overflow-hidden hover:ring-2 hover:opacity-85 transition-all duration-500 cursor-pointer'>

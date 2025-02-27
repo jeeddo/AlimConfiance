@@ -1,10 +1,10 @@
 import { Restaurant } from "../types/restaurant";
-import fetchData from "../utils-lib/fetch";
+import fetchData from "../../../utils-lib/fetch";
 import createRate from '../utils-lib/createRate'
 import { RatingsKeys } from "../types/ratings";
 import { RESTAURANT_PATH } from "../utils-lib/constants";
-import formatDate from "../utils-lib/formatDate";
-import { Unwrap } from "../types/common";
+import formatDate from "../../../utils-lib/formatDate";
+import { Unwrap } from "../../../types/common";
 
 type FilteredRestaurant = {total_count: number, restaurants: Restaurant[]};
 

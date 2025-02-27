@@ -1,9 +1,9 @@
 import { faQuestion as questionMarkIcon } from "@fortawesome/free-solid-svg-icons"
 import AutocompleteInput from "./autocomplete-input/AutocompleteInput"
-import type { Restaurant } from "../../types/restaurant"
-import Tooltip from "../ui/Tooltip"
-import { HELP_TO_SEARCH } from "../../utils-lib/constants"
-import Button from "../ui/button/Button"
+import type { Restaurant } from "../types/restaurant"
+import Tooltip from "../../../components/ui/Tooltip"
+import { HELP_TO_SEARCH } from "../utils-lib/constants"
+import Button from "../../../components/ui/button/Button"
 
 interface SearchAndTooltipProps {
    setisFilterMobileActivated: (isClicked: React.SetStateAction<boolean>) => void,

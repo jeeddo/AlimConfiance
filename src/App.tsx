@@ -1,6 +1,6 @@
 import FooterLayout from "./components/footer/FooterLayout"
 import HeaderLayout from "./components/header/HeaderLayout"
-import MainLayout from "./components/main/main-layout/MainLayout"
+import MainLayout from "./pages/Home/components/main-layout/MainLayout"
 import SideMenu from "./components/side-menu/SideMenu"
 import { useGlobalContext } from "./contexts/GlobalContext"
 

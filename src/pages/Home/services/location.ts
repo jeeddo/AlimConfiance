@@ -1,7 +1,7 @@
-import type { Location } from "../types/autocomplete.d"
-import { Unwrap } from "../types/common"
+import type { Location } from "../types/autocomplete"
+import { Unwrap } from "../../../types/common"
 import { LOCATION_PATH } from "../utils-lib/constants"
-import fetchData from "../utils-lib/fetch"
+import fetchData from "../../../utils-lib/fetch"
 
 export const getLocations = async (queryValue: string): Promise<Location[]> => {
     const urlPath = LOCATION_PATH + '?query=' + queryValue
