@@ -7,7 +7,7 @@ const fetchData = async <T extends object>(urlPath: string): Promise<T | undefin
         const response = await api.json()  
         return response   
     } catch (error) {
-        if (error instanceof Error) console.log(error.message)
+        if (error instanceof Error) window.console.error(error.message)
     }
 }
 
