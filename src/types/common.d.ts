@@ -1,5 +1,6 @@
 import { type ReactNode } from "react"
- export type ClassName = {
+
+type ClassName = {
     className?: string
 } 
 
@@ -10,3 +11,5 @@ type ReactChildren = React.ReactNode | React.ReactElement
 }
 
 type ClassNameAndChildren = ClassName & Children;
+
+type Unwrap<K> = Awaited<K>
