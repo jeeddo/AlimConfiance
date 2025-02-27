@@ -4,7 +4,7 @@ import calculateOffset from "../../../../../utils-lib/calculateOffset";
 import { SortFilter } from "../../../types/filter";
 import { Restaurant } from "../../../types/restaurant";
 
-export default function useMainLayoutState() {
+export default function useHomeLayoutState() {
      const [restaurantDetails, setRestaurantDetails] = useState<Restaurant | null>(null);
       const [printRestaurantDetails, setPrintRestaurantDetails] = useState<Restaurant | null>(null);
       const [filteredRestaurantData, setFilteredRestaurantData] = useState<Restaurant[]>([])

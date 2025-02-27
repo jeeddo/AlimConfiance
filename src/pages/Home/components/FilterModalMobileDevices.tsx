@@ -1,12 +1,12 @@
-import MainForm from "./main-form/MainForm";
+import HomeForm from "./home-form/HomeForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown as chevronDown } from "@fortawesome/free-solid-svg-icons";
 import ControleSanitaire from '../../../assets/images/ControleSanitaire.jpg'
 import type { DiscoverButtonsProps } from "./DiscoverButtons";
 import DiscoverButtons from "./DiscoverButtons";
-import {type MainFormProps } from "./main-form/mainForm.types";
+import {type HomeFormProps } from "./home-form/homeForm.types";
 
-interface FilterModalMobileDevices extends MainFormProps, DiscoverButtonsProps {
+interface FilterModalMobileDevices extends HomeFormProps, DiscoverButtonsProps {
     isFilterMobileActivated: boolean,
 }
 type FilterModalMobileDevicesProps = Omit<FilterModalMobileDevices, 'breakPoint'>
@@ -19,7 +19,7 @@ export default function FilterModalMobileDevices({isFilterMobileActivated, setBt
     </header>
     <main className='flex flex-col justify-center items-center gap-7 w-3/4'>
     <DiscoverButtons isSearchBtnClicked={isSearchBtnClicked} setBtnState={setBtnState} breakPoint="xs" />
-    <MainForm isSearchBtnClicked={isSearchBtnClicked} breakPoint="xs" {...props} />
+    <HomeForm isSearchBtnClicked={isSearchBtnClicked} breakPoint="xs" {...props} />
     </main>
 </div>
     )

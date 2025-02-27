@@ -2,7 +2,7 @@ import type { HygieneLevel, SortFilter } from "../../types/filter"
 import type { Restaurant } from "../../types/restaurant"
 import type { HelpToSearch } from "../../types/helpSeach"
 
-export interface MainFormProps {
+export interface HomeFormProps {
     breakPoint : string,
     offset : number,
     sortFilter: SortFilter,

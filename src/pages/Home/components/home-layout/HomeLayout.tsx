@@ -3,7 +3,7 @@ import RestaurantDetailsPrintModal from "../RestaurantDetailsPrintModal";
 import RestaurantList from "../RestaurantList";
 import DiscoverButtons from "../DiscoverButtons";
 import FilterModalMobileDevices from "../FilterModalMobileDevices";
-import MainForm from "../main-form/MainForm";
+import HomeForm from "../home-form/HomeForm";
 import SearchAndTooltip from "../SearchAndTooltip";
 import RestaurantCard from "../RestaurantCard";
 import ReactPaginate from 'react-paginate';
@@ -15,11 +15,11 @@ import RestaurantCardSkeleton from "../RestaurantCardSkeleton";
 import scrollToTop from "../../../../utils-lib/scrollToTop";
 import SortButtons from "../SortButtons";
 import { PAGE_COUNT } from "../../utils-lib/constants";
-import useMainLayoutState from "./hooks/useMainLayoutState.hook";
+import useHomeLayoutState from "./hooks/useHomeLayoutState.hook";
 import useFetchRestaurant from "./hooks/useFetchRestaurant.hook";
 import { useGlobalContext } from "../../../../contexts/GlobalContext";
 
-export default function MainLayout() {
+export default function HomeLayout() {
   
   const {restaurantDetails, 
     setRestaurantDetails, 
@@ -42,7 +42,7 @@ export default function MainLayout() {
     setSortFilter, 
     offset, 
     offsetFilteredData,
-     pageCountFilteredRestaurant} = useMainLayoutState()
+     pageCountFilteredRestaurant} = useHomeLayoutState()
     
   const {isMobile} = useGlobalContext()
      
@@ -62,7 +62,7 @@ export default function MainLayout() {
   return  <main className=' animate-fade-in opacity-0 max-w-6xl mx-auto px-5 flex justify-center xl:items-center items-start md:gap-12 xl:gap-20 lg:gap-16 transition-all' style={{ minHeight: 'var(--viewport-minus-header-plus-footer)' }}>
       <div className='hidden xl:mt-0 mt-10 md:flex flex-col justify-center items-start gap-12 w-[350px] lg:text-base text-sm'>
       {!isMobile && <> <DiscoverButtons isSearchBtnClicked={isSearchRestaurantBtnClicked} setBtnState={setIsSearchRestaurantBtnClicked} breakPoint="lg" />
-        <MainForm  hasCurrentPage={currentPage > 0} setSortFilter={setSortFilter} sortFilter={sortFilter} setCurrentPage={setCurrentPage} isFilterActivated={isFilterActivated} setisFilterMobileActivated={setisFilterMobileActivated} isSearchBtnClicked={isSearchRestaurantBtnClicked} breakPoint="lg" setFilteredData={setFilteredRestaurantData} setNbOfRestaurant={setFilteredRestaurantCount} offset={offsetFilteredData} setIsFilterActivated={setIsFilterActivated} setIsFilteredRestaurantLoading={setIsFilteredRestaurantLoading} setRestaurantDetails={setRestaurantDetails} /> </> }
+        <HomeForm  hasCurrentPage={currentPage > 0} setSortFilter={setSortFilter} sortFilter={sortFilter} setCurrentPage={setCurrentPage} isFilterActivated={isFilterActivated} setisFilterMobileActivated={setisFilterMobileActivated} isSearchBtnClicked={isSearchRestaurantBtnClicked} breakPoint="lg" setFilteredData={setFilteredRestaurantData} setNbOfRestaurant={setFilteredRestaurantCount} offset={offsetFilteredData} setIsFilterActivated={setIsFilterActivated} setIsFilteredRestaurantLoading={setIsFilteredRestaurantLoading} setRestaurantDetails={setRestaurantDetails} /> </> }
       </div>
 
       <div className='w-full relative flex flex-col justify-center items-start gap-10'>

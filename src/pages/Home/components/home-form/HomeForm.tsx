@@ -5,7 +5,7 @@ import AutocompleteInput from "../autocomplete-input/AutocompleteInput"
 import clsx from "clsx"
 import type { HygieneLevel } from "../../types/filter"
 import useOnFormSubmit from "./useOnFormSubmit.hook"
-import { FormButtonsProps, FormErrorProps, FormLabelProps, HelpToSearchProps, MainFormProps, SelectFormProps } from "./mainForm.types"
+import { FormButtonsProps, FormErrorProps, FormLabelProps, HelpToSearchProps, HomeFormProps, SelectFormProps } from "./homeForm.types"
 import { HYGIENE_LEVELS, HELP_TO_SEARCH } from "../../utils-lib/constants"
 import Select from "../../../../components/ui/form/Select"
 import Label from "../../../../components/ui/form/Label"
@@ -13,7 +13,7 @@ import Form from "../../../../components/ui/form/Form"
 import ErrorMsg from "../../../../components/ui/ErrorMsg"
 import Button from "../../../../components/ui/button/Button"
 
-export default function MainForm({breakPoint, sortFilter, hasCurrentPage, setSortFilter, offset, isFilterActivated,setFilteredData, setCurrentPage, setNbOfRestaurant, setisFilterMobileActivated, setIsFilterActivated, setIsFilteredRestaurantLoading, isSearchBtnClicked, setRestaurantDetails} : MainFormProps) {
+export default function HomeForm({breakPoint, sortFilter, hasCurrentPage, setSortFilter, offset, isFilterActivated,setFilteredData, setCurrentPage, setNbOfRestaurant, setisFilterMobileActivated, setIsFilterActivated, setIsFilteredRestaurantLoading, isSearchBtnClicked, setRestaurantDetails} : HomeFormProps) {
 
     const [inputValue, setInputValue] = useState('')
     const [hygieneLevel, setHygieneLevel] = useState<HygieneLevel>('Tous les niveaux')
