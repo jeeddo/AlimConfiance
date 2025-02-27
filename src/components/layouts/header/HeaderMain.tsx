@@ -1,11 +1,11 @@
 import { faMoon as moonDarkMode, faStar as starDarkMode, faBars as menuIcon} from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import LogoAlimConfiance from '../../assets/images/LogoAlimConfiance.svg'
-import Sun from '../../assets/images/Sun.png'
-import { useThemeContext } from "../../contexts/ThemeContext"
-import { useGlobalContext } from "../../contexts/GlobalContext"
+import LogoAlimConfiance from '../../../assets/images/LogoAlimConfiance.svg'
+import Sun from '../../../assets/images/Sun.png'
+import { useThemeContext } from "../../../contexts/ThemeContext"
+import { useGlobalContext } from "../../../contexts/GlobalContext"
 import clsx from "clsx"
-import Button from "../ui/button/Button"
+import Button from "../../ui/button/Button"
 
 export interface HeaderMainProps  {
     logo?: string

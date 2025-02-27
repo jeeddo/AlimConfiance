@@ -1,6 +1,6 @@
-import { ClassName } from "../../types/common";
-import { cn } from "../../utils-lib/cn";
-import FooterMain, { FooterMainProps } from "./FooterMain";
+import { ClassName } from "../../../types/common";
+import { cn } from "../../../utils-lib/cn";
+import FooterMain, {type FooterMainProps } from "./FooterMain";
 
 interface FooterLayoutProps extends FooterMainProps, ClassName {}
 export default function FooterLayout({className, ...props}: FooterLayoutProps) {

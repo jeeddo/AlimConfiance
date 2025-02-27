@@ -1,6 +1,6 @@
-import { ClassName } from "../../types/common";
-import { cn } from "../../utils-lib/cn";
-import HeaderMain, { HeaderMainProps } from "./HeaderMain";
+import { ClassName } from "../../../types/common";
+import { cn } from "../../../utils-lib/cn";
+import HeaderMain, {type HeaderMainProps } from "./HeaderMain";
 
 interface HeaderLayoutProps extends HeaderMainProps, ClassName {}
 export default function HeaderLayout({className, logo}: HeaderLayoutProps) {

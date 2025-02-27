@@ -1,7 +1,7 @@
-import Logo1 from '../../assets/images/Logo1.png'
-import LogoAlimConfiance from '../../assets/images/LogoAlimConfiance.svg'
-import scrollToTop from '../../utils-lib/scrollToTop'
-import CopyrightNotice, { CopyrightNoticeProps } from '../ui/CopyrightNotice'
+import Logo1 from '../../../assets/images/Logo1.png'
+import LogoAlimConfiance from '../../../assets/images/LogoAlimConfiance.svg'
+import scrollToTop from '../../../utils-lib/scrollToTop'
+import CopyrightNotice, {type CopyrightNoticeProps } from '../../ui/CopyrightNotice'
 
 export interface FooterMainProps extends Omit<CopyrightNoticeProps, 'className'> {
     logo1?: string,
