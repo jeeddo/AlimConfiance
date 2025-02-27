@@ -17,8 +17,9 @@ import SortButtons from "../SortButtons";
 import { PAGE_COUNT } from "../../../utils-lib/constants";
 import useMainLayoutState from "./hooks/useMainLayoutState";
 import useFetchRestaurant from "./hooks/useFetchRestaurant.hook";
+import { useGlobalContext } from "../../../contexts/GlobalContext";
 
-export default function MainLayout({isMobile}: {isMobile: boolean}) {
+export default function MainLayout() {
   
   const {restaurantDetails, 
     setRestaurantDetails, 
@@ -42,13 +43,14 @@ export default function MainLayout({isMobile}: {isMobile: boolean}) {
     offset, 
     offsetFilteredData,
      pageCountFilteredRestaurant} = useMainLayoutState()
+    
+  const {isMobile} = useGlobalContext()
      
   const {restaurantData, isLoading} = useFetchRestaurant(offset, currentPage, isFilterActivated)
 
   useEffect(() => {
     if (currentPage) setCurrentPage(0)
   }, [isFilterActivated])
-  
 
   const handlePageChange = (selectedPage: { selected: number }) => {
     setCurrentPage(selectedPage.selected);  
@@ -59,12 +61,12 @@ export default function MainLayout({isMobile}: {isMobile: boolean}) {
 
   return  <main className=' animate-fade-in opacity-0 max-w-6xl mx-auto px-5 flex justify-center xl:items-center items-start md:gap-12 xl:gap-20 lg:gap-16 transition-all' style={{ minHeight: 'var(--viewport-minus-header-plus-footer)' }}>
       <div className='hidden xl:mt-0 mt-10 md:flex flex-col justify-center items-start gap-12 w-[350px] lg:text-base text-sm'>
-        <DiscoverButtons isSearchBtnClicked={isSearchRestaurantBtnClicked} setBtnState={setIsSearchRestaurantBtnClicked} breakPoint="lg" />
-        {!isMobile && <MainForm  hasCurrentPage={currentPage > 0} setSortFilter={setSortFilter} sortFilter={sortFilter} setCurrentPage={setCurrentPage} isFilterActivated={isFilterActivated} setisFilterMobileActivated={setisFilterMobileActivated} isSearchBtnClicked={isSearchRestaurantBtnClicked} breakPoint="lg" setFilteredData={setFilteredRestaurantData} setNbOfRestaurant={setFilteredRestaurantCount} offset={offsetFilteredData} setIsFilterActivated={setIsFilterActivated} setIsFilteredRestaurantLoading={setIsFilteredRestaurantLoading} setRestaurantDetails={setRestaurantDetails} />}
+      {!isMobile && <> <DiscoverButtons isSearchBtnClicked={isSearchRestaurantBtnClicked} setBtnState={setIsSearchRestaurantBtnClicked} breakPoint="lg" />
+        <MainForm  hasCurrentPage={currentPage > 0} setSortFilter={setSortFilter} sortFilter={sortFilter} setCurrentPage={setCurrentPage} isFilterActivated={isFilterActivated} setisFilterMobileActivated={setisFilterMobileActivated} isSearchBtnClicked={isSearchRestaurantBtnClicked} breakPoint="lg" setFilteredData={setFilteredRestaurantData} setNbOfRestaurant={setFilteredRestaurantCount} offset={offsetFilteredData} setIsFilterActivated={setIsFilterActivated} setIsFilteredRestaurantLoading={setIsFilteredRestaurantLoading} setRestaurantDetails={setRestaurantDetails} /> </> }
       </div>
 
       <div className='w-full relative flex flex-col justify-center items-start gap-10'>
-        {isMobile && <SearchAndTooltip setisFilterMobileActivated={setisFilterMobileActivated} setRestaurantDetails={setRestaurantDetails} />}
+        {isMobile && <SearchAndTooltip isFilterMobileActivated={isFilterMobileActivated} setisFilterMobileActivated={setisFilterMobileActivated} setRestaurantDetails={setRestaurantDetails} />}
         <SortButtons setCurrentPage={setCurrentPage} isFilterActivated={isFilterActivated} sortFilter={sortFilter} setIsFilterActivated={setIsFilterActivated} setSortFilter={setSortFilter} />
 
         <RestaurantList>

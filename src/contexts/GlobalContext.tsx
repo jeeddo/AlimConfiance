@@ -1,15 +1,62 @@
-import { createContext, ReactElement, useContext, useState } from "react";
+import { createContext, ReactElement, useContext, useEffect, useState } from "react";
+import { Children } from "../types/common";
+import { useThemeContext } from "./ThemeContext";
+ import {faSun as sunLightMode, faMoon as moonDarkMode, faDesktop as pcIcon } from "@fortawesome/free-solid-svg-icons"
+import { SideMenuBtn, SideMenuLi } from "../components/side-menu/sideMenu.types";
+import { MAX_MOBILE_DEVICES_WIDTH } from "../utils-lib/constants";
 
-const GlobalContext = createContext<{isSideBarOpen: boolean, toggleSideBar: () => void} | null>(null)
+const GlobalContext = createContext<{isSideBarOpen: boolean, toggleSideBar: () => void, sideBarContent: {sideBarBtns: SideMenuBtn[], sideBarLis: SideMenuLi[]}, isMobile: boolean} | null>(null)
 
-const GlobalContextProvider = ({children}: {children: ReactElement}) => {
+const GlobalContextProvider = ({children}: Children<ReactElement>) => {
     const [isSideBarOpen, setShowSideBar] = useState(false)
+    const {darkMode, lightMode, checkSystemTheme, isDarkMode} = useThemeContext()
+    const [isMobile, setIsMobile] = useState(false)
+    
+        useEffect(( ) => {
+            const handleResize = () => {
+                if (window.innerWidth <= MAX_MOBILE_DEVICES_WIDTH) setIsMobile(true)
+                else setIsMobile(false)
+            }
+            handleResize()
+            window.addEventListener('resize', handleResize)
+        })
+
+     const sideBarContent = {
+       sideBarLis:  [
+            {
+                title: 'Light',
+                icon: sunLightMode,
+                classNameCondition: !isDarkMode && 'font-semibold text-main'
+            },
+            {
+                title: 'Dark',
+                icon: moonDarkMode,
+                classNameCondition: isDarkMode && 'font-semibold text-main'
+            },
+            {
+                title: 'System',
+                icon: pcIcon
+            }
+        ],
+    
+      sideBarBtns: [
+            {
+                onClick: lightMode
+            },
+            {
+                onClick: darkMode
+            },
+            {
+                onClick: checkSystemTheme
+            }
+        ]
+     } 
 
     const toggleSideBar = () => {
         setShowSideBar(prevState => !prevState)
     }
 
-    return <GlobalContext.Provider value={{isSideBarOpen, toggleSideBar}}>
+    return <GlobalContext.Provider value={{isSideBarOpen, toggleSideBar, sideBarContent, isMobile}}>
         {children}
     </GlobalContext.Provider>
 }

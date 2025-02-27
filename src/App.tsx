@@ -1,25 +1,18 @@
-import { useEffect, useState } from "react"
 import FooterLayout from "./components/footer/FooterLayout"
 import HeaderLayout from "./components/header/HeaderLayout"
 import MainLayout from "./components/main/main-layout/MainLayout"
-import { MAX_MOBILE_DEVICES_WIDTH } from "./utils/constants"
 import SideMenu from "./components/side-menu/SideMenu"
+import { useGlobalContext } from "./contexts/GlobalContext"
 
 function App() {
-    const [isMobile, setIsMobile] = useState(false)
-    useEffect(( ) => {
-        const handleResize = () => {
-            if (window.innerWidth <= MAX_MOBILE_DEVICES_WIDTH) setIsMobile(true)
-            else setIsMobile(false)
-        }
-        handleResize()
-        window.addEventListener('resize', handleResize)
-    })
+    const {sideBarContent: {sideBarBtns, sideBarLis}} = useGlobalContext()
+
+ 
     return (
         <>
-        <SideMenu />
+        {<SideMenu liList={sideBarLis} btnList={sideBarBtns} /> /* here we dont unmount according to sidebar state because of the transition of the sidebar, we could use framer motion*/}
         <HeaderLayout />
-        <MainLayout isMobile={isMobile} />
+        <MainLayout />
         <FooterLayout />
         </>
     )

@@ -1,4 +1,4 @@
-import { IconDefinition } from "@fortawesome/free-solid-svg-icons"
+import {type IconDefinition } from "@fortawesome/free-solid-svg-icons"
 
 interface SideMenuLi {
     title: string,
@@ -20,4 +20,6 @@ interface SideBarContentProps extends SideBarListProps {
     toggleSideBar: () => void,
 }
 
-export {SideBarContentProps, SideBarListProps, SideMenuBtn, SideMenuLi}
+interface SideMenuProps extends SideBarListProps {}
+interface ThemeOptionProps extends SideMenuLi {}
+export {SideBarContentProps, SideBarListProps, SideMenuBtn, SideMenuLi, SideMenuProps, ThemeOptionProps}
