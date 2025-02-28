@@ -1,7 +1,9 @@
-import { Children } from "../../../types/common";
+import { Children } from '../../../types/common'
 
-export default function RestaurantList({children} : Children) {
-    return   <div className='w-full grid xl:grid-cols-2 grid-cols-1 xl:gap-x-3 gap-y-5 sm:text-base text-xs mb-1'>
-        {children}
-</div>
+export default function RestaurantList({ children }: Children) {
+  return (
+    <div className='mb-1 grid w-full grid-cols-1 gap-y-5 text-xs sm:text-base xl:grid-cols-2 xl:gap-x-3'>
+      {children}
+    </div>
+  )
 }

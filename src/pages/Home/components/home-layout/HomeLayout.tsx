@@ -1,100 +1,201 @@
-import RestaurantDetailsModal from "../RestaurantDetailsModal";
-import RestaurantDetailsPrintModal from "../RestaurantDetailsPrintModal";
-import RestaurantList from "../RestaurantList";
-import DiscoverButtons from "../DiscoverButtons";
-import FilterModalMobileDevices from "../FilterModalMobileDevices";
-import HomeForm from "../home-form/HomeForm";
-import SearchAndTooltip from "../SearchAndTooltip";
-import RestaurantCard from "../RestaurantCard";
-import ReactPaginate from 'react-paginate';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft as chevronLeft, faChevronRight as chevronRight } from "@fortawesome/free-solid-svg-icons";
-import { useEffect } from "react";
-import type { Restaurant } from "../../types/restaurant";
-import RestaurantCardSkeleton from "../RestaurantCardSkeleton";
-import scrollToTop from "../../../../utils-lib/scrollToTop";
-import SortButtons from "../SortButtons";
-import { PAGE_COUNT } from "../../utils-lib/constants";
-import useHomeLayoutState from "./hooks/useHomeLayoutState.hook";
-import useFetchRestaurant from "./hooks/useFetchRestaurant.hook";
-import { useGlobalContext } from "../../../../contexts/GlobalContext";
+import { useGlobalContext } from '../../../../contexts/GlobalContext'
+import scrollToTop from '../../../../utils-lib/scrollToTop'
+import type { Restaurant } from '../../types/restaurant'
+import { PAGE_COUNT } from '../../utils-lib/constants'
+import DiscoverButtons from '../DiscoverButtons'
+import FilterModalMobileDevices from '../FilterModalMobileDevices'
+import RestaurantCard from '../RestaurantCard'
+import RestaurantCardSkeleton from '../RestaurantCardSkeleton'
+import RestaurantDetailsModal from '../RestaurantDetailsModal'
+import RestaurantDetailsPrintModal from '../RestaurantDetailsPrintModal'
+import RestaurantList from '../RestaurantList'
+import SearchAndTooltip from '../SearchAndTooltip'
+import SortButtons from '../SortButtons'
+import HomeForm from '../home-form/HomeForm'
+import useFetchRestaurant from './hooks/useFetchRestaurant.hook'
+import useHomeLayoutState from './hooks/useHomeLayoutState.hook'
+import {
+  faChevronLeft as chevronLeft,
+  faChevronRight as chevronRight
+} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useEffect } from 'react'
+import ReactPaginate from 'react-paginate'
 
 export default function HomeLayout() {
-  
-  const {restaurantDetails, 
-    setRestaurantDetails, 
-    printRestaurantDetails, 
-    setPrintRestaurantDetails, 
-    filteredRestaurantData, 
-    setFilteredRestaurantData, 
-    isFilterActivated, 
-    setIsFilterActivated, 
-    currentPage, 
-    setCurrentPage, 
-    setFilteredRestaurantCount, 
-    isFilteredRestaurantLoading, 
-    setIsFilteredRestaurantLoading, 
-    isSearchRestaurantBtnClicked, 
-    setIsSearchRestaurantBtnClicked, 
-    isFilterMobileActivated, 
-    setisFilterMobileActivated, 
-    sortFilter, 
-    setSortFilter, 
-    offset, 
+  const {
+    restaurantDetails,
+    setRestaurantDetails,
+    printRestaurantDetails,
+    setPrintRestaurantDetails,
+    filteredRestaurantData,
+    setFilteredRestaurantData,
+    isFilterActivated,
+    setIsFilterActivated,
+    currentPage,
+    setCurrentPage,
+    setFilteredRestaurantCount,
+    isFilteredRestaurantLoading,
+    setIsFilteredRestaurantLoading,
+    isSearchRestaurantBtnClicked,
+    setIsSearchRestaurantBtnClicked,
+    isFilterMobileActivated,
+    setisFilterMobileActivated,
+    sortFilter,
+    setSortFilter,
+    offset,
     offsetFilteredData,
-     pageCountFilteredRestaurant} = useHomeLayoutState()
-    
-  const {isMobile} = useGlobalContext()
-     
-  const {restaurantData, isLoading} = useFetchRestaurant(offset, currentPage, isFilterActivated)
+    pageCountFilteredRestaurant
+  } = useHomeLayoutState()
+
+  const { isMobile } = useGlobalContext()
+
+  const { restaurantData, isLoading } = useFetchRestaurant(
+    offset,
+    currentPage,
+    isFilterActivated
+  )
 
   useEffect(() => {
     if (currentPage) setCurrentPage(0)
   }, [isFilterActivated])
 
   const handlePageChange = (selectedPage: { selected: number }) => {
-    setCurrentPage(selectedPage.selected);  
+    setCurrentPage(selectedPage.selected)
     scrollToTop()
-  };
+  }
 
-
-
-  return  <main className=' animate-fade-in opacity-0 max-w-6xl mx-auto px-5 flex justify-center xl:items-center items-start md:gap-12 xl:gap-20 lg:gap-16 transition-all' style={{ minHeight: 'var(--viewport-minus-header-plus-footer)' }}>
-      <div className='hidden xl:mt-0 mt-10 md:flex flex-col justify-center items-start gap-12 w-[350px] lg:text-base text-sm'>
-      {!isMobile && <> <DiscoverButtons isSearchBtnClicked={isSearchRestaurantBtnClicked} setBtnState={setIsSearchRestaurantBtnClicked} breakPoint="lg" />
-        <HomeForm  hasCurrentPage={currentPage > 0} setSortFilter={setSortFilter} sortFilter={sortFilter} setCurrentPage={setCurrentPage} isFilterActivated={isFilterActivated} setisFilterMobileActivated={setisFilterMobileActivated} isSearchBtnClicked={isSearchRestaurantBtnClicked} breakPoint="lg" setFilteredData={setFilteredRestaurantData} setNbOfRestaurant={setFilteredRestaurantCount} offset={offsetFilteredData} setIsFilterActivated={setIsFilterActivated} setIsFilteredRestaurantLoading={setIsFilteredRestaurantLoading} setRestaurantDetails={setRestaurantDetails} /> </> }
+  return (
+    <main
+      className='mx-auto flex max-w-6xl animate-fade-in items-start justify-center px-5 opacity-0 transition-all md:gap-12 lg:gap-16 xl:items-center xl:gap-20'
+      style={{ minHeight: 'var(--viewport-minus-header-plus-footer)' }}>
+      <div className='mt-10 hidden w-[350px] flex-col items-start justify-center gap-12 text-sm md:flex lg:text-base xl:mt-0'>
+        {!isMobile && (
+          <>
+            {' '}
+            <DiscoverButtons
+              isSearchBtnClicked={isSearchRestaurantBtnClicked}
+              setBtnState={setIsSearchRestaurantBtnClicked}
+              breakPoint='lg'
+            />
+            <HomeForm
+              hasCurrentPage={currentPage > 0}
+              setSortFilter={setSortFilter}
+              sortFilter={sortFilter}
+              setCurrentPage={setCurrentPage}
+              isFilterActivated={isFilterActivated}
+              setisFilterMobileActivated={setisFilterMobileActivated}
+              isSearchBtnClicked={isSearchRestaurantBtnClicked}
+              breakPoint='lg'
+              setFilteredData={setFilteredRestaurantData}
+              setNbOfRestaurant={setFilteredRestaurantCount}
+              offset={offsetFilteredData}
+              setIsFilterActivated={setIsFilterActivated}
+              setIsFilteredRestaurantLoading={setIsFilteredRestaurantLoading}
+              setRestaurantDetails={setRestaurantDetails}
+            />{' '}
+          </>
+        )}
       </div>
 
-      <div className='w-full relative flex flex-col justify-center items-start gap-10'>
-        {isMobile && <SearchAndTooltip isFilterMobileActivated={isFilterMobileActivated} setisFilterMobileActivated={setisFilterMobileActivated} setRestaurantDetails={setRestaurantDetails} />}
-        <SortButtons setCurrentPage={setCurrentPage} isFilterActivated={isFilterActivated} sortFilter={sortFilter} setIsFilterActivated={setIsFilterActivated} setSortFilter={setSortFilter} />
+      <div className='relative flex w-full flex-col items-start justify-center gap-10'>
+        {isMobile && (
+          <SearchAndTooltip
+            isFilterMobileActivated={isFilterMobileActivated}
+            setisFilterMobileActivated={setisFilterMobileActivated}
+            setRestaurantDetails={setRestaurantDetails}
+          />
+        )}
+        <SortButtons
+          setCurrentPage={setCurrentPage}
+          isFilterActivated={isFilterActivated}
+          sortFilter={sortFilter}
+          setIsFilterActivated={setIsFilterActivated}
+          setSortFilter={setSortFilter}
+        />
 
         <RestaurantList>
-        {!isLoading && !isFilterActivated && restaurantData.map((restaurant: Restaurant, i: number) => (<RestaurantCard key={i} setRestaurantDetails={setRestaurantDetails} restaurant={restaurant} />))}
-        {!isFilteredRestaurantLoading && isFilterActivated && filteredRestaurantData.map((restaurant: Restaurant, i: number) => (<RestaurantCard key={i} setRestaurantDetails={setRestaurantDetails} restaurant={restaurant} />))}
-        {!isFilteredRestaurantLoading && isFilterActivated && filteredRestaurantData.length === 0 && <p className="text-lg text-main">No results found</p>}
-       {(isLoading || isFilteredRestaurantLoading) && restaurantData.map((_, i) => <RestaurantCardSkeleton key={i} />)}
+          {!isLoading &&
+            !isFilterActivated &&
+            restaurantData.map((restaurant: Restaurant, i: number) => (
+              <RestaurantCard
+                key={i}
+                setRestaurantDetails={setRestaurantDetails}
+                restaurant={restaurant}
+              />
+            ))}
+          {!isFilteredRestaurantLoading &&
+            isFilterActivated &&
+            filteredRestaurantData.map((restaurant: Restaurant, i: number) => (
+              <RestaurantCard
+                key={i}
+                setRestaurantDetails={setRestaurantDetails}
+                restaurant={restaurant}
+              />
+            ))}
+          {!isFilteredRestaurantLoading &&
+            isFilterActivated &&
+            filteredRestaurantData.length === 0 && (
+              <p className='text-lg text-main'>No results found</p>
+            )}
+          {(isLoading || isFilteredRestaurantLoading) &&
+            restaurantData.map((_, i) => <RestaurantCardSkeleton key={i} />)}
         </RestaurantList>
 
         <ReactPaginate
-          breakLabel="..."
-          nextLabel={<span className='hover:opacity-50 transition duration-200 sm:text-base text-sm'><FontAwesomeIcon icon={chevronRight} /></span>}
-          onPageChange={handlePageChange} 
+          breakLabel='...'
+          nextLabel={
+            <span className='text-sm transition duration-200 hover:opacity-50 sm:text-base'>
+              <FontAwesomeIcon icon={chevronRight} />
+            </span>
+          }
+          onPageChange={handlePageChange}
           pageRangeDisplayed={3}
-          pageCount={isFilterActivated ? pageCountFilteredRestaurant : PAGE_COUNT}
-          previousLabel={<span className='hover:opacity-50 transition duration-200 sm:text-base text-sm'><FontAwesomeIcon icon={chevronLeft} /></span>}
+          pageCount={
+            isFilterActivated ? pageCountFilteredRestaurant : PAGE_COUNT
+          }
+          previousLabel={
+            <span className='text-sm transition duration-200 hover:opacity-50 sm:text-base'>
+              <FontAwesomeIcon icon={chevronLeft} />
+            </span>
+          }
           renderOnZeroPageCount={null}
-          className='flex justify-center items-center sm:gap-3 gap-1 w-full overflow-x-hidden'
+          className='flex w-full items-center justify-center gap-1 overflow-x-hidden sm:gap-3'
           pageClassName="sm:text-base text-sm bg-primary px-3 py-2 rounded-lg hover:bg-secondary cursor-pointer relative before:content-[''] before:absolute before:w-3 before:rounded-lg before:h-[1px] before:bg-slate-400 before:bottom-[7px] before:left-1/2 before:-translate-x-1/2 before:scale-0 hover:before:scale-100 transition-all duration-700"
           activeClassName='bg-secondary border border-main'
           forcePage={currentPage}
         />
 
-        <RestaurantDetailsModal setRestaurantDetailsPrinter={setPrintRestaurantDetails} setRestaurantDetails={setRestaurantDetails} restaurantDetails={restaurantDetails} />
-        <RestaurantDetailsPrintModal restaurantDetails={printRestaurantDetails} setPrintRestaurantDetails={setPrintRestaurantDetails} />
+        <RestaurantDetailsModal
+          setRestaurantDetailsPrinter={setPrintRestaurantDetails}
+          setRestaurantDetails={setRestaurantDetails}
+          restaurantDetails={restaurantDetails}
+        />
+        <RestaurantDetailsPrintModal
+          restaurantDetails={printRestaurantDetails}
+          setPrintRestaurantDetails={setPrintRestaurantDetails}
+        />
       </div>
 
-      {isMobile && <FilterModalMobileDevices hasCurrentPage={currentPage > 0} setSortFilter={setSortFilter} sortFilter={sortFilter} setCurrentPage={setCurrentPage}  isFilterActivated={isFilterActivated}  setBtnState={setIsSearchRestaurantBtnClicked} isSearchBtnClicked={isSearchRestaurantBtnClicked}  isFilterMobileActivated={isFilterMobileActivated} setisFilterMobileActivated={setisFilterMobileActivated} setFilteredData={setFilteredRestaurantData} setNbOfRestaurant={setFilteredRestaurantCount} offset={offsetFilteredData} setIsFilterActivated={setIsFilterActivated} setIsFilteredRestaurantLoading={setIsFilteredRestaurantLoading} setRestaurantDetails={setRestaurantDetails} />}
+      {isMobile && (
+        <FilterModalMobileDevices
+          hasCurrentPage={currentPage > 0}
+          setSortFilter={setSortFilter}
+          sortFilter={sortFilter}
+          setCurrentPage={setCurrentPage}
+          isFilterActivated={isFilterActivated}
+          setBtnState={setIsSearchRestaurantBtnClicked}
+          isSearchBtnClicked={isSearchRestaurantBtnClicked}
+          isFilterMobileActivated={isFilterMobileActivated}
+          setisFilterMobileActivated={setisFilterMobileActivated}
+          setFilteredData={setFilteredRestaurantData}
+          setNbOfRestaurant={setFilteredRestaurantCount}
+          offset={offsetFilteredData}
+          setIsFilterActivated={setIsFilterActivated}
+          setIsFilteredRestaurantLoading={setIsFilteredRestaurantLoading}
+          setRestaurantDetails={setRestaurantDetails}
+        />
+      )}
     </main>
-  
+  )
 }

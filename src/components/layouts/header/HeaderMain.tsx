@@ -1,28 +1,67 @@
-import { faMoon as moonDarkMode, faStar as starDarkMode, faBars as menuIcon} from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import LogoAlimConfiance from '../../../assets/images/LogoAlimConfiance.svg'
 import Sun from '../../../assets/images/Sun.png'
-import { useThemeContext } from "../../../contexts/ThemeContext"
-import { useGlobalContext } from "../../../contexts/GlobalContext"
-import clsx from "clsx"
-import Button from "../../ui/button/Button"
+import { useGlobalContext } from '../../../contexts/GlobalContext'
+import { useThemeContext } from '../../../contexts/ThemeContext'
+import Button from '../../ui/button/Button'
+import {
+  faMoon as moonDarkMode,
+  faStar as starDarkMode,
+  faBars as menuIcon
+} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import clsx from 'clsx'
 
-export interface HeaderMainProps  {
-    logo?: string
+export interface HeaderMainProps {
+  logo?: string
 }
-export default function HeaderMain({logo = LogoAlimConfiance}: HeaderMainProps) {
-    const {toggleTheme, isDarkMode} = useThemeContext()
-    const {toggleSideBar} = useGlobalContext()
-    return(
-        <div className='max-w-6xl mx-auto w-full flex xl:justify-between justify-around items-center'>
-        <img className='min-w-[200px] max-w-[33%]' src={logo} alt="Logo AlimConfiance" />
-        <div onClick={toggleTheme} className={clsx("relative w-fit cursor-pointer hidden text-main", isDarkMode && 'sm:hidden', !isDarkMode && 'sm:inline-block')}>
-            <FontAwesomeIcon className='md:text-3xl text-2xl' icon={moonDarkMode} />
-            <FontAwesomeIcon className='w-3 absolute top-1/4 -translate-y-1/2 -right-3' icon={starDarkMode} />
-            <FontAwesomeIcon className='w-2 absolute top-[67%] -translate-y-1/2 -right-4' icon={starDarkMode} />
-        </div>
-        <img onClick={toggleTheme} className={clsx("cursor-pointer hidden w-7 md:w-9", isDarkMode && 'sm:inline-block', !isDarkMode && 'sm:hidden')} src={Sun} alt="Sun light mode" /> 
-        <Button variant={"ghost"} onClick={toggleSideBar} className='group sm:hidden inline-block text-xl px-3 py-1 hover:py-1.5 shadow-md hover:shadow-lg hover:bg-transparent'><FontAwesomeIcon className="group-hover:rotate-180 transition-transform duration-500" icon={menuIcon} /></Button>
+export default function HeaderMain({
+  logo = LogoAlimConfiance
+}: HeaderMainProps) {
+  const { toggleTheme, isDarkMode } = useThemeContext()
+  const { toggleSideBar } = useGlobalContext()
+  return (
+    <div className='mx-auto flex w-full max-w-6xl items-center justify-around xl:justify-between'>
+      <img
+        className='min-w-[200px] max-w-[33%]'
+        src={logo}
+        alt='Logo AlimConfiance'
+      />
+      <div
+        onClick={toggleTheme}
+        className={clsx(
+          'relative hidden w-fit cursor-pointer text-main',
+          isDarkMode && 'sm:hidden',
+          !isDarkMode && 'sm:inline-block'
+        )}>
+        <FontAwesomeIcon className='text-2xl md:text-3xl' icon={moonDarkMode} />
+        <FontAwesomeIcon
+          className='absolute -right-3 top-1/4 w-3 -translate-y-1/2'
+          icon={starDarkMode}
+        />
+        <FontAwesomeIcon
+          className='absolute -right-4 top-[67%] w-2 -translate-y-1/2'
+          icon={starDarkMode}
+        />
+      </div>
+      <img
+        onClick={toggleTheme}
+        className={clsx(
+          'hidden w-7 cursor-pointer md:w-9',
+          isDarkMode && 'sm:inline-block',
+          !isDarkMode && 'sm:hidden'
+        )}
+        src={Sun}
+        alt='Sun light mode'
+      />
+      <Button
+        variant={'ghost'}
+        onClick={toggleSideBar}
+        className='group inline-block px-3 py-1 text-xl shadow-md hover:bg-transparent hover:py-1.5 hover:shadow-lg sm:hidden'>
+        <FontAwesomeIcon
+          className='transition-transform duration-500 group-hover:rotate-180'
+          icon={menuIcon}
+        />
+      </Button>
     </div>
-    )
+  )
 }
