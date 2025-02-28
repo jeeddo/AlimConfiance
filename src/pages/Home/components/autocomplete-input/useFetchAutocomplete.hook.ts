@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { AutocompleteValue } from "../../types/autocomplete"
 import { getLocations } from "../../services/location"
 import { getSpecificRestaurant } from "../../services/restaurant"
+import useDebounce from "../../../../hooks/useDebounce"
 
 export default function useFetchAutocomplete( input: string, isInForm: boolean, 
     isLiClicked: boolean,  setAutocompleteVisibility: (visibility: React.SetStateAction<'' | 'hidden'>) => void, 
@@ -10,7 +11,20 @@ setIsAutocompleteVisible?: (isVisible: React.SetStateAction<boolean>) => void,in
     const [isLoading, setLoading] = useState(false)
 
 
-    const verifyEntry = () => {
+    useDebounce(useCallback(() =>  fetchAutocomplete(inputValue ?? input), [input, inputValue]), 600, input, inputValue)
+    
+    useEffect(() => {
+        verifyEntry()
+      }, [isLiClicked])
+
+
+   useEffect(() => {
+    if (autocompleteValues.length) setAutocompleteValues([])
+    }, [isSearchBtnClicked])
+
+
+
+    const verifyEntry = (): boolean => {
         if ((!inputValue && isInForm)  || (!input && !isInForm ) || isLiClicked) {
             setAutocompleteVisibility('hidden') 
             setIsAutocompleteVisible?.(false)
@@ -18,7 +32,6 @@ setIsAutocompleteVisible?: (isVisible: React.SetStateAction<boolean>) => void,in
         }
         return true
   }
-     useEffect(() => {
             const fetchAutocomplete = async (inputValue : string) : Promise<void> => {
                 if (!verifyEntry()) return;
                 setAutocompleteVisibility('')
@@ -37,17 +50,7 @@ setIsAutocompleteVisible?: (isVisible: React.SetStateAction<boolean>) => void,in
                 setLoading(false)
         
             }
-                  fetchAutocomplete(inputValue ?? input)
-              }, [inputValue, input])
-
-              useEffect(() => {
-                verifyEntry()
-              }, [isLiClicked])
-
-           useEffect(() => {
-            if (autocompleteValues.length) setAutocompleteValues([])
-            }, [isSearchBtnClicked])
-
+            
         return {
             autocompleteValues,
             isLoading
