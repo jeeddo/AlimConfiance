@@ -26,10 +26,6 @@ export default function useHomeLayoutState() {
     () => calculateOffset(currentPage, LIMIT),
     [currentPage]
   )
-  const offsetFilteredData = useMemo(
-    () => calculateOffset(currentPage, LIMIT),
-    [currentPage]
-  )
   const pageCountFilteredRestaurant = useMemo(
     () =>
       filteredRestaurantCount > NB_MAX_DATA
@@ -60,7 +56,6 @@ export default function useHomeLayoutState() {
     sortFilter,
     setSortFilter,
     offset,
-    offsetFilteredData,
     pageCountFilteredRestaurant
   }
 }

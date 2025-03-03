@@ -44,7 +44,6 @@ export default function HomeLayout() {
     sortFilter,
     setSortFilter,
     offset,
-    offsetFilteredData,
     pageCountFilteredRestaurant
   } = useHomeLayoutState()
 
@@ -89,7 +88,7 @@ export default function HomeLayout() {
               breakPoint='lg'
               setFilteredData={setFilteredRestaurantData}
               setNbOfRestaurant={setFilteredRestaurantCount}
-              offset={offsetFilteredData}
+              offset={offset}
               setIsFilterActivated={setIsFilterActivated}
               setIsFilteredRestaurantLoading={setIsFilteredRestaurantLoading}
               setRestaurantDetails={setRestaurantDetails}
@@ -190,7 +189,7 @@ export default function HomeLayout() {
           setisFilterMobileActivated={setisFilterMobileActivated}
           setFilteredData={setFilteredRestaurantData}
           setNbOfRestaurant={setFilteredRestaurantCount}
-          offset={offsetFilteredData}
+          offset={offset}
           setIsFilterActivated={setIsFilterActivated}
           setIsFilteredRestaurantLoading={setIsFilteredRestaurantLoading}
           setRestaurantDetails={setRestaurantDetails}
