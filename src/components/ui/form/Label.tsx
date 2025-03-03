@@ -1,7 +1,7 @@
 import { cn } from '../../../utils-lib/cn'
 import { cva } from 'cva'
 
-interface LabelProps extends React.ComponentProps<'label'> {}
+type LabelProps = React.ComponentProps<'label'>
 export default function Label({
   htmlFor,
   className,

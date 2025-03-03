@@ -1,7 +1,7 @@
 import LogoAlimConfiance from '../../../assets/images/LogoAlimConfiance.svg'
 import Sun from '../../../assets/images/Sun.png'
-import { useGlobalContext } from '../../../contexts/GlobalContext'
-import { useThemeContext } from '../../../contexts/ThemeContext'
+import { useGlobalContext } from '../../../contexts/global/useGlobalContext.hook'
+import { useThemeContext } from '../../../contexts/theme/useThemeContext.hook'
 import Button from '../../ui/button/Button'
 import {
   faMoon as moonDarkMode,

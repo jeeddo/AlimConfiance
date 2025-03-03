@@ -23,6 +23,7 @@ export default function useFetchAutocomplete(
   useDebounce(
     useCallback(
       () => fetchAutocomplete(inputValue ?? input),
+      // eslint-disable-next-line
       [input, inputValue]
     ),
     600,
@@ -30,22 +31,30 @@ export default function useFetchAutocomplete(
     inputValue
   )
 
-  useEffect(() => {
-    verifyEntry()
-  }, [isLiClicked])
-
-  useEffect(() => {
-    if (autocompleteValues.length) setAutocompleteValues([])
-  }, [isSearchBtnClicked])
-
-  const verifyEntry = (): boolean => {
+  const verifyEntry = useCallback((): boolean => {
     if ((!inputValue && isInForm) || (!input && !isInForm) || isLiClicked) {
       setAutocompleteVisibility('hidden')
       setIsAutocompleteVisible?.(false)
       return false
     }
     return true
-  }
+  }, [
+    isInForm,
+    input,
+    inputValue,
+    isLiClicked,
+    setAutocompleteVisibility,
+    setIsAutocompleteVisible
+  ])
+
+  useEffect(() => {
+    verifyEntry()
+  }, [isLiClicked, verifyEntry])
+
+  useEffect(() => {
+    setAutocompleteValues(prev => (prev.length ? [] : prev))
+  }, [isSearchBtnClicked])
+
   const fetchAutocomplete = async (inputValue: string): Promise<void> => {
     if (!verifyEntry()) return
     setAutocompleteVisibility('')

@@ -1,9 +1,9 @@
+import { HelpToSearch } from '../../pages/Home/types/helpSeach'
 import { checkType } from '../../utils-lib/checkType'
 import { cn } from '../../utils-lib/cn'
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { cva } from 'cva'
-import { HelpToSearch } from '../../pages/Home/types/helpSeach'
 
 interface TooltipProps extends React.ComponentProps<'span'> {
   icon: IconDefinition

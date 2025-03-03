@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react'
+import React from 'react'
 
 type ClassName = {
   className?: string

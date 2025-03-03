@@ -20,8 +20,10 @@ interface SideBarContentProps extends SideBarListProps {
   toggleSideBar: () => void
 }
 
-interface SideMenuProps extends SideBarListProps {}
-interface ThemeOptionProps extends SideMenuLi {}
+type SideMenuProps = SideBarListProps
+
+type ThemeOptionProps = SideMenuLi
+
 export type {
   SideBarContentProps,
   SideBarListProps,

@@ -1,4 +1,4 @@
-import { useGlobalContext } from '../../contexts/GlobalContext'
+import { useGlobalContext } from '../../contexts/global/useGlobalContext.hook'
 import CopyrightNotice from '../ui/CopyrightNotice'
 import Overlay from '../ui/Overlay'
 import Button from '../ui/button/Button'

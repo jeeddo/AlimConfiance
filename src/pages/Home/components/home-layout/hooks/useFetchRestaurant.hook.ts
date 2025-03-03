@@ -22,7 +22,7 @@ export default function useFetchRestaurant(
       setLoading(false)
     }
     if (!isFilterActivated) fecthRestaurantData(LIMIT, offset)
-  }, [currentPage])
+  }, [currentPage, isFilterActivated, offset])
 
   return {
     isLoading,

@@ -1,41 +1,19 @@
-import { SideMenuBtn, SideMenuLi } from '../components/side-menu/sideMenu.types'
-import { Children } from '../types/common'
-import { MAX_MOBILE_DEVICES_WIDTH } from '../utils-lib/constants'
-import { useThemeContext } from './ThemeContext'
+import useIsMobile from '../../hooks/useIsMobile'
+import { Children } from '../../types/common'
+import { useThemeContext } from '../theme/useThemeContext.hook'
+import { GlobalContext } from './useGlobalContext.hook'
 import {
   faSun as sunLightMode,
   faMoon as moonDarkMode,
   faDesktop as pcIcon
 } from '@fortawesome/free-solid-svg-icons'
-import {
-  createContext,
-  ReactElement,
-  useContext,
-  useEffect,
-  useState
-} from 'react'
-
-const GlobalContext = createContext<{
-  isSideBarOpen: boolean
-  toggleSideBar: () => void
-  sideBarContent: { sideBarBtns: SideMenuBtn[]; sideBarLis: SideMenuLi[] }
-  isMobile: boolean
-} | null>(null)
+import { type ReactElement, useState } from 'react'
 
 const GlobalContextProvider = ({ children }: Children<ReactElement>) => {
   const [isSideBarOpen, setShowSideBar] = useState(false)
   const { darkMode, lightMode, checkSystemTheme, isDarkMode } =
     useThemeContext()
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= MAX_MOBILE_DEVICES_WIDTH) setIsMobile(true)
-      else setIsMobile(false)
-    }
-    handleResize()
-    window.addEventListener('resize', handleResize)
-  })
+  const isMobile = useIsMobile()
 
   const sideBarContent = {
     sideBarLis: [
@@ -80,9 +58,4 @@ const GlobalContextProvider = ({ children }: Children<ReactElement>) => {
   )
 }
 
-export const useGlobalContext = () => {
-  const globalContext = useContext(GlobalContext)
-  if (!globalContext) throw new Error('Your are not in a GlobalContextProvider')
-  return globalContext
-}
 export default GlobalContextProvider

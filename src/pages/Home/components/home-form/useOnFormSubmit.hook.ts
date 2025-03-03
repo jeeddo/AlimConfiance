@@ -45,7 +45,8 @@ export default function useOnFormSubmit(
   }
   useEffect(() => {
     if (isFilterActivated) handleFormSubmit()
-  }, [offset, sortFilter])
+    // eslint-disable-next-line
+  }, [offset, sortFilter, isFilterActivated])
 
   return handleFormSubmit
 }

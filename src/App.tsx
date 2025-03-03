@@ -1,6 +1,6 @@
 import MainLayout from './components/layouts/MainLayout'
 import SideMenu from './components/side-menu/SideMenu'
-import { useGlobalContext } from './contexts/GlobalContext'
+import { useGlobalContext } from './contexts/global/useGlobalContext.hook'
 import HomeLayout from './pages/Home/components/home-layout/HomeLayout'
 
 function App() {

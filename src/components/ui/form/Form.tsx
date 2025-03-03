@@ -1,7 +1,7 @@
 import { cn } from '../../../utils-lib/cn'
 import { cva } from 'cva'
 
-interface FormProps extends React.ComponentProps<'form'> {}
+type FormProps = React.ComponentProps<'form'>
 export default function Form({
   children,
   className,

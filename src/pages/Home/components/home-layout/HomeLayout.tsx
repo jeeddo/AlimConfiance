@@ -1,4 +1,4 @@
-import { useGlobalContext } from '../../../../contexts/GlobalContext'
+import { useGlobalContext } from '../../../../contexts/global/useGlobalContext.hook'
 import scrollToTop from '../../../../utils-lib/scrollToTop'
 import type { Restaurant } from '../../types/restaurant'
 import { PAGE_COUNT } from '../../utils-lib/constants'
@@ -57,8 +57,8 @@ export default function HomeLayout() {
   )
 
   useEffect(() => {
-    if (currentPage) setCurrentPage(0)
-  }, [isFilterActivated])
+    setCurrentPage(prev => (prev ? 0 : prev))
+  }, [isFilterActivated, setCurrentPage])
 
   const handlePageChange = (selectedPage: { selected: number }) => {
     setCurrentPage(selectedPage.selected)

@@ -1,4 +1,4 @@
-import { useGlobalContext } from '../../contexts/GlobalContext'
+import { useGlobalContext } from '../../contexts/global/useGlobalContext.hook'
 import useClickOutside from '../../hooks/useClickOutside'
 import { ClassNameAndChildren } from '../../types/common'
 import { cn } from '../../utils-lib/cn'

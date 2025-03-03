@@ -1,19 +1,6 @@
-import { Children } from '../types/common'
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactElement
-} from 'react'
-
-const ThemeContext = createContext<{
-  isDarkMode: boolean
-  toggleTheme: () => void
-  checkSystemTheme: () => void
-  lightMode: () => void
-  darkMode: () => void
-} | null>(null)
+import { Children } from '../../types/common'
+import { ThemeContext } from './useThemeContext.hook'
+import { useState, useEffect, ReactElement } from 'react'
 
 const ThemeContextProvider = ({ children }: Children<ReactElement>) => {
   const [isDarkMode, setIsDarkMode] = useState(
@@ -52,15 +39,6 @@ const ThemeContextProvider = ({ children }: Children<ReactElement>) => {
       {children}
     </ThemeContext.Provider>
   )
-}
-
-export const useThemeContext = () => {
-  const context = useContext(ThemeContext)
-  if (!context)
-    throw new Error(
-      'useThemeContext must be used within a ThemeContextProvider'
-    )
-  return context
 }
 
 export default ThemeContextProvider

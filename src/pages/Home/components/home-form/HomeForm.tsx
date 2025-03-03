@@ -59,7 +59,7 @@ export default function HomeForm({
   )
 
   useEffect(() => {
-    if (inputValue) setInputValue('')
+    setInputValue(prev => (prev ? '' : prev))
   }, [isSearchBtnClicked])
   const handleInputValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value)

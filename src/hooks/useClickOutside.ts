@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 
 export default function useClickOutside(
-  ref: React.MutableRefObject<HTMLElement | null>,
+  ref: React.RefObject<HTMLElement | null>,
   action: () => void,
   overlay: boolean = false,
   enabled: boolean

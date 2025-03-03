@@ -86,7 +86,7 @@ function PrintModalContent({ restaurantDetails }: PrintModalContentProps) {
   })
   useEffect(() => {
     if (isPrintBtnClicked) reactToPrint()
-  }, [isPrintBtnClicked])
+  }, [isPrintBtnClicked, reactToPrint])
 
   if (restaurantDetails)
     return (

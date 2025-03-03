@@ -1,7 +1,7 @@
 import { cn } from '../../../utils-lib/cn'
 import { cva } from 'cva'
 
-interface SelectProps extends React.ComponentProps<'select'> {}
+type SelectProps = React.ComponentProps<'select'>
 export default function Select({
   className,
   children,

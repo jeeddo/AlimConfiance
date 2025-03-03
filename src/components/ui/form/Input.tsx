@@ -1,7 +1,7 @@
 import { cn } from '../../../utils-lib/cn'
 import { cva } from 'cva'
 
-interface InputProps extends React.ComponentProps<'input'> {}
+type InputProps = React.ComponentProps<'input'>
 export default function Input({
   type,
   className,

@@ -1,7 +1,7 @@
 import { cn } from '../../utils-lib/cn'
 import { cva } from 'cva'
 
-interface ErrorMsgProps extends React.ComponentProps<'div'> {}
+type ErrorMsgProps = React.ComponentProps<'div'>
 export default function ErrorMsg({
   children,
   className,
