@@ -24,11 +24,17 @@ type SideMenuProps = SideBarListProps
 
 type ThemeOptionProps = SideMenuLi
 
+interface SideBarContent {
+  sideBarLis: SideMenuLi[],
+  sideBarBtns: SideMenuBtn[]
+}
+
 export type {
   SideBarContentProps,
   SideBarListProps,
   SideMenuBtn,
   SideMenuLi,
   SideMenuProps,
-  ThemeOptionProps
+  ThemeOptionProps,
+  SideBarContent
 }
